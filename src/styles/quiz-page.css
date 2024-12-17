@@ -1,0 +1,117 @@
+.quiz-container {
+  display: grid;
+  grid-template-columns: 250px auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #1a1d23;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  z-index: 1000;
+}
+
+.sidebar-questions {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  gap: 10px;
+  height: fit-content;
+}
+
+.main-content {
+  grid-column: 2;
+  margin-left: 50px;
+  overflow-y: auto;
+  min-height: 100vh;
+  background-color: #282c34;
+}
+
+.submit-button {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #62e368;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+}
+
+/* Responsive Styles for Small Screens */
+@media (max-width: 768px) {
+  .quiz-container {
+    grid-template-columns: 1fr;
+    height: 100vh;
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    overflow: hidden;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+  }
+
+  .sidebar-questions {
+    flex-direction: row;
+    overflow: hidden;
+    flex-wrap: wrap; /* Allow buttons to wrap if needed */
+    gap: 5px;
+    margin-right: 20px;
+  }
+
+  .sidebar-questions .general-button,
+  .sidebar-questions .submit-button,
+  .sidebar-questions .exit-button {
+    flex: 1;
+    font-size: 0.6rem;
+  }
+
+  .sidebar-questions .general-button:hover,
+  .sidebar-questions .submit-button:hover,
+  .sidebar-questions .exit-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .main-content {
+    grid-column: 1;
+    margin-left: 0;
+    height: calc(100vh - 100px); /* Subtract sidebar height */
+    padding-bottom: 90px;
+  }
+
+  .general-button {
+    font-size: 0.5rem;
+    padding: 5px;
+    border: 1px solid #2cd1fe;
+  }
+
+  .general-button.active {
+    background-color: #2cd1fe;
+    border-radius: 5px;
+    color: #ffffff;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,110 @@
+.virtual-keyboard {
+  position: fixed;
+  bottom: -300px;
+  left: 17%;
+  width: calc(100% - 250px);
+  background-color: #1a1d23;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-top: 2px solid #3a3f4b;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  transition: bottom 2s ease;
+  z-index: 500;
+}
+
+/* When show class is added, it moves the keyboard up */
+.virtual-keyboard.show {
+  bottom: 0; /* Moves the keyboard into view */
+}
+
+.button-v-keyboard {
+  position: fixed;
+  bottom: 0;
+  left: 250px;
+  width: 100px;
+  margin: 20px;
+  padding: 10px;
+  z-index: 600;
+  cursor: pointer;
+  background-color: #3a3f4b;
+  color: #61dafb;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  opacity: 0.5;
+}
+
+.button-v-keyboard:hover {
+  background-color: #61dafb87;
+}
+
+.button-v-keyboard.active {
+  background-color: #3a3f4b;
+}
+
+.button-v-keyboard.active:hover {
+  background-color: #61dafb87;
+}
+
+/* Each row of the virtual keyboard */
+.row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+/* Styling for each individual key */
+.virtual-key {
+  flex: 0 1 calc(5% - 10px);
+  background-color: #3a3f4b;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 50px; /* Fixed width for each key */
+  height: 50px; /* Fixed height for each key */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect for buttons */
+.virtual-key:hover {
+  background-color: #61dafb;
+}
+
+/* Styling for special keys like shift, enter, etc. */
+.virtual-key.special {
+  background-color: #ffa500;
+  color: #fff;
+}
+
+/* Responsiveness: Make the keyboard keys adapt to smaller screens */
+@media (max-width: 600px) {
+  .virtual-key {
+    font-size: 14px;
+    padding: 8px 12px;
+    width: 40px; /* Reduce the size of the keys on smaller screens */
+    height: 40px;
+  }
+}
+
+/* Additional styles for better spacing and alignment */
+.virtual-keyboard .row {
+  justify-content: space-evenly;
+}
+
+.is-keyboard-visible {
+  margin-bottom: 210px;
+}

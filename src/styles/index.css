@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  background-color: #282c34;
+}
+
+@font-face {
+  font-family: IRANSansX;
+  font-style: normal;
+  font-weight: 100;
+  src: url("Webfonts/fonts/woff/IRANSansX-thin.woff") format("woff"),
+    url("Webfonts/fonts/woff2/IRANSansX-thin.woff2") format("woff2");
+}
+
+html * {
+  font-family: IRANSansX;
+}
+
+.page-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container,
+.main-menu-container {
+  background: linear-gradient(135deg, #1a1d23 0%, #282c34 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-form {
+  background: rgba(40, 44, 52, 0.9);
+  padding: 2.5rem;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 320px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.login-input {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #4fa8c7;
+  color: white;
+  background-color: rgba(40, 44, 52, 0.8);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.2);
+}
+
+.login-input::placeholder {
+  color: #6c757d;
+}
+
+.login-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  background-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.general-button {
+  padding: 0.8rem;
+  background-color: transparent;
+  border: 2px solid #61dafb;
+  border-radius: 8px;
+  color: #61dafb;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.general-button:hover {
+  background-color: #61dafb;
+  color: #1a1d23;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+}
+
+.general-button.active {
+  background-color: #61dafb;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  transform: scale(1.05);
+}
+
+.general-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.exit-button {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.exit-button:hover {
+  background-color: #e0616b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+}
+
+.general-text {
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: white;
+}
+
+.quiz-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  border-top: 1px solid #4fa8c7;
+  background-color: transparent;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
