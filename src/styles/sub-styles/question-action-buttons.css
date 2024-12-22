@@ -1,0 +1,61 @@
+.multi-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.submit-button,
+.retry-button,
+.show-answers-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #4fa8c7;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.retry-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+.show-answers-button {
+  background-color: #ff9800;
+  color: white;
+}
+
+.show-answers-button:hover {
+  background-color: #f57c00;
+}
+
+.post-submit-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.score-display {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #61dafb;
+}

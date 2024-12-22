@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
-import VirtualKeyboard from "./VirtualKeyboard";
+import VirtualKeyboard from "./subComponents/VirtualKeyboard";
 import "../styles/topic.css";
 
-// _____ quizId is like adults_3
-// _____ questionData is the question object
-// _____ answers is the answers object
-// _____ handleAnswerChange is a function that updates the answers in the parent component
+// _____ quizId _____ is like "adults_3"
+// _____ questionData _____ is the question object
+// _____ answers _____ is the answers object answers.[index]
+// _____ handleAnswerChange _____ is a function that updates the answers in the parent component
 // _____ handleAnswerChange(subQuestionId, value)
 export default function Topic({
   quizId,
@@ -32,25 +32,28 @@ export default function Topic({
   }
 
   const handleKeyPress = (letter) => {
-    console.log(letter);
-    // if (activeInputRef.current) {
-    //   const fieldName = activeInputRef.current.name;
-    //   const currentAnswer = subAnswers?.[fieldName] || "";
-    //   if (letter === "back") {
-    //     if (currentAnswer.length > 0) {
-    //       onAnswerChange(
-    //         fieldName,
-    //         currentAnswer.substring(0, currentAnswer.length - 1)
-    //       );
-    //     }
-    //   } else {
-    //     onAnswerChange(fieldName, currentAnswer.concat(letter));
-    //   }
-    // }
+    if (activeInputRef.current) {
+      const fieldName = activeInputRef.current.name;
+      const currentAnswer = answers?.[fieldName] || "";
+      if (letter === "<-") {
+        if (currentAnswer.length > 0) {
+          handleAnswerChange(
+            fieldName,
+            currentAnswer.substring(0, currentAnswer.length - 1)
+          );
+        }
+      } else {
+        handleAnswerChange(fieldName, currentAnswer.concat(letter));
+      }
+    }
   };
 
   return (
-    <div className="topic-question-container">
+    <div
+      className={`topic-question-container ${
+        isShowKeyboard ? "is-keyboard-visible" : ""
+      }`}
+    >
       {/* _________________ show picture ? ______________ */}
       {questionData.picture !== "no" && (
         <img
@@ -81,10 +84,11 @@ export default function Topic({
           >
             <h3 className="sub-title">{subQuestion}</h3>
             <textarea
-              key={index}
+              name={index}
               className="answer-box"
               placeholder="جواب شما در اینجا"
-              value={answers[questionData.id]?.[index] || ""}
+              value={answers[index] || ""}
+              onFocus={(e) => (activeInputRef.current = e.target)}
               onChange={(e) => handleAnswerChange(index, e.target.value)}
             />
           </div>

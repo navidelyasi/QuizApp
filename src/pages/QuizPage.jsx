@@ -1,23 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
 import Flashcards from "../components/Flashcards.jsx";
 import FillInput from "../components/FillInput.jsx";
-import DragColumn from "../components/DragColumn.jsx";
+import DragPairs from "../components/DragPairs.jsx";
 import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import "../styles/index.css";
 import "../styles/quiz-page.css";
+import {
+  playlevelpassed,
+  playnotification2,
+} from "../hooks/handle-sound-effects.js";
 
 export default function QuizPage() {
   const navigate = useNavigate();
   const { quizId } = useParams(); // quizId is like adults_3
   const username = localStorage.getItem("username");
   if (!username) navigate("/");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);
   const quiz = quizData["quiz_" + quizId]; // quiz is an array of questions
-  if (!quiz) return <div>Quiz not found</div>;
+
+  // if quiz is not available, show a message
+  if (!quiz)
+    return (
+      <div className="login-container">
+        <h1 className="login-title">Quiz is not available yet</h1>
+        <h1 className="login-title">Comming soon</h1>
+        <button
+          className="general-button"
+          onClick={() => {
+            playnotification2();
+            navigate("/menu");
+          }}
+        >
+          Back to menu
+        </button>
+      </div>
+    );
 
   // Function to generate initial state
   const generateInitialAnswers = () => {
@@ -27,6 +49,8 @@ export default function QuizPage() {
       question.data.forEach((_, subQuestionIndex) => {
         initialAnswers[question.id][subQuestionIndex] = "";
       });
+      if (question.retry)
+        initialAnswers[question.id][question.data.length] = "";
     });
     return initialAnswers;
   };
@@ -52,6 +76,76 @@ export default function QuizPage() {
     }));
   };
 
+  // saves all answer-data for ALL question
+  // submits data to an external server (Firebase)
+  const handleSubmitAll = async () => {
+    setIsSubmitting(true);
+    localStorage.setItem(
+      `quiz_${quizId}_answers_${username}`,
+      JSON.stringify(answers)
+    );
+
+    // try {
+    //     const newID = new Date().toISOString()
+    //     const userDoc = doc(db, "users", newID);
+    //     await setDoc(userDoc, {userName, answers });
+    //     console.log("DONE")
+    // } catch (error){
+    //     console.log("ERROR : ", error);
+    // }
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      playlevelpassed();
+      navigate("/menu");
+    }, 1000);
+  };
+
+  // save answers in localStorage and navigates to menu
+  const handleQuit = () => {
+    setIsSubmitting(true);
+
+    localStorage.setItem(
+      `quiz_${quizId}_answers_${username}`,
+      JSON.stringify(answers)
+    );
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      playlevelpassed();
+      navigate("/menu");
+    }, 1000);
+  };
+
+  const handleSubmitOneQuestion = (action) => {
+    if (action === "submit") {
+      setAnswers((prev) => ({
+        ...prev,
+        [quiz[questionId].id]: {
+          ...prev[quiz[questionId].id],
+          [quiz[questionId].data.length]: "submitted",
+        },
+      }));
+    } else if (action === "retry") {
+      setAnswers((prev) => ({
+        ...prev,
+        [quiz[questionId].id]: {
+          ...prev[quiz[questionId].id],
+          [quiz[questionId].data.length]: "",
+        },
+      }));
+    } else if (action === "show-answers") {
+      setAnswers((prev) => ({
+        ...prev,
+        [quiz[questionId].id]: {
+          ...prev[quiz[questionId].id],
+          [quiz[questionId].data.length]: "show-answers",
+        },
+      }));
+    }
+  };
+
+  // renders the question component based on the question type
   const renderQuestionComponent = () => {
     switch (quiz[questionId].type) {
       case "flashcards":
@@ -59,7 +153,7 @@ export default function QuizPage() {
           <Flashcards
             quizId={quizId}
             questionData={quiz[questionId]}
-            answers={answers}
+            answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
           />
         );
@@ -68,26 +162,26 @@ export default function QuizPage() {
           <FillInput
             quizId={quizId}
             questionData={quiz[questionId]}
-            answers={answers}
+            answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
           />
         );
       case "drag_column":
         return (
-          <DragColumn
-            quizId={quizId}
+          <DragPairs
             questionData={quiz[questionId]}
-            answers={answers}
+            answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
+            handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
         );
       case "multi_choice":
         return (
           <MultiChoice
-            quizId={quizId}
             questionData={quiz[questionId]}
-            answers={answers}
+            answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
+            handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
         );
       case "topic":
@@ -95,7 +189,7 @@ export default function QuizPage() {
           <Topic
             quizId={quizId}
             questionData={quiz[questionId]}
-            answers={answers}
+            answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
           />
         );
@@ -104,11 +198,21 @@ export default function QuizPage() {
     }
   };
 
+  // plays notification sound when the page loads
+  useEffect(() => {
+    playnotification2();
+  }, []);
+
+  // scrolls to the top of the page when the question changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [questionId]);
+
   return (
-    <div className="quiz-container">
+    <div className={`quiz-container ${isSubmitting ? "submitting" : ""}`}>
       {/* _______________________ sidebar _______________________ */}
       <div className="sidebar">
-        {/* _______________________ questions _______________________ */}
+        {/* questions */}
         <div className="sidebar-questions">
           {quiz.map((q, i) => (
             <button
@@ -120,7 +224,7 @@ export default function QuizPage() {
             </button>
           ))}
         </div>
-        {/* _______________________ previous and next question _______________________ */}
+        {/* previous and next question */}
         {document.documentElement.clientWidth <= 768 && (
           <div className="sidebar-questions">
             <button
@@ -135,9 +239,7 @@ export default function QuizPage() {
               className="general-button"
               onClick={() =>
                 setQuestionId(
-                  questionId < selectedQuizData.length - 1
-                    ? questionId + 1
-                    : questionId
+                  questionId < quiz.length - 1 ? questionId + 1 : questionId
                 )
               }
             >
@@ -145,16 +247,28 @@ export default function QuizPage() {
             </button>
           </div>
         )}
-        {/* _______________________ submit and exit _______________________ */}
+        {/* submit and exit */}
         <div className="sidebar-questions">
-          <button className="submit-button">Submit All Answers</button>
-          <button className="exit-button" onClick={() => navigate("/")}>
+          <button className="submit-button" onClick={handleSubmitAll}>
+            {isSubmitting ? "Submitting..." : "Submit All Answers"}
+          </button>
+          <button className="exit-button" onClick={handleQuit}>
             Exit
           </button>
         </div>
       </div>
       {/* _______________________ main content _______________________ */}
       <div className="main-content">{renderQuestionComponent()}</div>
+
+      {/* _______________________ submitting overlay _______________________ */}
+      {isSubmitting && (
+        <div className="submitting-overlay">
+          <div className="submitting-content">
+            <div className="spinner"></div>
+            <div className="general-text">Submitting your answers...</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,11 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 10px;
+  overflow-y: auto;
+}
+
+.topic-question-container.is-keyboard-visible {
+  margin-bottom: 200px;
 }
 
 .short-question-container {
@@ -15,6 +20,11 @@
   height: auto;
   border-radius: 5px;
   margin: 20px;
+  cursor: pointer;
+}
+
+.question-picture:hover {
+  scale: 1.02;
 }
 
 .title-container {
@@ -57,7 +67,6 @@
 
 .sub-title {
   color: #61dafb;
-  background-color: transparent;
   margin: 5px;
   font-size: 1.1rem;
   float: right;
@@ -100,4 +109,10 @@
   max-width: 100%;
   max-height: 100%;
   border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .topic-question-container.is-keyboard-visible {
+    margin-bottom: 260px;
+  }
 }

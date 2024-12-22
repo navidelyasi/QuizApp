@@ -1,38 +1,39 @@
 .virtual-keyboard {
   position: fixed;
   bottom: -300px;
-  left: 17%;
+  left: 280px;
   width: calc(100% - 250px);
   background-color: #1a1d23;
-  padding: 10px;
+  padding: 5px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  border-top: 2px solid #3a3f4b;
+  border-top: 1px solid #3a3f4b;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-  transition: bottom 2s ease;
+  transition: all 0.3s ease-in-out;
   z-index: 500;
 }
 
 /* When show class is added, it moves the keyboard up */
 .virtual-keyboard.show {
-  bottom: 0; /* Moves the keyboard into view */
+  bottom: 0;
+  transform: translateY(0);
 }
 
 .button-v-keyboard {
   position: fixed;
   bottom: 0;
-  left: 250px;
-  width: 100px;
-  margin: 20px;
+  left: 300px;
+  width: 90px;
+  margin: 10px;
   padding: 10px;
   z-index: 600;
   cursor: pointer;
   background-color: #3a3f4b;
   color: #61dafb;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   border: none;
   border-radius: 5px;
@@ -55,24 +56,23 @@
 .row {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
 /* Styling for each individual key */
 .virtual-key {
-  flex: 0 1 calc(5% - 10px);
+  flex: 0 1 calc(4% - 8px);
   background-color: #3a3f4b;
   border: none;
   border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 18px;
+  padding: 8px 12px;
+  font-size: 16px;
   font-weight: bold;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 50px; /* Fixed width for each key */
-  height: 50px; /* Fixed height for each key */
+  width: 40px;
+  height: 40px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -90,21 +90,70 @@
   color: #fff;
 }
 
-/* Responsiveness: Make the keyboard keys adapt to smaller screens */
-@media (max-width: 600px) {
-  .virtual-key {
-    font-size: 14px;
-    padding: 8px 12px;
-    width: 40px; /* Reduce the size of the keys on smaller screens */
-    height: 40px;
-  }
-}
-
 /* Additional styles for better spacing and alignment */
 .virtual-keyboard .row {
   justify-content: space-evenly;
 }
 
 .is-keyboard-visible {
-  margin-bottom: 210px;
+  margin-bottom: 200px;
+}
+
+.virtual-key.space-key {
+  flex: none !important;
+  width: 300px !important;
+  margin: 0 auto;
+}
+
+/* Add this new style for the last row */
+.row:last-child {
+  justify-content: center;
+  gap: 20px; /* Adds space between space and backspace keys */
+}
+
+/* Or if you prefer to be more specific */
+.row:last-child .virtual-key {
+  margin: 0 10px; /* Alternative way to add spacing */
+}
+
+.virtual-key.backspace-key {
+  flex: none !important;
+  width: 100px !important;
+}
+
+@media (max-width: 768px) {
+  .virtual-keyboard {
+    left: 0;
+    width: 100%;
+    bottom: -100px;
+    padding: 5px;
+  }
+
+  .virtual-keyboard.show {
+    bottom: 120px;
+  }
+
+  .virtual-key {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    padding: 5px 12px;
+    margin: 0px 2px;
+  }
+
+  .virtual-key.space-key {
+    width: 150px !important;
+  }
+
+  .virtual-key.backspace-key {
+    width: 60px !important;
+  }
+
+  .button-v-keyboard {
+    left: 0px;
+    margin: 5px;
+    bottom: 120px;
+    font-size: 10px;
+    width: 60px;
+  }
 }

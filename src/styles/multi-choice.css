@@ -1,0 +1,150 @@
+.multi-question {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: white;
+}
+
+.multi-question h2 {
+  color: #61dafb;
+  font-size: 1.7rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sub-questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.sub-question-item {
+  background-color: #1a1d23;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid #3a3f4b;
+  display: block;
+}
+
+.sub-question-multi {
+  color: #61dafb;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  float: right;
+}
+
+.title {
+  float: right;
+}
+
+.answers-grid {
+  clear: both;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.answer-button {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #2a2f38;
+  color: white;
+  border: 2px solid #3a3f4b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-button:hover:not(:disabled) {
+  background-color: #3a3f4b;
+  transform: translateY(-2px);
+}
+
+.answer-button.selected {
+  border-color: #61dafb;
+  background-color: #1e2832;
+}
+
+.answer-button.correct {
+  border-color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.answer-button.incorrect {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.answer-button:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.multi-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.submit-button,
+.retry-button,
+.show-answers-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #4fa8c7;
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.retry-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+.show-answers-button {
+  background-color: #ff9800;
+  color: white;
+}
+
+.show-answers-button:hover {
+  background-color: #f57c00;
+}
+
+.post-submit-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.score-display {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #61dafb;
+}

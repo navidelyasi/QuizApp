@@ -1,0 +1,115 @@
+.fill-input-container {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  color: white;
+}
+
+.fill-input-container h2 {
+  color: #61dafb;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.fill-content {
+  background-color: #1a1d23;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.paragraph-container {
+  margin-bottom: 10px;
+  line-height: 2;
+  font-size: 1.1rem;
+}
+
+.paragraph-container:last-child {
+  margin-bottom: 0;
+}
+
+.paragraph {
+  white-space: pre-wrap;
+  direction: rtl;
+  text-align: justify;
+  padding: 10px;
+}
+
+.fill-input {
+  display: inline-block;
+  background-color: #3a3f4b;
+  border: 2px solid #4a4f5b;
+  border-radius: 6px;
+  color: white;
+  padding: 5px 10px;
+  margin: 0 5px;
+  min-width: 120px;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.fill-input:focus {
+  outline: none;
+  border-color: #61dafb;
+  box-shadow: 0 0 0 2px rgba(97, 218, 251, 0.2);
+}
+
+.fill-input.correct {
+  border-color: #4caf50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.fill-input.incorrect {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.fill-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.submit-button,
+.retry-button,
+.show-answers-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.submit-button:hover {
+  background-color: #4fa8c7;
+}
+
+.retry-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.retry-button:hover {
+  background-color: #45a049;
+}
+
+.show-answers-button {
+  background-color: #ff9800;
+  color: white;
+}
+
+.show-answers-button:hover {
+  background-color: #f57c00;
+}
+
+.post-submit-buttons {
+  display: flex;
+  gap: 15px;
+}

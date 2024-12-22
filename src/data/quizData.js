@@ -3,6 +3,7 @@ export const quizData = {
     {
       id: "k1_1",
       type: "flashcards",
+      retry: true,
       title: "کلمات درس اول",
       data: [
         { cardid: 11, tag: "bag", back: "کیف" },
@@ -20,21 +21,24 @@ export const quizData = {
     {
       id: "k1_2",
       type: "fill_input",
+      retry: true,
       title: "بخش دوم شهر ها و پراکندگی",
       data: [
         "بر پایهٔ نتایج سرشماری سال ۱۳۷۵",
-        "مرکز @آمار@ ایران دربارهٔ ترکیب",
-        "و چیدمان @قومی@ و تباری مردم ایران،",
-        "جمعیت و @تراکم@ فارسی‌زبان‌ها",
-        "نزدیک ۷۳ @تا@ ۷۵ درصد",
+        "مرکز @@ ایران دربارهٔ ترکیب",
+        "و چیدمان @@ و تباری مردم ایران،",
+        "جمعیت و @@ فارسی‌زبان‌ها",
+        "نزدیک ۷۳ @@ ۷۵ درصد",
         "جمعیت ایران است قرمز نارنجی زرد و سبز",
-        "آبی @نیلی@ و بنفش رنگین کمون چند رنگه هفت رنکه قرمز نارنجی زرد و سبز",
-        "آبی نیلی و بنفش قرمز @نارنجی@ زرد و سبز آبی نیلی و بنفش سر ،‌شونه ، زانو پا",
+        "آبی @@ و بنفش رنگین کمون چند رنگه هفت رنکه قرمز نارنجی زرد و سبز",
+        "آبی نیلی و بنفش قرمز @@ زرد و سبز آبی نیلی و بنفش سر ،‌شونه ، زانو پا",
       ],
+      answers: ["آمار", "قومی", "تراکم", "تا", "نیلی", "نارنجی"],
     },
     {
       id: "k1_3",
       type: "drag_column",
+      retry: true,
       title: "تمرین تطبیق جملات",
       data: [
         { dcid: 21, one: ".من اهل نروژم", two: "اهل کجا هستی؟" },
@@ -46,6 +50,7 @@ export const quizData = {
     {
       id: "k1_4",
       type: "multi_choice",
+      retry: true,
       title: "سوالات چند گزینه ای",
       data: [
         {
@@ -81,6 +86,7 @@ export const quizData = {
     {
       id: "k1_5",
       type: "multi_choice",
+      retry: true,
       title: "سوالات چند گزینه ای",
       data: [
         {
@@ -118,6 +124,7 @@ export const quizData = {
     {
       id: "a1_1",
       type: "topic",
+      retry: false,
       picture: "bedroom1",
       shortAnswers: false,
       title1: "به تصویر نگاه کنید و به سوال ها پاسخ دهید.۱. ",
@@ -127,6 +134,7 @@ export const quizData = {
     {
       id: "a1_2",
       type: "topic",
+      retry: false,
       picture: "no",
       shortAnswers: true,
       title1: "کلمات را جمع ببندید۲. ",
@@ -136,6 +144,7 @@ export const quizData = {
     {
       id: "a1_3",
       type: "topic",
+      retry: false,
       picture: "bedroom2",
       shortAnswers: true,
       title1: "ﺑﮫ ﻋﮑس زﯾر ﻧﮕﺎه ﮐﻧﯾد و ﻧﺎم ھر ﺷﮑل را ﺑﻧوﯾﺳﯾد.۳.",
@@ -158,6 +167,7 @@ export const quizData = {
     {
       id: "a1_4",
       type: "topic",
+      retry: false,
       picture: "no",
       shortAnswers: false,
       title1: " ۴. ﺑﮫ ﺳواﻻت زﯾر ﭘﺎﺳﺦ دھﯾد.",

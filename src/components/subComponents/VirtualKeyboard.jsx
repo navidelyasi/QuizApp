@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "../styles/virtual-keyboard.css";
+import "../../styles/sub-styles/virtual-keyboard.css";
 
 export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
   const keys = [
-    // Row 1: Persian letters corresponding to the first row of the English keyboard
+    // Row 1
     [
       ["ض", "Q"],
       ["ص", "W"],
@@ -19,9 +19,8 @@ export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
       ["چ", "rÅ"],
     ],
 
-    // Row 2: Persian letters corresponding to the second row of the English keyboard
+    // Row 2
     [
-      [" ", "Space"],
       ["ش", "A"],
       ["س", "S"],
       ["ی", "D"],
@@ -33,10 +32,9 @@ export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
       ["م", "L"],
       ["ک", "Ø"],
       ["گ", "Æ"],
-      ["back", "<-"],
     ],
 
-    // Row 3: Persian letters corresponding to the third row of the English keyboard
+    // Row 3
     [
       ["!", "!"],
       ["ظ", "Z"],
@@ -51,6 +49,12 @@ export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
       [".", ".."],
       ["?", "?"],
     ],
+
+    // Row 4 (Space and delete)
+    [
+      [" ", "Space"],
+      ["<-", "delete"],
+    ],
   ];
 
   return (
@@ -60,7 +64,9 @@ export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
           {row.map((key, key_index) => (
             <button
               key={key_index}
-              className="virtual-key"
+              className={`virtual-key ${
+                key[1] === "Space" ? "space-key" : ""
+              } ${key[1] === "delete" ? "backspace-key" : ""}`}
               onClick={(e) => {
                 e.preventDefault();
                 handleKeyPress(key[0]);
