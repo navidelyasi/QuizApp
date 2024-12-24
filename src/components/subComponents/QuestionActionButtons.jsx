@@ -4,7 +4,7 @@ import {
   playlevelpassed,
   playwronganswer,
   playinterface12,
-} from "../../hooks/handle-sound-effects";
+} from "../../hooks/handleSoundEffects";
 
 export default function QuestionActionButtons({
   submitted,

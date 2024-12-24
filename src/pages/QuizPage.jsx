@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
 import Flashcards from "../components/Flashcards.jsx";
-import FillInput from "../components/FillInput.jsx";
+import FillInputDrag from "../components/FillInputDrag.jsx";
 import DragPairs from "../components/DragPairs.jsx";
 import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
@@ -11,7 +11,7 @@ import "../styles/quiz-page.css";
 import {
   playlevelpassed,
   playnotification2,
-} from "../hooks/handle-sound-effects.js";
+} from "../hooks/handleSoundEffects.jsx";
 
 export default function QuizPage() {
   const navigate = useNavigate();
@@ -149,21 +149,14 @@ export default function QuizPage() {
   const renderQuestionComponent = () => {
     switch (quiz[questionId].type) {
       case "flashcards":
-        return (
-          <Flashcards
-            quizId={quizId}
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
-            handleAnswerChange={handleAnswerChange}
-          />
-        );
+        return <Flashcards quizId={quizId} questionData={quiz[questionId]} />;
       case "fill_input":
         return (
-          <FillInput
-            quizId={quizId}
+          <FillInputDrag
             questionData={quiz[questionId]}
             answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
+            handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
         );
       case "drag_column":

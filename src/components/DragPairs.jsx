@@ -1,5 +1,6 @@
 import React from "react";
-import { DndContext, useDroppable, useDraggable } from "@dnd-kit/core";
+import { DndContext } from "@dnd-kit/core";
+import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
 import "../styles/drag-pairs.css";
 
@@ -61,20 +62,24 @@ export default function DragPairs({
     }
   };
 
-  console.log("submitted", submitted);
-
   return (
     <div className="drag-question-container">
       <DndContext onDragEnd={handleDragEnd}>
         <h2>{questionData?.title}</h2>
         <div className="draggable-stack">
-          {stack.map((text) => (
-            <Draggable key={text} id={text}>
-              <div className="drag-item draggable">
+          {stack.map((text) =>
+            submitted === "" ? (
+              <Draggable key={text} id={text}>
+                <div className="drag-item draggable">
+                  <p className="drag-text">{text}</p>
+                </div>
+              </Draggable>
+            ) : (
+              <div className="drag-item fixed">
                 <p className="drag-text">{text}</p>
               </div>
-            </Draggable>
-          ))}
+            )
+          )}
         </div>
         {questionData?.data.map((pair, index) => (
           <div className="draggable-line" key={pair.dcid}>
@@ -142,30 +147,4 @@ export default function DragPairs({
       />
     </div>
   );
-}
-
-function Draggable({ children, id }) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
-  });
-
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
-
-  return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {children}
-    </div>
-  );
-}
-
-function Droppable({ children, id }) {
-  const { setNodeRef } = useDroppable({
-    id: id,
-  });
-
-  return <div ref={setNodeRef}>{children}</div>;
 }

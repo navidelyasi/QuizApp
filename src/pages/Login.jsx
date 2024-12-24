@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/index.css";
-import { playlevelpassed } from "../hooks/handle-sound-effects.js";
+import { playlevelpassed } from "../hooks/handleSoundEffects.jsx";
 
 export default function Login() {
   const [username, setUsername] = useState("");

@@ -14,6 +14,7 @@
 
 .draggable-stack {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row-reverse;
   gap: 10px;
   margin: 10px;
@@ -51,6 +52,7 @@
   border: 1px solid #3a3f4b;
   user-select: none;
   min-width: 120px;
+  color: #61dafb;
   display: flex;
   align-items: center;
   justify-content: center;
