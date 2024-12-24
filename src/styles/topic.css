@@ -1,8 +1,6 @@
 .topic-question-container {
-  flex: 1;
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 10px;
   overflow-y: auto;
 }
@@ -29,9 +27,18 @@
 
 .title-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-width: 500px;
   margin-top: 20px;
+}
+
+.titles {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .question-title {
@@ -43,10 +50,12 @@
 
 .sub-questions {
   display: flex;
+  flex-direction: row-reverse;
   flex-wrap: wrap;
-  align-items: flex-start;
-  margin: 10px;
   gap: 10px;
+  margin: 10px;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .sub-question {
@@ -59,17 +68,21 @@
 
 .short-sub-question {
   background-color: #1a1d23;
-  width: 150px;
   padding: 20px;
   border-radius: 12px;
-  display: block;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .sub-title {
   color: #61dafb;
   margin: 5px;
   font-size: 1.1rem;
-  float: right;
+  white-space: nowrap;
 }
 
 .answer-box {

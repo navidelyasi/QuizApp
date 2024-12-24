@@ -54,23 +54,25 @@ export default function Topic({
         isShowKeyboard ? "is-keyboard-visible" : ""
       }`}
     >
-      {/* _________________ show picture ? ______________ */}
-      {questionData.picture !== "no" && (
-        <img
-          src={`/pictures/${quizId}/${questionData.picture}.png`}
-          alt="Bedroom"
-          className="question-picture"
-          onClick={() =>
-            openPicture(`/pictures/${quizId}/${questionData.picture}.png`)
-          }
-        />
-      )}
-      {/* _____________ Titles  _______________________ */}
       <div className="title-container">
-        <div className="question-title">{questionData.title1}</div>
-        <div className="question-title">{questionData.title2}</div>
-        <div className="question-title">
-          click on the picture to see the picture bigger :)
+        {/* _________________ show picture ? ______________ */}
+        {questionData.picture !== "no" && (
+          <img
+            src={`/pictures/${quizId}/${questionData.picture}.png`}
+            alt={questionData.picture}
+            className="question-picture"
+            onClick={() =>
+              openPicture(`/pictures/${quizId}/${questionData.picture}.png`)
+            }
+          />
+        )}
+        {/* _____________ Titles  _______________________ */}
+        <div className="titles">
+          <div className="question-title">{questionData.title1}</div>
+          <div className="question-title">{questionData.title2}</div>
+          <div className="question-title">
+            click on the picture to see the picture bigger :)
+          </div>
         </div>
       </div>
       {/* ______________      Sub questions ______________  */}
@@ -82,7 +84,7 @@ export default function Topic({
               questionData.shortAnswers ? "short-sub-question" : "sub-question"
             }
           >
-            <h3 className="sub-title">{subQuestion}</h3>
+            <h3 className="sub-title">{subQuestion.text}</h3>
             <textarea
               name={index}
               className="answer-box"

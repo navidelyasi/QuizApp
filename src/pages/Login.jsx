@@ -10,6 +10,7 @@ export default function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("username", username);
+    localStorage.removeItem("quiz_adults_3_answers_navid");
     playlevelpassed();
     navigate("/menu");
   };

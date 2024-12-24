@@ -6,6 +6,7 @@ import FillInputDrag from "../components/FillInputDrag.jsx";
 import DragPairs from "../components/DragPairs.jsx";
 import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
+import TopicDrag from "../components/TopicDrag.jsx";
 import "../styles/index.css";
 import "../styles/quiz-page.css";
 import {
@@ -184,6 +185,16 @@ export default function QuizPage() {
             questionData={quiz[questionId]}
             answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
+          />
+        );
+      case "topic-drag":
+        return (
+          <TopicDrag
+            quizId={quizId}
+            questionData={quiz[questionId]}
+            answers={answers[quiz[questionId].id]}
+            handleAnswerChange={handleAnswerChange}
+            handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
         );
       default:

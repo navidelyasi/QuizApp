@@ -51,14 +51,11 @@ export default function FillInput({
     return score;
   }
 
-  console.log("answers _____ ", answers);
-  console.log("submitted _____ ", submitted);
-  console.log("questionData _____ ", questionData);
-
   return (
     <div className="fill-input-container">
       <DndContext onDragEnd={handleDragEnd}>
         <h2>{questionData.title}</h2>
+        {/* ______   stack  ___________ */}
         <div className="draggable-stack">
           {stack.map((text) =>
             submitted === "" ? (
