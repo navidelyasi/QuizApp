@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
 import Flashcards from "../components/Flashcards.jsx";
@@ -8,27 +8,25 @@ import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
 import SentenceMaking from "../components/SentenceMaking.jsx";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../hooks/initFirebase.jsx";
+import "../styles/index.css";
+import "../styles/quiz-page.css";
 import {
   playlevelpassed,
   playnotification2,
 } from "../hooks/handleSoundEffects.jsx";
-import "../styles/index.css";
-import "../styles/quiz-page.css";
 
-export default function QuizPage() {
+export default function PracticePage() {
   const navigate = useNavigate();
-  const { quizId } = useParams(); // quizId is like adults_3
+  const { practiceId } = useParams(); // practiceId is like adults_3 or practice_adults_3
   const username = localStorage.getItem("username");
   if (!username) navigate("/");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);
-  const quiz = quizData["quiz_" + quizId]; // quiz is an array of questions
+  const practice = quizData["practice_" + practiceId]; // practice is an array of questions
 
-  // if quiz is not available, show a message
-  if (!quiz)
+  // if practice is not available, show a message
+  if (!practice)
     return (
       <div className="login-container">
         <h1 className="login-title">It is not available yet</h1>
@@ -45,44 +43,10 @@ export default function QuizPage() {
       </div>
     );
 
-  // _______________________ timer ______________________________
-  // _______________________ timer set-up _______________________
-  // initial time is 30 min (for adults) or 60 min (for kids)
-  // Get initial total time based on quiz type (kids or adults)
-  const initialTotalTime = quizId[0] === "k" ? 60 * 60 : 30 * 60;
-  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
-  const timeLeft = Math.max(initialTotalTime - totalTimeSpent, 0);
-  const percentage =
-    ((initialTotalTime - totalTimeSpent) / initialTotalTime) * 100;
-
-  // Timer effect
-  useEffect(() => {
-    playnotification2();
-    const intervalId = setInterval(() => {
-      setTotalTimeSpent((prev) => prev + 1);
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const addMinutes = (minutes) => {
-    setTotalTimeSpent((prev) => prev - minutes * 60);
-  };
-
-  // _____________ format time _____________
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
-  };
-
   // Function to generate initial state
   const generateInitialAnswers = () => {
     const initialAnswers = {};
-    quiz.forEach((question) => {
+    practice.forEach((question) => {
       initialAnswers[question.id] = {};
       if (question.type === "sentence-making") {
         question.data.forEach((subQuestion, subQuestionIndex) => {
@@ -103,9 +67,9 @@ export default function QuizPage() {
   };
   const [answers, setAnswers] = useState(() => {
     // load answers data from local storage if it is available
-    // it is something like:_________ quiz_adults_3_answers_navid
+    // it is something like:_________ practice_adults_3_answers_navid
     const localAnswers = localStorage.getItem(
-      `quiz_${quizId}_answers_${username}`
+      `practice_${practiceId}_answers_${username}`
     );
     // if local storage has data, then we don't generate initial answers
     return localAnswers ? JSON.parse(localAnswers) : generateInitialAnswers();
@@ -113,46 +77,31 @@ export default function QuizPage() {
 
   // by changing each sub question's answer,
   // keeps the changes here, in state on parent component
-  const handleAnswerChange = useCallback(
-    (subQuestionId, value) => {
-      if (quiz[questionId].type === "sentence-making") {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: value,
-        }));
-      } else {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: {
-            ...prev[quiz[questionId].id],
-            [subQuestionId]: value,
-          },
-        }));
-      }
-    },
-    [quiz, questionId]
-  );
+  const handleAnswerChange = (subQuestionId, value) => {
+    if (practice[questionId].type === "sentence-making") {
+      setAnswers((prev) => ({
+        ...prev,
+        [practice[questionId].id]: value,
+      }));
+    } else {
+      setAnswers((prev) => ({
+        ...prev,
+        [practice[questionId].id]: {
+          ...prev[practice[questionId].id],
+          [subQuestionId]: value,
+        },
+      }));
+    }
+  };
 
   // saves all answer-data for ALL question
   // submits data to an external server (Firebase)
   const handleSubmitAll = async () => {
     setIsSubmitting(true);
     localStorage.setItem(
-      `quiz_${quizId}_answers_${username}`,
+      `practice_${practiceId}_answers_${username}`,
       JSON.stringify(answers)
     );
-
-    // try {
-    //   const userDoc = doc(db, "quiz-answers", username);
-    //   await setDoc(userDoc, {
-    //     username,
-    //     answers,
-    //     timeSpent: formatTime(totalTimeSpent),
-    //   });
-    //   console.log("DONE");
-    // } catch (error) {
-    //   console.log("ERROR : ", error);
-    // }
 
     setTimeout(() => {
       setIsSubmitting(false);
@@ -166,7 +115,7 @@ export default function QuizPage() {
     setIsSubmitting(true);
 
     localStorage.setItem(
-      `quiz_${quizId}_answers_${username}`,
+      `practice_${practiceId}_answers_${username}`,
       JSON.stringify(answers)
     );
 
@@ -177,47 +126,46 @@ export default function QuizPage() {
     }, 300);
   };
 
-  const handleSubmitOneQuestion = useCallback(
-    (action) => {
-      if (action === "submit") {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: {
-            ...prev[quiz[questionId].id],
-            [quiz[questionId].data.length]: "submitted",
-          },
-        }));
-      } else if (action === "retry") {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: {
-            ...prev[quiz[questionId].id],
-            [quiz[questionId].data.length]: "",
-          },
-        }));
-      } else if (action === "show-answers") {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: {
-            ...prev[quiz[questionId].id],
-            [quiz[questionId].data.length]: "show-answers",
-          },
-        }));
-      }
-    },
-    [quiz, questionId]
-  );
+  const handleSubmitOneQuestion = (action) => {
+    if (action === "submit") {
+      setAnswers((prev) => ({
+        ...prev,
+        [practice[questionId].id]: {
+          ...prev[practice[questionId].id],
+          [practice[questionId].data.length]: "submitted",
+        },
+      }));
+    } else if (action === "retry") {
+      setAnswers((prev) => ({
+        ...prev,
+        [practice[questionId].id]: {
+          ...prev[practice[questionId].id],
+          [practice[questionId].data.length]: "",
+        },
+      }));
+    } else if (action === "show-answers") {
+      setAnswers((prev) => ({
+        ...prev,
+        [practice[questionId].id]: {
+          ...prev[practice[questionId].id],
+          [practice[questionId].data.length]: "show-answers",
+        },
+      }));
+    }
+  };
 
   // renders the question component based on the question type
-  const renderQuestionComponent = useCallback(() => {
-    switch (quiz[questionId].type) {
+  const renderQuestionComponent = () => {
+    switch (practice[questionId].type) {
       case "flashcards":
-        return <Flashcards quizId={quizId} questionData={quiz[questionId]} />;
+        return (
+          <Flashcards quizId={practiceId} questionData={practice[questionId]} />
+        );
       case "fill_input":
         return (
           <FillInputDrag
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
             handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
@@ -225,8 +173,8 @@ export default function QuizPage() {
       case "drag_column":
         return (
           <DragPairs
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
             handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
@@ -234,8 +182,8 @@ export default function QuizPage() {
       case "multi_choice":
         return (
           <MultiChoice
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
             handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
@@ -243,18 +191,18 @@ export default function QuizPage() {
       case "topic":
         return (
           <Topic
-            quizId={quizId}
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            quizId={practiceId}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
           />
         );
       case "topic-drag":
         return (
           <TopicDrag
-            quizId={quizId}
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            quizId={practiceId}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
             handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
@@ -262,31 +210,26 @@ export default function QuizPage() {
       case "sentence-making":
         return (
           <SentenceMaking
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
+            questionData={practice[questionId]}
+            answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}
             handleSubmitOneQuestion={handleSubmitOneQuestion}
           />
         );
       default:
-        return <div>Unknown question type: {quiz[questionId].type}</div>;
+        return <div>Unknown question type: {practice[questionId].type}</div>;
     }
-  }, [
-    questionId,
-    quiz,
-    answers,
-    handleAnswerChange,
-    handleSubmitOneQuestion,
-    quizId,
-  ]);
+  };
+
+  // plays notification sound when the page loads
+  useEffect(() => {
+    playnotification2();
+  }, []);
 
   // scrolls to the top of the page when the question changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [questionId]);
-
-  // Update localStorage whenever timeLeft or totalTimeSpent changes
-  useEffect(() => {}, [timeLeft, totalTimeSpent]);
 
   return (
     <div className={`quiz-container ${isSubmitting ? "submitting" : ""}`}>
@@ -294,7 +237,7 @@ export default function QuizPage() {
       <div className="sidebar">
         {/* questions */}
         <div className="sidebar-questions">
-          {quiz.map((q, i) => (
+          {practice.map((q, i) => (
             <button
               key={i}
               className={`general-button ${questionId === i ? "active" : ""}`}
@@ -319,7 +262,7 @@ export default function QuizPage() {
               className="general-button"
               onClick={() =>
                 setQuestionId(
-                  questionId < quiz.length - 1 ? questionId + 1 : questionId
+                  questionId < practice.length - 1 ? questionId + 1 : questionId
                 )
               }
             >
@@ -346,43 +289,6 @@ export default function QuizPage() {
           <div className="submitting-content">
             <div className="spinner"></div>
             <div className="general-text">Submitting your answers...</div>
-          </div>
-        </div>
-      )}
-
-      {/* _______________________ timer _______________________ */}
-      <div className="timer-container">
-        <div
-          className="timer-circle"
-          style={{
-            background: `conic-gradient(
-                        green ${percentage}%, 
-                        #ccc ${percentage}%
-                    )`,
-          }}
-        >
-          <div className="inner-timer">
-            <span className="timer-text">{formatTime(timeLeft)}</span>
-          </div>
-        </div>
-        <div className="timer-text">
-          <p>Time spent:</p>
-          <p>{formatTime(totalTimeSpent)}</p>
-        </div>
-      </div>
-
-      {/* _______________________ time is up _______________________ */}
-      {timeLeft <= 0 && (
-        <div className="submitting-overlay">
-          <div className="submitting-content">
-            <h1 className="time-up-title">Time is up</h1>
-            <button className="general-button" onClick={handleSubmitAll}>
-              Submit All Answers
-            </button>
-            <h1 className="time-up-title">Do you need more time?</h1>
-            <button className="general-button" onClick={() => addMinutes(10)}>
-              Add 10 minutes
-            </button>
           </div>
         </div>
       )}

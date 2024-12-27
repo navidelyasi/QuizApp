@@ -10,7 +10,9 @@ import "../styles/drag-pairs.css";
 // _____ answers _____ is the answers object answers.[index]
 // _____ handleAnswerChange _____ is a function that updates the answers in the parent component
 // _____ handleAnswerChange(subQuestionId, value)
-export default function TopicDrag({
+// _____ handleSubmitOneQuestion _____ is a function that updates the answers in the parent component
+// _____ it adds "submitted" value to the answers onject
+function TopicDrag({
   quizId,
   questionData,
   answers,
@@ -194,3 +196,5 @@ export default function TopicDrag({
     </div>
   );
 }
+
+export default React.memo(TopicDrag);

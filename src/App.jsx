@@ -7,6 +7,7 @@ import {
 import Login from "./pages/Login.jsx";
 import Menu from "./pages/Menu.jsx";
 import QuizPage from "./pages/QuizPage.jsx";
+import PracticePage from "./pages/PracticePage.jsx";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/quiz/:quizId" element={<QuizPage />} />
+        <Route path="/practice/:practiceId" element={<PracticePage />} />
       </Routes>
     </Router>
   );

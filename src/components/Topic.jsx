@@ -7,12 +7,7 @@ import "../styles/topic.css";
 // _____ answers _____ is the answers object answers.[index]
 // _____ handleAnswerChange _____ is a function that updates the answers in the parent component
 // _____ handleAnswerChange(subQuestionId, value)
-export default function Topic({
-  quizId,
-  questionData,
-  answers,
-  handleAnswerChange,
-}) {
+function Topic({ quizId, questionData, answers, handleAnswerChange }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(true);
   const activeInputRef = useRef(null);
 
@@ -70,9 +65,11 @@ export default function Topic({
         <div className="titles">
           <div className="question-title">{questionData.title1}</div>
           <div className="question-title">{questionData.title2}</div>
-          <div className="question-title">
-            click on the picture to see the picture bigger :)
-          </div>
+          {questionData.picture !== "no" && (
+            <div className="question-title">
+              click on the picture to see the picture bigger :)
+            </div>
+          )}
         </div>
       </div>
       {/* ______________      Sub questions ______________  */}
@@ -121,3 +118,5 @@ export default function Topic({
     </div>
   );
 }
+
+export default React.memo(Topic);

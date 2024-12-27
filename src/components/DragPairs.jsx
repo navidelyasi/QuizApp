@@ -11,7 +11,7 @@ import "../styles/drag-pairs.css";
 // _____ handleAnswerChange(subQuestionId, value)
 // _____ handleSubmitOneQuestion _____ is a function that updates the answers in the parent component
 // _____ it adds "submitted" value to the answers onject
-export default function DragPairs({
+function DragPairs({
   questionData,
   answers,
   handleAnswerChange,
@@ -148,3 +148,5 @@ export default function DragPairs({
     </div>
   );
 }
+
+export default React.memo(DragPairs);

@@ -9,7 +9,7 @@ import QuestionActionButtons from "./subComponents/QuestionActionButtons";
 // _____ handleAnswerChange(subQuestionId, value)
 // _____ handleSubmitOneQuestion _____ is a function that updates the answers in the parent component
 // _____ it adds "submitted" value to the answers onject
-export default function MultiChoice({
+function MultiChoice({
   questionData,
   answers,
   handleAnswerChange,
@@ -100,3 +100,5 @@ export default function MultiChoice({
     </div>
   );
 }
+
+export default React.memo(MultiChoice);

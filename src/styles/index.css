@@ -81,7 +81,7 @@ html * {
 }
 
 .general-button {
-  padding: 0.8rem;
+  padding: 0.6rem;
   background-color: transparent;
   border: 2px solid #61dafb;
   border-radius: 8px;
@@ -92,8 +92,27 @@ html * {
   transition: all 0.3s ease;
 }
 
+.general-button2 {
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  color: #4caf50;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
 .general-button:hover {
   background-color: #61dafb;
+  color: #1a1d23;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+}
+
+.general-button2:hover {
+  background-color: #4caf50;
   color: #1a1d23;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);

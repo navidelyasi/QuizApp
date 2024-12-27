@@ -3,7 +3,7 @@ import "../styles/flashcards.css";
 import { playinterface12 } from "../hooks/handleSoundEffects";
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
-export default function Flashcards({ quizId, questionData }) {
+function Flashcards({ quizId, questionData }) {
   const [isFlipped, setIsFlipped] = useState(
     new Array(questionData.data.length).fill(false)
   );
@@ -44,3 +44,5 @@ export default function Flashcards({ quizId, questionData }) {
     </div>
   );
 }
+
+export default React.memo(Flashcards);

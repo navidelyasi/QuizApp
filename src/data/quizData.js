@@ -1,4 +1,128 @@
 export const quizData = {
+  practice_kids_1: [
+    {
+      id: "p1_1",
+      type: "flashcards",
+      retry: true,
+      title: "این سوال تنها تمرینی است برای کلمات درس اول",
+      data: [
+        { cardid: 11, tag: "bag", back: "کیف" },
+        { cardid: 12, tag: "book", back: "کتاب" },
+        { cardid: 13, tag: "chair", back: "صندلی" },
+        { cardid: 14, tag: "desk", back: "میز" },
+        { cardid: 15, tag: "door", back: "در" },
+        { cardid: 16, tag: "eraser", back: "پاک کن" },
+        { cardid: 17, tag: "fire", back: "آتش" },
+        { cardid: 18, tag: "marker", back: "ماژیک" },
+        { cardid: 19, tag: "notebook", back: "دفتر" },
+        { cardid: 20, tag: "paper", back: "کاغذ" },
+      ],
+    },
+    {
+      id: "p1_2",
+      type: "fill_input",
+      retry: true,
+      title: "بخش دوم شهر ها و پراکندگی",
+      data: [
+        { text: "مرکز @@ ایران دربارهٔ ترکیب", correct: "آمار" },
+        { text: "و چیدمان @@ و تباری مردم ایران،", correct: "قومی" },
+        { text: "جمعیت و @@ فارسی‌زبان‌ها", correct: "تراکم" },
+        { text: "نزدیک ۷۳ @@ ۷۵ درصد", correct: "تا" },
+        {
+          text: "آبی @@ و بنفش رنگین کمون چند رنگه هفت رنکه قرمز نارنجی زرد و سبز",
+          correct: "نیلی",
+        },
+        {
+          text: "آبی نیلی و بنفش قرمز @@ زرد و سبز آبی نیلی و بنفش سر ،‌شونه ، زانو پا",
+          correct: "نارنجی",
+        },
+      ],
+    },
+    {
+      id: "p1_3",
+      type: "drag_column",
+      retry: true,
+      title: "تمرین تطبیق جملات",
+      data: [
+        { dcid: 21, one: ".من اهل نروژم", two: "اهل کجا هستی؟" },
+        { dcid: 22, one: "اسمت چیه؟", two: "اسم تو چیه؟" },
+        { dcid: 23, one: ".ایران رو دوست دارم", two: "چه کشوری رو دوست داری؟" },
+        { dcid: 24, one: "ایرانی", two: "ایران" },
+      ],
+    },
+    {
+      id: "p1_4",
+      type: "multi_choice",
+      retry: true,
+      title: "سوالات چند گزینه ای",
+      data: [
+        {
+          chid: 21,
+          question: "در کجا قار است دیدار کنیم؟",
+          answers: ["درست است", "غطب است", "باید دید"],
+          correct: 1,
+        },
+        {
+          chid: 22,
+          question: "برای چه زمانی زندگی میکنیم؟",
+          answers: ["بیا جلو", "برو غقب", "در جبهه بمان"],
+          correct: 0,
+        },
+        {
+          chid: 23,
+          question: "آیا با هم مهربان هستیم؟",
+          answers: [
+            "در مدار بین النحرین",
+            "در مدار زمین",
+            "در همه جای عالم هستی",
+          ],
+          correct: 2,
+        },
+        {
+          chid: 24,
+          question: "در گذر رمان ما را به تو میدهند؟",
+          answers: ["در دام تو ام", "دراز کردم", "کوتاه شدم"],
+          correct: 1,
+        },
+      ],
+    },
+    {
+      id: "p1_5",
+      type: "multi_choice",
+      retry: true,
+      title: "سوالات چند گزینه ای",
+      data: [
+        {
+          chid: 21,
+          question: "در کجا قار است دیدار کنیم؟",
+          answers: ["درست است", "غطب است", "باید دید"],
+          correct: 1,
+        },
+        {
+          chid: 22,
+          question: "برای چه زمانی زندگی میکنیم؟",
+          answers: ["بیا جلو", "برو غقب", "در جبهه بمان"],
+          correct: 0,
+        },
+        {
+          chid: 23,
+          question: "آیا با هم مهربان هستیم؟",
+          answers: [
+            "در مدار بین النحرین",
+            "در مدار زمین",
+            "در همه جای عالم هستی",
+          ],
+          correct: 2,
+        },
+        {
+          chid: 24,
+          question: "در گذر رمان ما را به تو میدهند؟",
+          answers: ["در دام تو ام", "دراز کردم", "کوتاه شدم"],
+          correct: 1,
+        },
+      ],
+    },
+  ],
   quiz_kids_1: [
     {
       id: "k1_1",
@@ -123,9 +247,179 @@ export const quizData = {
       ],
     },
   ],
+  quiz_adults_2: [
+    {
+      id: "a2_1",
+      type: "sentence-making",
+      retry: true,
+      title1: "با کلمات زیر جمله بسازید.",
+      title2: "Make a sentence with the following words.",
+      data: [
+        {
+          id: "a211",
+          text: ["هستی", "مدرسه", "در", "من", "هستم"],
+          correct: ["من", "در", "مدرسه", "هستم"],
+        },
+        {
+          id: "a212",
+          text: ["مدرسه", "من", "میروم", "به", "میرود"],
+          correct: ["من", "به", "مدرسه", "میروم"],
+        },
+        {
+          id: "a213",
+          text: ["ما", "خانه", "هست", "است", "زیبا"],
+          correct: ["خانه", "ما", "زیبا", "است"],
+        },
+      ],
+    },
+    {
+      id: "a2_2",
+      type: "sentence-making",
+      retry: true,
+      title1: " ۲. با کلمات زیر جمله بسازید.",
+      title2: "2 . Make a sentence with the following words.",
+      data: [
+        {
+          id: "a221",
+          text: ["هستی", "مدرسه", "در", "من", "هستم"],
+          correct: ["من", "در", "مدرسه", "هستم"],
+        },
+        {
+          id: "a222",
+          text: ["مدرسه", "من", "میروم", "به", "میرود"],
+          correct: ["من", "به", "مدرسه", "میروم"],
+        },
+        {
+          id: "a223",
+          text: ["ما", "خانه", "هست", "است", "زیبا"],
+          correct: ["خانه", "ما", "زیبا", "است"],
+        },
+      ],
+    },
+  ],
   quiz_adults_3: [
     {
       id: "a1_1",
+      type: "topic",
+      retry: false,
+      picture: "bedroom1",
+      shortAnswers: false,
+      title1: "به تصویر نگاه کنید و به سوال ها پاسخ دهید",
+      title2: "Look at the picture and answer the questions.",
+      data: [
+        { text: "الف. کتابها کجا هستند؟", correct: "" },
+        { text: "چراغ ها کجا هستند؟", correct: "" },
+        { text: "پرده کجاست؟", correct: "" },
+      ],
+    },
+    {
+      id: "a1_2",
+      type: "topic-drag",
+      retry: true,
+      picture: "no",
+      shortAnswers: true,
+      title1: "کلمات را جمع ببندید",
+      title2: "Write the plural for these words.",
+      data: [
+        { text: "۲.۱. دکتر", correct: "دکترها" },
+        { text: "۲.۲. درخت", correct: "درختان" },
+        { text: "۲.۳. مهندس", correct: "مهندسان" },
+        { text: "۲.۴. کتاب", correct: "کتابها" },
+        { text: "۲.۵. مادر", correct: "مادران" },
+      ],
+    },
+    {
+      id: "a1_3",
+      type: "topic-drag",
+      retry: true,
+      picture: "bedroom2",
+      shortAnswers: true,
+      title1: "به عکس نگاه کنید و نام هر شکل را بنویسید",
+      title2: "look at the picture and write the name of mentioned numbers.",
+      data: [
+        { text: ".۱", correct: "صندلی" },
+        { text: ".۲", correct: "پرده" },
+        { text: ".۳", correct: "تخت" },
+        { text: ".۴", correct: "میز" },
+        { text: ".۵", correct: "کمد" },
+        { text: ".۶", correct: "کتاب" },
+        { text: ".۷", correct: "تلفن" },
+        { text: ".۸", correct: "کامپیوتر" },
+        { text: ".۹", correct: "آینه" },
+        { text: ".۱۰", correct: "فرش" },
+        { text: ".۱۱", correct: "در" },
+        { text: ".۱۲", correct: "پنجره" },
+      ],
+    },
+    {
+      id: "a1_4",
+      type: "topic",
+      retry: false,
+      picture: "no",
+      shortAnswers: false,
+      title1: "به سوالات زیر پاسخ دهید",
+      title2: "Answer the questions about you.",
+      data: [
+        { text: "آیا تو نروژی هستی؟", correct: "" },
+        { text: "آیا تو مربی ورزش نیستی؟", correct: "" },
+        { text: "اسلو زندگی میکنی؟", correct: "" },
+        { text: "اسمت سارا نیست؟", correct: "" },
+      ],
+    },
+  ],
+  practice_adults_2: [
+    {
+      id: "p2_1",
+      type: "sentence-making",
+      retry: true,
+      title1: "با کلمات زیر جمله بسازید.",
+      title2: "Make a sentence with the following words.",
+      data: [
+        {
+          id: "a211",
+          text: ["هستی", "مدرسه", "در", "من", "هستم"],
+          correct: ["من", "در", "مدرسه", "هستم"],
+        },
+        {
+          id: "a212",
+          text: ["مدرسه", "من", "میروم", "به", "میرود"],
+          correct: ["من", "به", "مدرسه", "میروم"],
+        },
+        {
+          id: "a213",
+          text: ["ما", "خانه", "هست", "است", "زیبا"],
+          correct: ["خانه", "ما", "زیبا", "است"],
+        },
+      ],
+    },
+    {
+      id: "p2_2",
+      type: "sentence-making",
+      retry: true,
+      title1: " ۲. با کلمات زیر جمله بسازید.",
+      title2: "2 . Make a sentence with the following words.",
+      data: [
+        {
+          id: "a221",
+          text: ["هستی", "مدرسه", "در", "من", "هستم"],
+          correct: ["من", "در", "مدرسه", "هستم"],
+        },
+        {
+          id: "a222",
+          text: ["مدرسه", "من", "میروم", "به", "میرود"],
+          correct: ["من", "به", "مدرسه", "میروم"],
+        },
+        {
+          id: "a223",
+          text: ["ما", "خانه", "هست", "است", "زیبا"],
+          correct: ["خانه", "ما", "زیبا", "است"],
+        },
+      ],
+    },
+  ],
+  practice_adults_3: [
+    {
+      id: "p3_1",
       type: "topic",
       retry: false,
       picture: "bedroom1",
@@ -139,7 +433,7 @@ export const quizData = {
       ],
     },
     {
-      id: "a1_2",
+      id: "p3_2",
       type: "topic-drag",
       retry: true,
       picture: "no",
@@ -155,7 +449,7 @@ export const quizData = {
       ],
     },
     {
-      id: "a1_3",
+      id: "p3_3",
       type: "topic-drag",
       retry: true,
       picture: "bedroom2",
@@ -178,7 +472,7 @@ export const quizData = {
       ],
     },
     {
-      id: "a1_4",
+      id: "p3_4",
       type: "topic",
       retry: false,
       picture: "no",
