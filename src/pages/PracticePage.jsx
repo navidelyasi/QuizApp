@@ -8,12 +8,12 @@ import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
 import SentenceMaking from "../components/SentenceMaking.jsx";
-import "../styles/index.css";
-import "../styles/quiz-page.css";
 import {
   playlevelpassed,
   playnotification2,
 } from "../hooks/handleSoundEffects.jsx";
+import "../styles/index.css";
+import "../styles/quiz-page.css";
 
 export default function PracticePage() {
   const navigate = useNavigate();
@@ -92,22 +92,6 @@ export default function PracticePage() {
         },
       }));
     }
-  };
-
-  // saves all answer-data for ALL question
-  // submits data to an external server (Firebase)
-  const handleSubmitAll = async () => {
-    setIsSubmitting(true);
-    localStorage.setItem(
-      `practice_${practiceId}_answers_${username}`,
-      JSON.stringify(answers)
-    );
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      playlevelpassed();
-      navigate("/menu");
-    }, 300);
   };
 
   // save answers in localStorage and navigates to menu
@@ -272,9 +256,6 @@ export default function PracticePage() {
         )}
         {/* submit and exit */}
         <div className="sidebar-questions">
-          <button className="submit-button" onClick={handleSubmitAll}>
-            {isSubmitting ? "Submitting..." : "Submit All Answers"}
-          </button>
           <button className="exit-button" onClick={handleQuit}>
             Exit
           </button>

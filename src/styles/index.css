@@ -81,10 +81,10 @@ html * {
 }
 
 .general-button {
-  padding: 0.6rem;
+  padding: 0.7rem;
   background-color: transparent;
-  border: 2px solid #61dafb;
-  border-radius: 8px;
+  border: 1px solid #61dafb;
+  border-radius: 12px;
   color: #61dafb;
   cursor: pointer;
   font-size: 1.1rem;
@@ -96,10 +96,10 @@ html * {
   padding: 0.5rem;
   background-color: transparent;
   border: 1px solid #4caf50;
-  border-radius: 8px;
+  border-radius: 12px;
   color: #4caf50;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -120,6 +120,14 @@ html * {
 
 .general-button.active {
   background-color: #61dafb;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  transform: scale(1.05);
+}
+
+.general-button.done {
+  background-color: #4caf50;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -156,10 +164,10 @@ html * {
 .quiz-buttons {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0.7rem;
   border-top: 1px solid #4fa8c7;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
+  padding: 1rem;
+  margin: 1rem;
   flex-wrap: wrap;
 }
 

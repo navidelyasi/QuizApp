@@ -8,7 +8,7 @@ import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
 import SentenceMaking from "../components/SentenceMaking.jsx";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
 import {
   playlevelpassed,
@@ -142,17 +142,44 @@ export default function QuizPage() {
       JSON.stringify(answers)
     );
 
-    // try {
-    //   const userDoc = doc(db, "quiz-answers", username);
-    //   await setDoc(userDoc, {
-    //     username,
-    //     answers,
-    //     timeSpent: formatTime(totalTimeSpent),
-    //   });
-    //   console.log("DONE");
-    // } catch (error) {
-    //   console.log("ERROR : ", error);
-    // }
+    try {
+      const userDoc = doc(db, "quiz-answers", username);
+      const userDocSnap = await getDoc(userDoc);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        const existingSubmissions = userData[quizId] || [];
+
+        // Create new submission object
+        const newSubmission = {
+          answers,
+          timeSpent: formatTime(totalTimeSpent),
+          date: new Date().toLocaleDateString(),
+        };
+
+        // Add new submission to beginning of array
+        const updatedSubmissions = [newSubmission, ...existingSubmissions];
+
+        // Update document with new array of submissions
+        await updateDoc(userDoc, {
+          [quizId]: updatedSubmissions,
+        });
+      } else {
+        // If document doesn't exist, create it with first submission
+        await setDoc(userDoc, {
+          [quizId]: [
+            {
+              answers,
+              timeSpent: formatTime(totalTimeSpent),
+              date: new Date().toLocaleDateString(),
+            },
+          ],
+        });
+      }
+      console.log("DONE");
+    } catch (error) {
+      console.log("ERROR : ", error);
+    }
 
     setTimeout(() => {
       setIsSubmitting(false);

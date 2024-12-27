@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../hooks/initFirebase.jsx";
+import { FaCheck } from "react-icons/fa";
 import "../styles/index.css";
 
 export default function Menu() {
+  const [status, setStatus] = useState(null);
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
   if (!username) navigate("/");
+
+  useEffect(() => {
+    getStatus();
+  }, []);
+
+  const getStatus = async () => {
+    try {
+      const userDoc = doc(db, "quiz-answers", username);
+      const userDocSnap = await getDoc(userDoc);
+      setStatus(userDocSnap.data());
+      console.log("STATUS : _______ ", userDocSnap.data());
+    } catch (error) {
+      console.log("ERROR : ", error);
+    }
+  };
 
   function handleQuizClick(id, type) {
     if (type === "quiz_kids") {
@@ -22,56 +41,58 @@ export default function Menu() {
   return (
     <div className="main-menu-container">
       <div className="general-text">Welcome, {username}!</div>
-      {/* _______________________ Kids Practices _______________________ */}
+      {/* _______________________ Kids  _______________________ */}
       <div className="quiz-buttons">
-        <div className="general-text">Kids Practices:</div>
-        {[1, 2, 3, 4, 5].map((practiceId) => (
-          <button
-            className="general-button2"
-            key={"practice_" + practiceId}
-            onClick={() => handleQuizClick(practiceId, "practice_kids")}
-          >
-            Practice Unit {practiceId}
-          </button>
+        <div className="general-text">Kids:</div>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
+          <>
+            <button
+              className="general-button2"
+              key={"practice_" + id}
+              onClick={() => handleQuizClick(id, "practice_kids")}
+            >
+              Practice Unit {id}
+            </button>
+            <button
+              className={`general-button ${
+                status && status[`kids_${id}`] && "done"
+              }`}
+              key={"quiz_" + id}
+              onClick={() => handleQuizClick(id, "quiz_kids")}
+            >
+              Quiz Unit {id}
+              {status && status[`kids_${id}`] && (
+                <FaCheck style={{ marginLeft: "8px", color: "green" }} />
+              )}
+            </button>
+          </>
         ))}
       </div>
-      {/* _______________________ Kids Quizzes _______________________ */}
+      {/* _______________________ Adults  _______________________ */}
       <div className="quiz-buttons">
-        <div className="general-text">Kids Quizzes:</div>
-        {[1, 2, 3, 4, 5].map((quizId) => (
-          <button
-            className="general-button"
-            key={"quiz_" + quizId}
-            onClick={() => handleQuizClick(quizId, "quiz_kids")}
-          >
-            Quiz Unit {quizId}
-          </button>
-        ))}
-      </div>
-      {/* _______________________ Adults Practices _______________________ */}
-      <div className="quiz-buttons">
-        <div className="general-text">Adults Practices:</div>
-        {[1, 2, 3, 4, 5].map((practiceId) => (
-          <button
-            className="general-button2"
-            key={"practice_" + practiceId}
-            onClick={() => handleQuizClick(practiceId, "practice_adults")}
-          >
-            Practice Unit {practiceId}
-          </button>
-        ))}
-      </div>
-      {/* _______________________ Adults Quizzes _______________________ */}
-      <div className="quiz-buttons">
-        <div className="general-text">Adults Quizzes:</div>
-        {[1, 2, 3, 4, 5].map((quizId) => (
-          <button
-            className="general-button"
-            key={"quiz_" + quizId}
-            onClick={() => handleQuizClick(quizId, "quiz_adults")}
-          >
-            Quiz Unit {quizId}
-          </button>
+        <div className="general-text">Adults:</div>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
+          <>
+            <button
+              className="general-button2"
+              key={"practice_" + id}
+              onClick={() => handleQuizClick(id, "practice_adults")}
+            >
+              Practice Unit {id}
+            </button>
+            <button
+              className={`general-button ${
+                status && status[`adults_${id}`] && "done"
+              }`}
+              key={"quiz_" + id}
+              onClick={() => handleQuizClick(id, "quiz_adults")}
+            >
+              Quiz Unit {id}
+              {status && status[`adults_${id}`] && (
+                <FaCheck style={{ marginLeft: "8px", color: "green" }} />
+              )}
+            </button>
+          </>
         ))}
       </div>
       {/* _______________________ Footer _______________________ */}
