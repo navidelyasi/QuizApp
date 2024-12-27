@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/index.css";
 import { playlevelpassed } from "../hooks/handleSoundEffects.jsx";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../hooks/initFirebase.jsx";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -12,15 +10,6 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     localStorage.setItem("username", username);
-    try {
-      const userDoc = doc(db, "quiz-answers", username);
-      await setDoc(userDoc, {
-        firstLogin: new Date().toISOString(),
-      });
-      console.log("DONE");
-    } catch (error) {
-      console.log("ERROR : ", error);
-    }
     playlevelpassed();
     navigate("/menu");
   };
