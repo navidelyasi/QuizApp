@@ -16,6 +16,8 @@ import {
 } from "../hooks/handleSoundEffects.jsx";
 import "../styles/index.css";
 import "../styles/quiz-page.css";
+import { FaPaperPlane } from "react-icons/fa";
+import { ImExit } from "react-icons/im";
 
 export default function QuizPage() {
   const navigate = useNavigate();
@@ -107,7 +109,6 @@ export default function QuizPage() {
     const localAnswers = localStorage.getItem(
       `quiz_${quizId}_answers_${username}`
     );
-    // if local storage has data, then we don't generate initial answers
     return localAnswers ? JSON.parse(localAnswers) : generateInitialAnswers();
   });
 
@@ -137,10 +138,6 @@ export default function QuizPage() {
   // submits data to an external server (Firebase)
   const handleSubmitAll = async () => {
     setIsSubmitting(true);
-    localStorage.setItem(
-      `quiz_${quizId}_answers_${username}`,
-      JSON.stringify(answers)
-    );
 
     try {
       const userDoc = doc(db, "quiz-answers", username);
@@ -177,6 +174,8 @@ export default function QuizPage() {
         });
       }
       console.log("DONE");
+
+      localStorage.removeItem(`quiz_${quizId}_answers_${username}`);
     } catch (error) {
       console.log("ERROR : ", error);
     }
@@ -312,9 +311,6 @@ export default function QuizPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [questionId]);
 
-  // Update localStorage whenever timeLeft or totalTimeSpent changes
-  useEffect(() => {}, [timeLeft, totalTimeSpent]);
-
   return (
     <div className={`quiz-container ${isSubmitting ? "submitting" : ""}`}>
       {/* _______________________ sidebar _______________________ */}
@@ -357,10 +353,18 @@ export default function QuizPage() {
         {/* submit and exit */}
         <div className="sidebar-questions">
           <button className="submit-button" onClick={handleSubmitAll}>
-            {isSubmitting ? "Submitting..." : "Submit All Answers"}
+            {isSubmitting ? (
+              "Submitting..."
+            ) : (
+              <>
+                <FaPaperPlane style={{ marginRight: "5px" }} />
+                Submit All Answers
+              </>
+            )}
           </button>
           <button className="exit-button" onClick={handleQuit}>
             Exit
+            <ImExit style={{ marginLeft: "10px" }} />
           </button>
         </div>
       </div>
@@ -404,6 +408,7 @@ export default function QuizPage() {
           <div className="submitting-content">
             <h1 className="time-up-title">Time is up</h1>
             <button className="general-button" onClick={handleSubmitAll}>
+              <FaPaperPlane style={{ marginRight: "5px" }} />
               Submit All Answers
             </button>
             <h1 className="time-up-title">Do you need more time?</h1>

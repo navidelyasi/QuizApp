@@ -52,6 +52,7 @@ export default function VirtualKeyboard({ isShowKeyboard, handleKeyPress }) {
 
     // Row 4 (Space and delete)
     [
+      ["آ", "AA"],
       [" ", "Space"],
       ["<-", "delete"],
     ],

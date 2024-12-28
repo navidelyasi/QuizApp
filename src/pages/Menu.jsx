@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
 import "../styles/index.css";
 
 export default function Menu() {
@@ -19,8 +19,9 @@ export default function Menu() {
     try {
       const userDoc = doc(db, "quiz-answers", username);
       const userDocSnap = await getDoc(userDoc);
-      setStatus(userDocSnap.data());
-      console.log("STATUS : _______ ", userDocSnap.data());
+      setInterval(() => {
+        setStatus(userDocSnap.data());
+      }, 300);
     } catch (error) {
       console.log("ERROR : ", error);
     }
@@ -40,7 +41,20 @@ export default function Menu() {
 
   return (
     <div className="main-menu-container">
-      <div className="general-text">Welcome, {username}!</div>
+      {status === null && (
+        <div className="overlay-content">
+          <div className="general-text">Loading ...</div>
+        </div>
+      )}
+      <div className="general-text">
+        Welcome, {username}!
+        <FaUser style={{ marginRight: "5px" }} />
+        {Object.values(status || {})
+          .filter(Boolean)
+          .map((_, index) => (
+            <FaStar key={index} style={{ marginRight: "5px", color: "gold" }} />
+          ))}
+      </div>
       {/* _______________________ Kids  _______________________ */}
       <div className="quiz-buttons">
         <div className="general-text">Kids:</div>
@@ -104,6 +118,7 @@ export default function Menu() {
           navigate("/");
         }}
       >
+        <FaSignOutAlt style={{ marginRight: "5px" }} />
         Logout
       </button>
     </div>
