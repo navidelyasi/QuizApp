@@ -12,16 +12,30 @@ export default function Menu() {
   if (!username) navigate("/");
 
   useEffect(() => {
-    getStatus();
+    const completedQuizzes =
+      JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
+    if (completedQuizzes.length === 0) {
+      getQuizzesStatus();
+    } else {
+      setStatus(completedQuizzes);
+    }
   }, []);
 
-  const getStatus = async () => {
+  const getQuizzesStatus = async () => {
     try {
       const userDoc = doc(db, "quiz-answers", username);
       const userDocSnap = await getDoc(userDoc);
-      setInterval(() => {
-        setStatus(userDocSnap.data());
-      }, 300);
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        const __status = Object.keys(data);
+        setStatus(__status);
+        localStorage.setItem(
+          `${username}_quizzes_completed`,
+          JSON.stringify(__status)
+        );
+      } else {
+        setStatus([]);
+      }
     } catch (error) {
       console.log("ERROR : ", error);
     }
@@ -49,9 +63,8 @@ export default function Menu() {
       <div className="general-text">
         Welcome, {username}!
         <FaUser style={{ marginRight: "5px" }} />
-        {Object.values(status || {})
-          .filter(Boolean)
-          .map((_, index) => (
+        {status &&
+          status.map((_, index) => (
             <FaStar key={index} style={{ marginRight: "5px", color: "gold" }} />
           ))}
       </div>
@@ -69,13 +82,13 @@ export default function Menu() {
             </button>
             <button
               className={`general-button ${
-                status && status[`kids_${id}`] && "done"
+                status && status.includes(`kids_${id}`) && "done"
               }`}
               key={"quiz_" + id}
               onClick={() => handleQuizClick(id, "quiz_kids")}
             >
               Quiz Unit {id}
-              {status && status[`kids_${id}`] && (
+              {status && status.includes(`kids_${id}`) && (
                 <FaCheck style={{ marginLeft: "8px", color: "green" }} />
               )}
             </button>
@@ -96,13 +109,13 @@ export default function Menu() {
             </button>
             <button
               className={`general-button ${
-                status && status[`adults_${id}`] && "done"
+                status && status.includes(`adults_${id}`) && "done"
               }`}
               key={"quiz_" + id}
               onClick={() => handleQuizClick(id, "quiz_adults")}
             >
               Quiz Unit {id}
-              {status && status[`adults_${id}`] && (
+              {status && status.includes(`adults_${id}`) && (
                 <FaCheck style={{ marginLeft: "8px", color: "green" }} />
               )}
             </button>

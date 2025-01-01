@@ -174,6 +174,14 @@ export default function QuizPage() {
         });
       }
       console.log("DONE");
+      const completedQuizzes =
+        JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
+      if (!completedQuizzes.includes(quizId)) {
+        localStorage.setItem(
+          `${username}_quizzes_completed`,
+          JSON.stringify([...completedQuizzes, quizId])
+        );
+      }
 
       localStorage.removeItem(`quiz_${quizId}_answers_${username}`);
     } catch (error) {

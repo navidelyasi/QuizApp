@@ -173,8 +173,8 @@
 }
 
 .timer-circle {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -184,8 +184,8 @@
 }
 
 .inner-timer {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background-color: #1a1d23;
   display: flex;
@@ -196,7 +196,7 @@
 
 .timer-text {
   color: #fff;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: bold;
   text-align: center;
 }

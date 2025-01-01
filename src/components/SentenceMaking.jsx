@@ -40,7 +40,9 @@ function SentenceMaking({
     // if user is dragging a word from one sentence to a different sentence, do nothing
     if (activeIdSentence !== dropIndexSentence) return;
 
-    const newAnswers = answers;
+    // Create a new copy of answers to maintain immutability
+    const newAnswers = JSON.parse(JSON.stringify(answers));
+
     // remove the word from the old position (if it is not from the stack)
     if (activeIdWord !== "s") {
       newAnswers[activeIdSentence][activeIdWord] = "";

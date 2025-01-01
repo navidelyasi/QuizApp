@@ -89,9 +89,11 @@ function TopicDrag({
           <div className="titles">
             <div className="question-title">{questionData.title1}</div>
             <div className="question-title">{questionData.title2}</div>
-            <div className="question-title">
-              click on the picture to see the picture bigger :)
-            </div>
+            {questionData.picture !== "no" && (
+              <div className="question-title">
+                click on the picture to see the picture bigger :)
+              </div>
+            )}
             {/* ______________ draggable stack ______________ */}
             <div className="draggable-stack">
               {stack.map((text) =>
