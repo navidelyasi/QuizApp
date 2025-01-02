@@ -3,6 +3,9 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  touch-action: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sentence-making-title {
@@ -26,6 +29,7 @@
   display: flex;
   flex-direction: row-reverse;
   gap: 10px;
+  touch-action: none;
 }
 
 .stack-sentence-making {
@@ -37,4 +41,81 @@
   padding: 10px;
   border-bottom: 2px solid #3a3f4b;
   min-height: 50px;
+  touch-action: none;
+}
+
+/* Add media queries for small screens */
+@media screen and (max-width: 768px) {
+  .sentence-making-container {
+    padding: 10px;
+    margin-bottom: 120px;
+    gap: 5px;
+  }
+
+  .sentence-making-title {
+    font-size: 1.2rem;
+    text-align: center;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .sentence-container {
+    width: 100%;
+    padding: 5px;
+    gap: 10px;
+  }
+
+  .sentence-line {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .stack-sentence-making {
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  /* If you have drag items in this component, adjust their size too */
+  .drag-item {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+
+  /* Adjust spacing when virtual keyboard is visible */
+  .sentence-making-container.is-keyboard-visible {
+    margin-bottom: 260px;
+  }
+}
+
+/* For extra small screens */
+@media screen and (max-width: 375px) {
+  .sentence-making-title {
+    font-size: 1rem;
+  }
+
+  .sentence-line {
+    gap: 3px;
+  }
+
+  .stack-sentence-making {
+    gap: 3px;
+  }
+
+  /* Make drag items even smaller on very small screens */
+  .drag-item {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+}
+
+.drag-item {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }

@@ -121,12 +121,13 @@
   width: 100px !important;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .virtual-keyboard {
     left: 0;
     width: 100%;
     bottom: -100px;
-    padding: 5px;
+    padding: 3px;
+    gap: 3px;
   }
 
   .virtual-keyboard.show {
@@ -134,11 +135,11 @@
   }
 
   .virtual-key {
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    padding: 5px 12px;
-    margin: 0px 2px;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+    padding: 1px 7px;
+    margin: 1px 1px;
   }
 
   .virtual-key.space-key {
