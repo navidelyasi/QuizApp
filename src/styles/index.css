@@ -27,7 +27,8 @@ html * {
 }
 
 .login-container,
-.main-menu-container {
+.main-menu-container,
+.index-container {
   background: linear-gradient(135deg, #1a1d23 0%, #282c34 100%);
   height: 100vh;
   display: flex;
@@ -35,6 +36,35 @@ html * {
   justify-content: center;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.index-container {
+  background-color: #003cb3;
+  gap: 2.5rem;
+}
+
+.index-title {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.index-button {
+  padding: 1rem;
+  background-color: transparent;
+  border: 1px solid #3355ff;
+  border-radius: 15px;
+  color: #3355ff;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.index-button:hover {
+  background-color: #3355ff;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .login-form {

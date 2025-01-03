@@ -23,7 +23,7 @@ export default function QuizPage() {
   const navigate = useNavigate();
   const { quizId } = useParams(); // quizId is like adults_3
   const username = localStorage.getItem("username");
-  if (!username) navigate("/");
+  if (!username) navigate("/login");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);

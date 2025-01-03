@@ -19,7 +19,7 @@ export default function PracticePage() {
   const navigate = useNavigate();
   const { practiceId } = useParams(); // practiceId is like adults_3 or practice_adults_3
   const username = localStorage.getItem("username");
-  if (!username) navigate("/");
+  if (!username) navigate("/login");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);

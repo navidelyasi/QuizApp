@@ -1,8 +1,15 @@
-# React + Vite
+# Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This App enables users to practice persian language.
+Users can practice a unit of topics and take the quiz on each topic.
+Users can submit their answers to our database and see their progress.
 
-Currently, two official plugins are available:
+## Question Types
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Flashcards
+- FillInputDrag
+- DragPairs
+- MultiChoice
+- Topic
+- TopicDrag
+- SentenceMaking

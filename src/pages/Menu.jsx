@@ -9,7 +9,7 @@ export default function Menu() {
   const [status, setStatus] = useState(null);
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
-  if (!username) navigate("/");
+  if (!username) navigate("/login");
 
   useEffect(() => {
     const completedQuizzes =
@@ -128,7 +128,7 @@ export default function Menu() {
         className="general-button"
         onClick={() => {
           localStorage.removeItem("username");
-          navigate("/");
+          navigate("/login");
         }}
       >
         <FaSignOutAlt style={{ marginRight: "5px" }} />
