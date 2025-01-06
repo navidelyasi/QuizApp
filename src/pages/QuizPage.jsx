@@ -8,6 +8,7 @@ import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
 import SentenceMaking from "../components/SentenceMaking.jsx";
+import Timer from "../components/subComponents/Timer.jsx";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
 import {
@@ -16,7 +17,7 @@ import {
 } from "../hooks/handleSoundEffects.jsx";
 import "../styles/index.css";
 import "../styles/quiz-page.css";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaStepBackward, FaStepForward } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 
 export default function QuizPage() {
@@ -337,24 +338,34 @@ export default function QuizPage() {
         </div>
         {/* previous and next question */}
         {document.documentElement.clientWidth <= 768 && (
-          <div className="sidebar-questions">
+          <div className="sidebar-questions button-group">
             <button
-              className="general-button"
+              className="general-button left-button"
               onClick={() =>
                 setQuestionId(questionId > 0 ? questionId - 1 : questionId)
               }
             >
-              previous question
+              <div className="button-content">
+                <FaStepBackward
+                  style={{
+                    marginRight: "10px",
+                  }}
+                />
+                previous question
+              </div>
             </button>
             <button
-              className="general-button"
+              className="general-button right-button"
               onClick={() =>
                 setQuestionId(
                   questionId < quiz.length - 1 ? questionId + 1 : questionId
                 )
               }
             >
-              next question
+              <div className="button-content">
+                next question
+                <FaStepForward style={{ marginLeft: "10px" }} />
+              </div>
             </button>
           </div>
         )}
@@ -364,15 +375,17 @@ export default function QuizPage() {
             {isSubmitting ? (
               "Submitting..."
             ) : (
-              <>
+              <div className="button-content">
                 <FaPaperPlane style={{ marginRight: "5px" }} />
                 Submit All Answers
-              </>
+              </div>
             )}
           </button>
           <button className="exit-button" onClick={handleQuit}>
-            Exit
-            <ImExit style={{ marginLeft: "10px" }} />
+            <div className="button-content">
+              Exit
+              <ImExit style={{ marginLeft: "10px" }} />
+            </div>
           </button>
         </div>
       </div>
@@ -390,36 +403,23 @@ export default function QuizPage() {
       )}
 
       {/* _______________________ timer _______________________ */}
-      <div className="timer-container">
-        <div
-          className="timer-circle"
-          style={{
-            background: `conic-gradient(
-                        green ${percentage}%, 
-                        #ccc ${percentage}%
-                    )`,
-          }}
-        >
-          <div className="inner-timer">
-            <span className="timer-text">{formatTime(timeLeft)}</span>
-          </div>
-        </div>
-        <div className="timer-text">
-          <p>Time spent:</p>
-          <p>{formatTime(totalTimeSpent)}</p>
-        </div>
-      </div>
+      <Timer
+        percentage={percentage}
+        timeLeft={timeLeft}
+        totalTimeSpent={totalTimeSpent}
+        formatTime={formatTime}
+      />
 
       {/* _______________________ time is up _______________________ */}
       {timeLeft <= 0 && (
         <div className="submitting-overlay">
           <div className="submitting-content">
-            <h1 className="time-up-title">Time is up</h1>
+            <h1>Time is up</h1>
             <button className="general-button" onClick={handleSubmitAll}>
               <FaPaperPlane style={{ marginRight: "5px" }} />
               Submit All Answers
             </button>
-            <h1 className="time-up-title">Do you need more time?</h1>
+            <h1>Do you need more time?</h1>
             <button className="general-button" onClick={() => addMinutes(10)}>
               Add 10 minutes
             </button>

@@ -6,11 +6,11 @@
 .card-question-title {
   display: block;
   width: 100%;
-  font-size: 1.7rem;
+  font-size: var(--font-size-large);
   font-weight: bold;
   margin: 20px 0;
   text-align: center;
-  color: #61dafb;
+  color: var(--color-primary);
 }
 
 .card-content {
@@ -47,14 +47,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3a3f4b;
+  background-color: var(--color-light);
   border-radius: 12px;
 }
 
 .flashcard-back {
   transform: rotateY(180deg);
-  background-color: #61dafb;
-  color: #282c34;
+  background-color: var(--color-primary);
+  color: var(--color-dark);
 }
 
 .card-icon {

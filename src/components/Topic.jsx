@@ -77,14 +77,16 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
         {questionData.data.map((subQuestion, index) => (
           <div
             key={index}
-            className={
-              questionData.shortAnswers ? "short-sub-question" : "sub-question"
-            }
+            className={`sub-question ${
+              questionData.shortAnswers ? "short" : ""
+            }`}
           >
             <h3 className="sub-title">{subQuestion.text}</h3>
             <textarea
               name={index}
-              className="answer-box"
+              className={`answer-box ${
+                questionData.shortAnswers ? "short" : ""
+              }`}
               placeholder="جواب شما در اینجا"
               value={answers[index] || ""}
               onFocus={(e) => (activeInputRef.current = e.target)}
@@ -111,9 +113,7 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
 
       {/* _______     showing Virtual Keyboard */}
       {isShowKeyboard && (
-        <div className="virtual-keyboard-container">
-          <VirtualKeyboard isShowKeyboard handleKeyPress={handleKeyPress} />
-        </div>
+        <VirtualKeyboard isShowKeyboard handleKeyPress={handleKeyPress} />
       )}
     </div>
   );

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
+import "../styles/sub-styles/drag.css";
 import "../styles/topic.css";
-import "../styles/drag-pairs.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
@@ -117,11 +117,9 @@ function TopicDrag({
           {questionData.data.map((subQuestion, index) => (
             <div
               key={index}
-              className={
-                questionData.shortAnswers
-                  ? "short-sub-question"
-                  : "sub-question"
-              }
+              className={`sub-question ${
+                questionData.shortAnswers ? "short" : ""
+              }`}
             >
               <h3 className="sub-title">{subQuestion.text}</h3>
               {/* How to display before submitting */}

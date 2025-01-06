@@ -3,7 +3,7 @@ import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
 import "../styles/fill-input.css";
-import "../styles/drag-pairs.css";
+import "../styles/sub-styles/drag.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object

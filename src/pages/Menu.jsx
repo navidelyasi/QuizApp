@@ -72,54 +72,54 @@ export default function Menu() {
       <div className="quiz-buttons">
         <div className="general-text">Kids:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <>
+          <div className="button-group">
             <button
-              className="general-button2"
+              className="general-button practice-button left-button"
               key={"practice_" + id}
               onClick={() => handleQuizClick(id, "practice_kids")}
             >
               Practice Unit {id}
             </button>
             <button
-              className={`general-button ${
+              className={`general-button right-button ${
                 status && status.includes(`kids_${id}`) && "done"
               }`}
               key={"quiz_" + id}
               onClick={() => handleQuizClick(id, "quiz_kids")}
             >
-              Quiz Unit {id}
-              {status && status.includes(`kids_${id}`) && (
-                <FaCheck style={{ marginLeft: "8px", color: "green" }} />
-              )}
+              <div className="button-content">
+                Quiz Unit {id}
+                {status && status.includes(`kids_${id}`) && <FaCheck />}
+              </div>
             </button>
-          </>
+          </div>
         ))}
       </div>
       {/* _______________________ Adults  _______________________ */}
       <div className="quiz-buttons">
         <div className="general-text">Adults:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <>
+          <div className="button-group">
             <button
-              className="general-button2"
+              className="general-button practice-button left-button"
               key={"practice_" + id}
               onClick={() => handleQuizClick(id, "practice_adults")}
             >
               Practice Unit {id}
             </button>
             <button
-              className={`general-button ${
+              className={`general-button right-button ${
                 status && status.includes(`adults_${id}`) && "done"
               }`}
               key={"quiz_" + id}
               onClick={() => handleQuizClick(id, "quiz_adults")}
             >
-              Quiz Unit {id}
-              {status && status.includes(`adults_${id}`) && (
-                <FaCheck style={{ marginLeft: "8px", color: "green" }} />
-              )}
+              <div className="button-content">
+                Quiz Unit {id}
+                {status && status.includes(`adults_${id}`) && <FaCheck />}
+              </div>
             </button>
-          </>
+          </div>
         ))}
       </div>
       {/* _______________________ Footer _______________________ */}
@@ -131,8 +131,10 @@ export default function Menu() {
           navigate("/login");
         }}
       >
-        <FaSignOutAlt style={{ marginRight: "5px" }} />
-        Logout
+        <div className="button-content">
+          <FaSignOutAlt style={{ marginRight: "5px" }} />
+          Logout
+        </div>
       </button>
     </div>
   );

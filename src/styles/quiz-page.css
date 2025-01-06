@@ -7,7 +7,7 @@
 
 /* Sidebar Styles */
 .sidebar {
-  background-color: #1a1d23;
+  background-color: var(--color-xdark);
   color: white;
   display: flex;
   flex-direction: column;
@@ -19,8 +19,8 @@
   bottom: 0;
   width: 250px;
   z-index: 1000;
-  border-right: 1px solid #3a3f4b;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-right: 1px solid var(--color-dark);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-questions {
@@ -34,25 +34,22 @@
   grid-column: 2;
   margin-left: 50px;
   overflow-y: auto;
-  min-height: 100vh;
-  background-color: #282c34;
 }
 
 .submit-button {
-  background-color: #4caf50;
-  color: #ffffff;
-  border: none;
-  padding: 10px;
+  background-color: transparent;
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+  padding: 5px 10px;
   border-radius: 5px;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: var(--font-size-medium);
   cursor: pointer;
 }
 
-.submit-button:hover {
-  background-color: #62e368;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(97, 218, 251, 0.4);
+.quiz-container .submit-button:hover {
+  background-color: var(--color-success);
+  color: var(--color-dark);
 }
 
 /* Responsive Styles for Small Screens */
@@ -76,15 +73,13 @@
   .main-content {
     grid-column: 1;
     margin-left: 0;
-    /* Adjust height to account for both sidebar and keyboard when visible */
-    height: calc(100vh - 100px); /* Normal height without keyboard */
-    padding-bottom: 100px;
+    margin-bottom: 120px;
   }
 
   .sidebar-questions {
     flex-direction: row;
     overflow: hidden;
-    flex-wrap: wrap; /* Allow buttons to wrap if needed */
+    flex-wrap: wrap;
     gap: 5px;
     margin-right: 20px;
   }
@@ -93,32 +88,33 @@
   .sidebar-questions .submit-button,
   .sidebar-questions .exit-button {
     flex: 1;
-    font-size: 0.6rem;
+    font-size: var(--font-size-small);
   }
 
   .sidebar-questions .general-button:hover,
-  .sidebar-questions .submit-button:hover,
-  .sidebar-questions .exit-button:hover {
+  .submit-button:hover,
+  .sidebar-questions .sidebar-questions .exit-button:hover {
     transform: none;
     box-shadow: none;
   }
 
   .general-button {
-    font-size: 0.5rem;
+    font-size: var(--font-size-small);
     padding: 5px;
-    border: 1px solid #2cd1fe;
   }
 
   .general-button.active {
-    background-color: #2cd1fe;
-    border-radius: 5px;
-    color: #ffffff;
     transform: scale(1);
+  }
+
+  .submit-button:hover {
+    background-color: var(--color-success);
+    color: var(--color-dark);
   }
 }
 
 /* ____________________________________________ */
-/* __________ overlay  and timer ______________ */
+/* ___________________ overlay   ______________ */
 /* ____________________________________________ */
 
 .submitting-overlay {
@@ -138,7 +134,7 @@
 .submitting-content {
   text-align: center;
   color: white;
-  background-color: #1a1d23;
+  background-color: var(--color-xdark);
   padding: 20px;
   border-radius: 10px;
 }
@@ -146,8 +142,8 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #61dafb;
+  border: 4px solid var(--color-light);
+  border-top: 4px solid var(--color-primary);
   border-radius: 50%;
   margin: 0 auto 20px;
   animation: spin 1s linear infinite;
@@ -160,67 +156,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-.timer-container {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  opacity: 0.5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.timer-circle {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ccc;
-  position: relative;
-}
-
-.inner-timer {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #1a1d23;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-}
-
-.timer-text {
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.timer-add-button {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #1a1d2380;
-  color: greenyellow;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.timer-add-button:hover {
-  background-color: #1a1d23;
-  transform: translateY(-2px);
-}
-
-.virtual-keyboard-container {
-  background-color: #282c34;
-  display: flex;
-  width: 100%;
-  position: fixed;
-  z-index: 400;
-  bottom: 0;
 }

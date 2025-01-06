@@ -7,13 +7,13 @@
 }
 
 .fill-input-container h2 {
-  color: #61dafb;
+  color: var(--color-primary);
   margin: 10px;
   text-align: center;
 }
 
 .fill-content {
-  background-color: #1a1d23;
+  background-color: var(--color-xdark);
   padding: 15px;
   border-radius: 12px;
   margin-bottom: 10px;
@@ -21,6 +21,7 @@
 
 .paragraph {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row-reverse;
   gap: 10px;
   margin: 5px;
@@ -30,7 +31,7 @@
 
 .text {
   margin: 5px;
-  font-size: 1.2rem;
+  font-size: var(--font-size-medium);
   align-items: center;
   text-align: justify;
 }
