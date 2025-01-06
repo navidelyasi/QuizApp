@@ -45,8 +45,7 @@
 @media screen and (max-width: 768px) {
   .sentence-making-container {
     padding: 10px;
-    margin-bottom: 120px;
-    gap: 5px;
+    gap: 25px;
   }
 
   .sentence-making-title {
@@ -76,10 +75,6 @@
     padding: 5px;
     justify-content: center;
     min-height: 40px;
-  }
-
-  .sentence-making-container.is-keyboard-visible {
-    margin-bottom: 260px;
   }
 }
 

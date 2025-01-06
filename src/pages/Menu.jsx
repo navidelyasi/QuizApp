@@ -15,7 +15,8 @@ export default function Menu() {
     const completedQuizzes =
       JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
     if (completedQuizzes.length === 0) {
-      getQuizzesStatus();
+      // getQuizzesStatus();
+      setStatus(completedQuizzes);
     } else {
       setStatus(completedQuizzes);
     }
@@ -37,19 +38,19 @@ export default function Menu() {
         setStatus([]);
       }
     } catch (error) {
-      console.log("ERROR : ", error);
+      console.log("ERROR in firebase connection (from menu page) : ", error);
     }
   };
 
   function handleQuizClick(id, type) {
     if (type === "quiz_kids") {
-      navigate(`/quiz/kids_${id}`);
+      navigate(`/quiz/quiz_kids_${id}`);
     } else if (type === "quiz_adults") {
-      navigate(`/quiz/adults_${id}`);
+      navigate(`/quiz/quiz_adults_${id}`);
     } else if (type === "practice_kids") {
-      navigate(`/practice/kids_${id}`);
+      navigate(`/quiz/practice_kids_${id}`);
     } else if (type === "practice_adults") {
-      navigate(`/practice/adults_${id}`);
+      navigate(`/quiz/practice_adults_${id}`);
     }
   }
 

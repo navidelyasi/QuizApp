@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
 import Flashcards from "../components/Flashcards.jsx";
 import FillInputDrag from "../components/FillInputDrag.jsx";
-import DragPairs from "../components/DragPairs.jsx";
 import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
@@ -65,6 +64,7 @@ export default function PracticePage() {
     });
     return initialAnswers;
   };
+
   const [answers, setAnswers] = useState(() => {
     // load answers data from local storage if it is available
     // it is something like:_________ practice_adults_3_answers_navid
@@ -77,21 +77,11 @@ export default function PracticePage() {
 
   // by changing each sub question's answer,
   // keeps the changes here, in state on parent component
-  const handleAnswerChange = (subQuestionId, value) => {
-    if (practice[questionId].type === "sentence-making") {
-      setAnswers((prev) => ({
-        ...prev,
-        [practice[questionId].id]: value,
-      }));
-    } else {
-      setAnswers((prev) => ({
-        ...prev,
-        [practice[questionId].id]: {
-          ...prev[practice[questionId].id],
-          [subQuestionId]: value,
-        },
-      }));
-    }
+  const handleAnswerChange = (value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [practice[questionId].id]: value,
+    }));
   };
 
   // save answers in localStorage and navigates to menu
@@ -107,7 +97,7 @@ export default function PracticePage() {
       setIsSubmitting(false);
       playlevelpassed();
       navigate("/menu");
-    }, 300);
+    }, 100);
   };
 
   const handleSubmitOneQuestion = (action) => {
@@ -148,15 +138,6 @@ export default function PracticePage() {
       case "fill_input":
         return (
           <FillInputDrag
-            questionData={practice[questionId]}
-            answers={answers[practice[questionId].id]}
-            handleAnswerChange={handleAnswerChange}
-            handleSubmitOneQuestion={handleSubmitOneQuestion}
-          />
-        );
-      case "drag_column":
-        return (
-          <DragPairs
             questionData={practice[questionId]}
             answers={answers[practice[questionId].id]}
             handleAnswerChange={handleAnswerChange}

@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
 import Flashcards from "../components/Flashcards.jsx";
 import FillInputDrag from "../components/FillInputDrag.jsx";
-import DragPairs from "../components/DragPairs.jsx";
 import MultiChoice from "../components/MultiChoice.jsx";
 import Topic from "../components/Topic.jsx";
 import TopicDrag from "../components/TopicDrag.jsx";
@@ -22,13 +21,14 @@ import { ImExit } from "react-icons/im";
 
 export default function QuizPage() {
   const navigate = useNavigate();
-  const { quizId } = useParams(); // quizId is like adults_3
+  const { quizId } = useParams();
   const username = localStorage.getItem("username");
   if (!username) navigate("/login");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);
-  const quiz = quizData["quiz_" + quizId]; // quiz is an array of questions
+  const quiz = quizData[quizId];
+  const quizOrPractice = quizId.split("_")[0];
 
   // if quiz is not available, show a message
   if (!quiz)
@@ -52,7 +52,7 @@ export default function QuizPage() {
   // _______________________ timer set-up _______________________
   // initial time is 30 min (for adults) or 60 min (for kids)
   // Get initial total time based on quiz type (kids or adults)
-  const initialTotalTime = quizId[0] === "k" ? 60 * 60 : 30 * 60;
+  const initialTotalTime = quizId.split("_")[1] === "kids" ? 60 * 60 : 30 * 60;
   const [totalTimeSpent, setTotalTimeSpent] = useState(0);
   const timeLeft = Math.max(initialTotalTime - totalTimeSpent, 0);
   const percentage =
@@ -61,11 +61,14 @@ export default function QuizPage() {
   // Timer effect
   useEffect(() => {
     playnotification2();
-    const intervalId = setInterval(() => {
-      setTotalTimeSpent((prev) => prev + 1);
-    }, 1000);
 
-    return () => clearInterval(intervalId);
+    if (quizOrPractice === "quiz") {
+      const intervalId = setInterval(() => {
+        setTotalTimeSpent((prev) => prev + 1);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    }
   }, []);
 
   const addMinutes = (minutes) => {
@@ -104,33 +107,20 @@ export default function QuizPage() {
     });
     return initialAnswers;
   };
+
   const [answers, setAnswers] = useState(() => {
     // load answers data from local storage if it is available
     // it is something like:_________ quiz_adults_3_answers_navid
-    const localAnswers = localStorage.getItem(
-      `quiz_${quizId}_answers_${username}`
-    );
+    const localAnswers = localStorage.getItem(`${quizId}_answers_${username}`);
     return localAnswers ? JSON.parse(localAnswers) : generateInitialAnswers();
   });
 
-  // by changing each sub question's answer,
-  // keeps the changes here, in state on parent component
   const handleAnswerChange = useCallback(
-    (subQuestionId, value) => {
-      if (quiz[questionId].type === "sentence-making") {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: value,
-        }));
-      } else {
-        setAnswers((prev) => ({
-          ...prev,
-          [quiz[questionId].id]: {
-            ...prev[quiz[questionId].id],
-            [subQuestionId]: value,
-          },
-        }));
-      }
+    (value) => {
+      setAnswers((prev) => ({
+        ...prev,
+        [quiz[questionId].id]: value,
+      }));
     },
     [quiz, questionId]
   );
@@ -144,37 +134,36 @@ export default function QuizPage() {
       const userDoc = doc(db, "quiz-answers", username);
       const userDocSnap = await getDoc(userDoc);
 
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        const existingSubmissions = userData[quizId] || [];
+      // if (userDocSnap.exists()) {
+      //   const userData = userDocSnap.data();
+      //   const existingSubmissions = userData[quizId] || [];
 
-        // Create new submission object
-        const newSubmission = {
-          answers,
-          timeSpent: formatTime(totalTimeSpent),
-          date: new Date().toLocaleDateString(),
-        };
+      //   // Create new submission object
+      //   const newSubmission = {
+      //     answers,
+      //     timeSpent: formatTime(totalTimeSpent),
+      //     date: new Date().toLocaleDateString(),
+      //   };
 
-        // Add new submission to beginning of array
-        const updatedSubmissions = [newSubmission, ...existingSubmissions];
+      //   // Add new submission to beginning of array
+      //   const updatedSubmissions = [newSubmission, ...existingSubmissions];
 
-        // Update document with new array of submissions
-        await updateDoc(userDoc, {
-          [quizId]: updatedSubmissions,
-        });
-      } else {
-        // If document doesn't exist, create it with first submission
-        await setDoc(userDoc, {
-          [quizId]: [
-            {
-              answers,
-              timeSpent: formatTime(totalTimeSpent),
-              date: new Date().toLocaleDateString(),
-            },
-          ],
-        });
-      }
-      console.log("DONE");
+      //   // Update document with new array of submissions
+      //   await updateDoc(userDoc, {
+      //     [quizId]: updatedSubmissions,
+      //   });
+      // } else {
+      //   // If document doesn't exist, create it with first submission
+      //   await setDoc(userDoc, {
+      //     [quizId]: [
+      //       {
+      //         answers,
+      //         timeSpent: formatTime(totalTimeSpent),
+      //         date: new Date().toLocaleDateString(),
+      //       },
+      //     ],
+      //   });
+      // }
       const completedQuizzes =
         JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
       if (!completedQuizzes.includes(quizId)) {
@@ -184,9 +173,9 @@ export default function QuizPage() {
         );
       }
 
-      localStorage.removeItem(`quiz_${quizId}_answers_${username}`);
+      localStorage.removeItem(`${quizId}_answers_${username}`);
     } catch (error) {
-      console.log("ERROR : ", error);
+      console.log("ERROR in firebase connection (from quiz page) : ", error);
     }
 
     setTimeout(() => {
@@ -201,7 +190,7 @@ export default function QuizPage() {
     setIsSubmitting(true);
 
     localStorage.setItem(
-      `quiz_${quizId}_answers_${username}`,
+      `${quizId}_answers_${username}`,
       JSON.stringify(answers)
     );
 
@@ -243,7 +232,6 @@ export default function QuizPage() {
     [quiz, questionId]
   );
 
-  // renders the question component based on the question type
   const renderQuestionComponent = useCallback(() => {
     switch (quiz[questionId].type) {
       case "flashcards":
@@ -251,15 +239,6 @@ export default function QuizPage() {
       case "fill_input":
         return (
           <FillInputDrag
-            questionData={quiz[questionId]}
-            answers={answers[quiz[questionId].id]}
-            handleAnswerChange={handleAnswerChange}
-            handleSubmitOneQuestion={handleSubmitOneQuestion}
-          />
-        );
-      case "drag_column":
-        return (
-          <DragPairs
             questionData={quiz[questionId]}
             answers={answers[quiz[questionId].id]}
             handleAnswerChange={handleAnswerChange}
@@ -306,14 +285,7 @@ export default function QuizPage() {
       default:
         return <div>Unknown question type: {quiz[questionId].type}</div>;
     }
-  }, [
-    questionId,
-    quiz,
-    answers,
-    handleAnswerChange,
-    handleSubmitOneQuestion,
-    quizId,
-  ]);
+  }, [quiz, questionId, answers]);
 
   // scrolls to the top of the page when the question changes
   useEffect(() => {
@@ -332,7 +304,8 @@ export default function QuizPage() {
               className={`general-button ${questionId === i ? "active" : ""}`}
               onClick={() => setQuestionId(i)}
             >
-              Question {i + 1}
+              {document.documentElement.clientWidth > 768 ? "Question " : ""}{" "}
+              {i + 1}
             </button>
           ))}
         </div>
@@ -371,16 +344,18 @@ export default function QuizPage() {
         )}
         {/* submit and exit */}
         <div className="sidebar-questions">
-          <button className="submit-button" onClick={handleSubmitAll}>
-            {isSubmitting ? (
-              "Submitting..."
-            ) : (
-              <div className="button-content">
-                <FaPaperPlane style={{ marginRight: "5px" }} />
-                Submit All Answers
-              </div>
-            )}
-          </button>
+          {quizOrPractice === "quiz" && (
+            <button className="submit-all-button" onClick={handleSubmitAll}>
+              {isSubmitting ? (
+                "Submitting..."
+              ) : (
+                <div className="button-content">
+                  <FaPaperPlane style={{ marginRight: "5px" }} />
+                  Submit All Answers
+                </div>
+              )}
+            </button>
+          )}
           <button className="exit-button" onClick={handleQuit}>
             <div className="button-content">
               Exit
@@ -403,12 +378,14 @@ export default function QuizPage() {
       )}
 
       {/* _______________________ timer _______________________ */}
-      <Timer
-        percentage={percentage}
-        timeLeft={timeLeft}
-        totalTimeSpent={totalTimeSpent}
-        formatTime={formatTime}
-      />
+      {quizOrPractice === "quiz" && (
+        <Timer
+          percentage={percentage}
+          timeLeft={timeLeft}
+          totalTimeSpent={totalTimeSpent}
+          formatTime={formatTime}
+        />
+      )}
 
       {/* _______________________ time is up _______________________ */}
       {timeLeft <= 0 && (

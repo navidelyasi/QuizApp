@@ -19,6 +19,7 @@ function TopicDrag({
   handleAnswerChange,
   handleSubmitOneQuestion,
 }) {
+  const quizIdArray = quizId.split("_");
   const submitted = answers[questionData.data.length];
   const stack = questionData?.data
     .filter((item) => !Object.values(answers).includes(item.correct))
@@ -43,18 +44,20 @@ function TopicDrag({
     const { active, over } = event;
     if (!over) return;
 
-    // Get the index from the droppable ID (removing 'drop-' prefix)
-    const dropIndex = parseInt(over.id.replace("drop-", ""));
+    const activeIdArray = active.id.split("_");
+    // Get the index from the droppable ID (removing 'drop_' prefix)
+    const dropIndex = parseInt(over.id.replace("drop_", ""));
 
-    // If dragging from an answer spot, clear that spot first
-    Object.entries(answers).forEach(([index, value]) => {
-      if (value === active.id) {
-        handleAnswerChange(index, "");
-      }
-    });
+    const newAnswers = { ...answers };
 
+    if (activeIdArray[0] === "answer") {
+      // if dragging from an answer spot, clear that spot first
+      newAnswers[parseInt(activeIdArray[1])] = "";
+    }
+
+    newAnswers[dropIndex] = activeIdArray[activeIdArray.length - 1];
     // Update the new position
-    handleAnswerChange(dropIndex, active.id);
+    handleAnswerChange(newAnswers);
   }
 
   function getScore() {
@@ -67,9 +70,6 @@ function TopicDrag({
     return score;
   }
 
-  console.log("questionData ______________________", questionData);
-  console.log("answers ______________________", answers);
-
   return (
     <div className="topic-question-container">
       <DndContext onDragEnd={handleDragEnd}>
@@ -77,11 +77,17 @@ function TopicDrag({
           {/* _________________ show picture ? ______________ */}
           {questionData.picture !== "no" && (
             <img
-              src={`/pictures/${quizId}/${questionData.picture}.png`}
+              src={`/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
+                questionData.picture
+              }.png`}
               alt={questionData.picture}
               className="question-picture"
               onClick={() =>
-                openPicture(`/pictures/${quizId}/${questionData.picture}.png`)
+                openPicture(
+                  `/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
+                    questionData.picture
+                  }.png`
+                )
               }
             />
           )}
@@ -96,9 +102,12 @@ function TopicDrag({
             )}
             {/* ______________ draggable stack ______________ */}
             <div className="draggable-stack">
-              {stack.map((text) =>
+              {stack.map((text, stackIndex) =>
                 submitted === "" ? (
-                  <Draggable key={text} id={text}>
+                  <Draggable
+                    key={"stack_" + String(stackIndex) + "_" + text}
+                    id={"stack_" + String(stackIndex) + "_" + text}
+                  >
                     <div className="drag-item draggable">
                       <p className="drag-text">{text}</p>
                     </div>
@@ -124,11 +133,14 @@ function TopicDrag({
               <h3 className="sub-title">{subQuestion.text}</h3>
               {/* How to display before submitting */}
               {submitted === "" && (
-                <Droppable id={`drop-${index}`}>
+                <Droppable id={`drop_${index}`}>
                   {answers[index] === "" ? (
                     <div className="empty-space"></div>
                   ) : (
-                    <Draggable key={answers[index]} id={answers[index]}>
+                    <Draggable
+                      key={"answer_" + String(index) + "_" + answers[index]}
+                      id={"answer_" + String(index) + "_" + answers[index]}
+                    >
                       <div className={"drag-item draggable"}>
                         <p className="drag-text">{answers[index]}</p>
                       </div>

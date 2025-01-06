@@ -62,6 +62,12 @@ function MultiChoice({
     return score;
   };
 
+  const handleChoiceClick = (index, subIndex) => {
+    const newAnswers = { ...answers };
+    newAnswers[index] = subIndex;
+    handleAnswerChange(newAnswers);
+  };
+
   return (
     <div className="multi-question">
       <h2>{questionData?.title}</h2>
@@ -80,7 +86,7 @@ function MultiChoice({
                     ${
                       answers[index] === subIndex ? "selected" : ""
                     } ${getAnswerStatus(index, subIndex)}`}
-                  onClick={() => handleAnswerChange(index, subIndex)}
+                  onClick={() => handleChoiceClick(index, subIndex)}
                   disabled={submitted !== ""}
                 >
                   {answer}

@@ -8,7 +8,7 @@ import "../styles/sub-styles/drag.css";
 // _____ questionData _____ is the question object
 // _____ answers _____ is the answers object answers.[index]
 // _____ handleAnswerChange _____ is a function that updates the answers in the parent component
-// _____ handleAnswerChange(subQuestionId, value)
+// _____ handleAnswerChange(value)
 // _____ handleSubmitOneQuestion _____ is a function that updates the answers in the parent component
 // _____ it adds "submitted" value to the answers onject
 function SentenceMaking({
@@ -29,29 +29,29 @@ function SentenceMaking({
     if (!over) return;
 
     // where the item is picked up from
-    const activeIdSentence = parseInt(active.id[0]);
-    const activeIdWord = parseInt(active.id[1]);
+    const activeIdArray = active.id.split("_");
 
     // where the item is dropped
-    const dropIndex = over.id.replace("drop-", "");
-    const dropIndexSentence = parseInt(dropIndex[0]);
-    const dropIndexWord = parseInt(dropIndex[1]);
+    const dropIndexArray = over.id.split("_");
 
     // if user is dragging a word from one sentence to a different sentence, do nothing
-    if (activeIdSentence !== dropIndexSentence) return;
+    if (activeIdArray[1] !== dropIndexArray[1]) return;
 
     // Create a new copy of answers to maintain immutability
-    const newAnswers = JSON.parse(JSON.stringify(answers));
+    const newAnswers = { ...answers };
 
     // remove the word from the old position (if it is not from the stack)
-    if (activeIdWord !== "s") {
-      newAnswers[activeIdSentence][activeIdWord] = "";
+    if (activeIdArray[0] !== "stack") {
+      newAnswers[parseInt(activeIdArray[1])][parseInt(activeIdArray[2])] = "";
     }
-    // add the word to the new position
-    newAnswers[dropIndexSentence][dropIndexWord] = active.id.slice(2);
 
-    // Update the new position
-    handleAnswerChange(dropIndexSentence, newAnswers);
+    // add the word to the new answers
+    // last element in activeIdArray is the word
+    newAnswers[dropIndexArray[1]][dropIndexArray[2]] =
+      activeIdArray[activeIdArray.length - 1];
+
+    // Update the new answers in the parent component
+    handleAnswerChange(newAnswers);
   }
 
   function getScore() {
@@ -81,8 +81,8 @@ function SentenceMaking({
               {stack[sentenceIndex].map((stackText) =>
                 submitted === "" ? (
                   <Draggable
-                    key={String(sentenceIndex) + "s" + stackText}
-                    id={String(sentenceIndex) + "s" + stackText}
+                    key={"stack_" + String(sentenceIndex) + "_" + stackText}
+                    id={"stack_" + String(sentenceIndex) + "_" + stackText}
                   >
                     <div className="drag-item draggable">
                       <p className="drag-text">{stackText}</p>
@@ -103,20 +103,28 @@ function SentenceMaking({
                   {/* _________________________________ */}
                   {submitted === "" && (
                     <Droppable
-                      id={`drop-${String(sentenceIndex) + String(wordIndex)}`}
+                      id={`drop_${
+                        String(sentenceIndex) + "_" + String(wordIndex)
+                      }`}
                     >
                       {answers[sentenceIndex][wordIndex] === "" ? (
                         <div className="empty-space"></div>
                       ) : (
                         <Draggable
                           key={
+                            "sentence_" +
                             String(sentenceIndex) +
+                            "_" +
                             String(wordIndex) +
+                            "_" +
                             answers[sentenceIndex][wordIndex]
                           }
                           id={
+                            "sentence_" +
                             String(sentenceIndex) +
+                            "_" +
                             String(wordIndex) +
+                            "_" +
                             answers[sentenceIndex][wordIndex]
                           }
                         >

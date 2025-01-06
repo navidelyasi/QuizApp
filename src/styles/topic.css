@@ -59,7 +59,8 @@
 
 .sub-question {
   background-color: var(--color-xdark);
-  width: 350px;
+  min-width: 350px;
+  width: fit-content;
   padding: 20px;
   border-radius: 12px;
   display: block;

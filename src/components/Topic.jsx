@@ -6,7 +6,7 @@ import "../styles/topic.css";
 // _____ questionData _____ is the question object
 // _____ answers _____ is the answers object answers.[index]
 // _____ handleAnswerChange _____ is a function that updates the answers in the parent component
-// _____ handleAnswerChange(subQuestionId, value)
+// _____ handleAnswerChange(value)
 function Topic({ quizId, questionData, answers, handleAnswerChange }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(true);
   const activeInputRef = useRef(null);
@@ -26,20 +26,28 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
     setModalImageSrc("");
   }
 
+  const handlePhysicalKeyPress = (index, value) => {
+    const newAnswers = { ...answers };
+    newAnswers[index] = value;
+    handleAnswerChange(newAnswers);
+  };
+
   const handleKeyPress = (letter) => {
     if (activeInputRef.current) {
       const fieldName = activeInputRef.current.name;
+      const newAnswers = { ...answers };
       const currentAnswer = answers?.[fieldName] || "";
       if (letter === "<-") {
-        if (currentAnswer.length > 0) {
-          handleAnswerChange(
+        if (newAnswers[fieldName].length > 0) {
+          newAnswers[fieldName] = newAnswers[fieldName].substring(
             fieldName,
-            currentAnswer.substring(0, currentAnswer.length - 1)
+            newAnswers[fieldName].substring(0, newAnswers[fieldName].length - 1)
           );
         }
       } else {
-        handleAnswerChange(fieldName, currentAnswer.concat(letter));
+        newAnswers[fieldName] = currentAnswer.concat(letter);
       }
+      handleAnswerChange(newAnswers);
     }
   };
 
@@ -90,7 +98,7 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
               placeholder="جواب شما در اینجا"
               value={answers[index] || ""}
               onFocus={(e) => (activeInputRef.current = e.target)}
-              onChange={(e) => handleAnswerChange(index, e.target.value)}
+              onChange={(e) => handlePhysicalKeyPress(index, e.target.value)}
             />
           </div>
         ))}

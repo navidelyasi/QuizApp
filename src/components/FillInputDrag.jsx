@@ -19,26 +19,37 @@ function FillInput({
   handleSubmitOneQuestion,
 }) {
   const submitted = answers[questionData.data.length];
-  const stack = questionData?.data
-    .filter((item) => !Object.values(answers).includes(item.correct))
-    .map((item) => item.correct);
+
+  function getStack() {
+    const initialStack = questionData?.data.map((item) => item.correct);
+    const availableItems = Object.values(answers).filter((item) => item !== "");
+    availableItems.forEach((item) => {
+      const index = initialStack.indexOf(item);
+      if (index !== -1) {
+        initialStack.splice(index, 1);
+      }
+    });
+    return initialStack;
+  }
+
+  const stack = getStack();
 
   function handleDragEnd(event) {
     const { active, over } = event;
     if (!over) return;
 
-    // Get the index from the droppable ID (removing 'drop-' prefix)
-    const dropIndex = parseInt(over.id.replace("drop-", ""));
+    const activeIdArray = active.id.split("_");
+    const dropIndex = parseInt(over.id.replace("drop_", ""));
+    const newAnswers = { ...answers }; // Create a copy of current answers
 
-    // If dragging from an answer spot, clear that spot first
-    Object.entries(answers).forEach(([index, value]) => {
-      if (value === active.id) {
-        handleAnswerChange(index, "");
-      }
-    });
+    // if word is picked from a sentence, remove it from the sentence
+    if (activeIdArray[0] === "sentence") {
+      const oldIndex = parseInt(activeIdArray[1]);
+      newAnswers[oldIndex] = "";
+    }
 
-    // Update the new position
-    handleAnswerChange(dropIndex, active.id);
+    newAnswers[dropIndex] = activeIdArray[activeIdArray.length - 1];
+    handleAnswerChange(newAnswers);
   }
 
   function getScore() {
@@ -57,9 +68,12 @@ function FillInput({
         <h2>{questionData.title}</h2>
         {/* ______   stack  ___________ */}
         <div className="draggable-stack">
-          {stack.map((text) =>
+          {stack.map((text, sindex) =>
             submitted === "" ? (
-              <Draggable key={text} id={text}>
+              <Draggable
+                key={"stack_" + String(sindex) + "_" + text}
+                id={"stack_" + String(sindex) + "_" + text}
+              >
                 <div className="drag-item draggable">
                   <p className="drag-text">{text}</p>
                 </div>
@@ -80,13 +94,23 @@ function FillInput({
                   <div className="text">{parts[0]}</div>
                   {/* How to display before submitting */}
                   {submitted === "" && (
-                    <Droppable id={`drop-${paragraphIndex}`}>
+                    <Droppable id={`drop_${paragraphIndex}`}>
                       {answers[paragraphIndex] === "" ? (
                         <div className="empty-space"></div>
                       ) : (
                         <Draggable
-                          key={answers[paragraphIndex]}
-                          id={answers[paragraphIndex]}
+                          key={
+                            "sentence_" +
+                            String(paragraphIndex) +
+                            "_" +
+                            answers[paragraphIndex]
+                          }
+                          id={
+                            "sentence_" +
+                            String(paragraphIndex) +
+                            "_" +
+                            answers[paragraphIndex]
+                          }
                         >
                           <div className={"drag-item draggable"}>
                             <p className="drag-text">
