@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/index.css";
+import "../styles/login-page.css";
 import { playlevelpassed } from "../hooks/handleSoundEffects.jsx";
 
 export default function Login() {
@@ -32,7 +32,7 @@ export default function Login() {
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your name"
         />
-        <button className="general-button" type="submit">
+        <button className="login-button" type="submit">
           Login
         </button>
       </form>

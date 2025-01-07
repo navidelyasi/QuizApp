@@ -14,6 +14,7 @@ import {
   playlevelpassed,
   playnotification2,
 } from "../hooks/handleSoundEffects.jsx";
+import "../styles/login-page.css";
 import "../styles/index.css";
 import "../styles/quiz-page.css";
 import { FaPaperPlane, FaStepBackward, FaStepForward } from "react-icons/fa";
@@ -37,7 +38,7 @@ export default function QuizPage() {
         <h1 className="login-title">It is not available yet</h1>
         <h1 className="login-title">Comming soon</h1>
         <button
-          className="general-button"
+          className="login-button"
           onClick={() => {
             playnotification2();
             navigate("/menu");
@@ -304,7 +305,7 @@ export default function QuizPage() {
               className={`general-button ${questionId === i ? "active" : ""}`}
               onClick={() => setQuestionId(i)}
             >
-              {document.documentElement.clientWidth > 768 ? "Question " : ""}{" "}
+              {document.documentElement.clientWidth > 768 ? "Question " : ""}
               {i + 1}
             </button>
           ))}

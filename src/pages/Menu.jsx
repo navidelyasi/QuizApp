@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
 import { FaCheck, FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
-import "../styles/index.css";
+import "../styles/menu-page.css";
 
 export default function Menu() {
   const [status, setStatus] = useState(null);
@@ -73,26 +73,29 @@ export default function Menu() {
       <div className="quiz-buttons">
         <div className="general-text">Kids:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div className="button-group">
-            <button
-              className="general-button practice-button left-button"
-              key={"practice_" + id}
-              onClick={() => handleQuizClick(id, "practice_kids")}
-            >
-              Practice Unit {id}
-            </button>
-            <button
-              className={`general-button right-button ${
-                status && status.includes(`kids_${id}`) && "done"
-              }`}
-              key={"quiz_" + id}
-              onClick={() => handleQuizClick(id, "quiz_kids")}
-            >
-              <div className="button-content">
-                Quiz Unit {id}
-                {status && status.includes(`kids_${id}`) && <FaCheck />}
-              </div>
-            </button>
+          <div className="unit-card">
+            unit {id}
+            <div className="menu-button-group">
+              <button
+                className="menu-button practice-button top-button"
+                key={"practice_" + id}
+                onClick={() => handleQuizClick(id, "practice_kids")}
+              >
+                Practice
+              </button>
+              <button
+                className={`menu-button bottom-button ${
+                  status && status.includes(`kids_${id}`) && "done"
+                }`}
+                key={"quiz_" + id}
+                onClick={() => handleQuizClick(id, "quiz_kids")}
+              >
+                <div className="menu-button-content">
+                  Quiz
+                  {status && status.includes(`kids_${id}`) && <FaCheck />}
+                </div>
+              </button>
+            </div>
           </div>
         ))}
       </div>
@@ -100,39 +103,42 @@ export default function Menu() {
       <div className="quiz-buttons">
         <div className="general-text">Adults:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div className="button-group">
-            <button
-              className="general-button practice-button left-button"
-              key={"practice_" + id}
-              onClick={() => handleQuizClick(id, "practice_adults")}
-            >
-              Practice Unit {id}
-            </button>
-            <button
-              className={`general-button right-button ${
-                status && status.includes(`adults_${id}`) && "done"
-              }`}
-              key={"quiz_" + id}
-              onClick={() => handleQuizClick(id, "quiz_adults")}
-            >
-              <div className="button-content">
-                Quiz Unit {id}
-                {status && status.includes(`adults_${id}`) && <FaCheck />}
-              </div>
-            </button>
+          <div className="unit-card">
+            unit {id}
+            <div className="menu-button-group">
+              <button
+                className="menu-button practice-button top-button"
+                key={"practice_" + id}
+                onClick={() => handleQuizClick(id, "practice_adults")}
+              >
+                Practice
+              </button>
+              <button
+                className={`menu-button bottom-button ${
+                  status && status.includes(`adults_${id}`) && "done"
+                }`}
+                key={"quiz_" + id}
+                onClick={() => handleQuizClick(id, "quiz_adults")}
+              >
+                <div className="menu-button-content">
+                  Quiz
+                  {status && status.includes(`adults_${id}`) && <FaCheck />}
+                </div>
+              </button>
+            </div>
           </div>
         ))}
       </div>
-      {/* _______________________ Footer _______________________ */}
+      {/* _______________________ logout _______________________ */}
       <div className="general-text">Thanks for visiting us</div>
       <button
-        className="general-button"
+        className="logout-button"
         onClick={() => {
           localStorage.removeItem("username");
           navigate("/login");
         }}
       >
-        <div className="button-content">
+        <div className="menu-button-content">
           <FaSignOutAlt style={{ marginRight: "5px" }} />
           Logout
         </div>

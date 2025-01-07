@@ -50,10 +50,11 @@
 
 .drag-text {
   margin: 0;
-  text-align: center;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .drag-item.fixed {
