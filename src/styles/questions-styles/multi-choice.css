@@ -20,7 +20,7 @@
 .sub-question-item {
   background-color: var(--color-xdark);
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 12px;
   display: block;
 }
 

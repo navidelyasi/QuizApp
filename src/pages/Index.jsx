@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/index-page.css";
+import "../styles/pages-styles/index-page.css";
 
 export default function Index() {
   const navigate = useNavigate();

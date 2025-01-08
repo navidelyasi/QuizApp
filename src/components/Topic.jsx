@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import VirtualKeyboard from "./subComponents/VirtualKeyboard";
-import "../styles/topic.css";
+import "../styles/questions-styles/topic.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
@@ -8,6 +8,7 @@ import "../styles/topic.css";
 // _____ handleAnswerChange _____ is a function that updates the answers in the parent component
 // _____ handleAnswerChange(value)
 function Topic({ quizId, questionData, answers, handleAnswerChange }) {
+  const quizIdArray = quizId.split("_");
   const [isShowKeyboard, setIsShowKeyboard] = useState(true);
   const activeInputRef = useRef(null);
 
@@ -61,11 +62,17 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
         {/* _________________ show picture ? ______________ */}
         {questionData.picture !== "no" && (
           <img
-            src={`/pictures/${quizId}/${questionData.picture}.png`}
+            src={`/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
+              questionData.picture
+            }.png`}
             alt={questionData.picture}
             className="question-picture"
             onClick={() =>
-              openPicture(`/pictures/${quizId}/${questionData.picture}.png`)
+              openPicture(
+                `/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
+                  questionData.picture
+                }.png`
+              )
             }
           />
         )}

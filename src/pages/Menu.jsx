@@ -2,20 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
+import { useAuth } from "../hooks/AuthContext.jsx";
 import { FaCheck, FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
-import "../styles/menu-page.css";
+import "../styles/pages-styles/menu-page.css";
 
 export default function Menu() {
+  const { currentUser, logout, loading } = useAuth();
+  if (loading) return null;
+  const username = currentUser.email;
   const [status, setStatus] = useState(null);
   const navigate = useNavigate();
-  const username = localStorage.getItem("username");
-  if (!username) navigate("/login");
 
   useEffect(() => {
     const completedQuizzes =
       JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
     if (completedQuizzes.length === 0) {
-      // getQuizzesStatus();
+      getQuizzesStatus();
       setStatus(completedQuizzes);
     } else {
       setStatus(completedQuizzes);
@@ -54,13 +56,17 @@ export default function Menu() {
     }
   }
 
+  async function handleLogout() {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.log("ERROR in logout (from menu page) : ", error);
+    }
+  }
+
   return (
     <div className="main-menu-container">
-      {status === null && (
-        <div className="overlay-content">
-          <div className="general-text">Loading ...</div>
-        </div>
-      )}
       <div className="general-text">
         Welcome, {username}!
         <FaUser style={{ marginRight: "5px" }} />
@@ -71,9 +77,9 @@ export default function Menu() {
       </div>
       {/* _______________________ Kids  _______________________ */}
       <div className="quiz-buttons">
-        <div className="general-text">Kids:</div>
+        <div className="title-text">Kids:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div className="unit-card">
+          <div key={"kids_" + id} className="unit-card">
             unit {id}
             <div className="menu-button-group">
               <button
@@ -101,9 +107,9 @@ export default function Menu() {
       </div>
       {/* _______________________ Adults  _______________________ */}
       <div className="quiz-buttons">
-        <div className="general-text">Adults:</div>
+        <div className="title-text">Adults:</div>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div className="unit-card">
+          <div key={"adults_" + id} className="unit-card">
             unit {id}
             <div className="menu-button-group">
               <button
@@ -131,18 +137,18 @@ export default function Menu() {
       </div>
       {/* _______________________ logout _______________________ */}
       <div className="general-text">Thanks for visiting us</div>
-      <button
-        className="logout-button"
-        onClick={() => {
-          localStorage.removeItem("username");
-          navigate("/login");
-        }}
-      >
+      <button className="logout-button" onClick={handleLogout}>
         <div className="menu-button-content">
           <FaSignOutAlt style={{ marginRight: "5px" }} />
           Logout
         </div>
       </button>
+      {/* _______________________ Loading  _______________________ */}
+      {status === null && (
+        <div className="overlay-content">
+          <div className="general-text">Loading ...</div>
+        </div>
+      )}
     </div>
   );
 }

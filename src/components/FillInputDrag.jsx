@@ -2,7 +2,7 @@ import React from "react";
 import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
-import "../styles/fill-input.css";
+import "../styles/questions-styles/fill-input.css";
 import "../styles/sub-styles/drag.css";
 
 // _____ quizId _____ is like "adults_3"

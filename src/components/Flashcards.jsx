@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/flashcards.css";
+import "../styles/questions-styles/flashcards.css";
 import { playinterface12 } from "../hooks/handleSoundEffects";
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object

@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/multi-choice.css";
+import "../styles/questions-styles/multi-choice.css";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
 
 // _____ quizId _____ is like "adults_3"

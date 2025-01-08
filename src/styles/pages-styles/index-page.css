@@ -27,7 +27,7 @@
 .index-button {
   background-color: var(--color-dark);
   border: 1px solid var(--color-dark);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -53,7 +53,7 @@
 .index-picture {
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 12px;
   object-fit: contain;
   max-height: 200px;
 }

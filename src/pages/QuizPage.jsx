@@ -14,9 +14,9 @@ import {
   playlevelpassed,
   playnotification2,
 } from "../hooks/handleSoundEffects.jsx";
-import "../styles/login-page.css";
-import "../styles/index.css";
-import "../styles/quiz-page.css";
+import "../styles/pages-styles/login-page.css";
+import "../styles/pages-styles/index.css";
+import "../styles/pages-styles/quiz-page.css";
 import { FaPaperPlane, FaStepBackward, FaStepForward } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 

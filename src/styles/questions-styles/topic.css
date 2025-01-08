@@ -12,7 +12,7 @@
 .question-picture {
   width: 400px;
   height: auto;
-  border-radius: 5px;
+  border-radius: 8px;
   margin: 20px;
   cursor: pointer;
 }
@@ -77,9 +77,15 @@
 .sub-title {
   color: var(--color-primary);
   margin: 5px;
-  float: right;
   font-size: var(--font-size-medium);
   white-space: nowrap;
+}
+.short .sub-title {
+  margin-left: auto;
+}
+
+.sub-question:not(.short) .sub-title {
+  float: right;
 }
 
 .answer-box {
