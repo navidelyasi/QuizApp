@@ -4,6 +4,7 @@ import { playinterface12 } from "../hooks/handleSoundEffects";
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
 function Flashcards({ quizId, questionData }) {
+  const quizIdArray = quizId.split("_");
   const [isFlipped, setIsFlipped] = useState(
     new Array(questionData.data.length).fill(false)
   );
@@ -30,7 +31,7 @@ function Flashcards({ quizId, questionData }) {
             <div className="flashcard-inner">
               <div className="flashcard-front">
                 <img
-                  src={`/pictures/${quizId}/${card.tag}.png`}
+                  src={`/pictures/${quizIdArray[1]}_${quizIdArray[2]}/${card.tag}.png`}
                   alt={card.tag}
                 />
               </div>

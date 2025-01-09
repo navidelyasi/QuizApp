@@ -27,13 +27,6 @@ export default function Login() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    const userName = localStorage.getItem("username");
-    if (userName) {
-      navigate("/menu");
-    }
-  }, []);
-
   return (
     <div className="login-container">
       <h1 className="login-title">Login Page</h1>

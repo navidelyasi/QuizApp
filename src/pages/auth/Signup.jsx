@@ -11,7 +11,7 @@ export default function Signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
-  const { signup } = useAuth();
+  const { signup, sendVerificationEmail } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +24,12 @@ export default function Signup() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
-      navigate("/menu");
+      const result = await signup(
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+      await sendVerificationEmail(result.user);
+      navigate("/verify-email");
     } catch (error) {
       setError(error.message);
     }

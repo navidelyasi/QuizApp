@@ -10,6 +10,8 @@ import SentenceMaking from "../components/SentenceMaking.jsx";
 import Timer from "../components/subComponents/Timer.jsx";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
+import { useAuth } from "../hooks/AuthContext.jsx";
+import { useQuiz } from "../hooks/QuizContext.jsx";
 import {
   playlevelpassed,
   playnotification2,
@@ -23,14 +25,14 @@ import { ImExit } from "react-icons/im";
 export default function QuizPage() {
   const navigate = useNavigate();
   const { quizId } = useParams();
-  const username = localStorage.getItem("username");
-  if (!username) navigate("/login");
+  const { saveQuizAnswers, getQuizAnswers, markQuizCompleted } = useQuiz();
+  const { currentUser } = useAuth();
+  const username = currentUser.email;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);
   const quiz = quizData[quizId];
   const quizOrPractice = quizId.split("_")[0];
-
   // if quiz is not available, show a message
   if (!quiz)
     return (
@@ -110,10 +112,8 @@ export default function QuizPage() {
   };
 
   const [answers, setAnswers] = useState(() => {
-    // load answers data from local storage if it is available
-    // it is something like:_________ quiz_adults_3_answers_navid
-    const localAnswers = localStorage.getItem(`${quizId}_answers_${username}`);
-    return localAnswers ? JSON.parse(localAnswers) : generateInitialAnswers();
+    const savedAnswers = getQuizAnswers(quizId, username);
+    return savedAnswers || generateInitialAnswers();
   });
 
   const handleAnswerChange = useCallback(
@@ -135,71 +135,46 @@ export default function QuizPage() {
       const userDoc = doc(db, "quiz-answers", username);
       const userDocSnap = await getDoc(userDoc);
 
-      // if (userDocSnap.exists()) {
-      //   const userData = userDocSnap.data();
-      //   const existingSubmissions = userData[quizId] || [];
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        const existingSubmissions = userData[quizId] || [];
 
-      //   // Create new submission object
-      //   const newSubmission = {
-      //     answers,
-      //     timeSpent: formatTime(totalTimeSpent),
-      //     date: new Date().toLocaleDateString(),
-      //   };
+        const newSubmission = {
+          answers,
+          timeSpent: formatTime(totalTimeSpent),
+          date: new Date().toLocaleDateString(),
+        };
 
-      //   // Add new submission to beginning of array
-      //   const updatedSubmissions = [newSubmission, ...existingSubmissions];
+        const updatedSubmissions = [newSubmission, ...existingSubmissions];
 
-      //   // Update document with new array of submissions
-      //   await updateDoc(userDoc, {
-      //     [quizId]: updatedSubmissions,
-      //   });
-      // } else {
-      //   // If document doesn't exist, create it with first submission
-      //   await setDoc(userDoc, {
-      //     [quizId]: [
-      //       {
-      //         answers,
-      //         timeSpent: formatTime(totalTimeSpent),
-      //         date: new Date().toLocaleDateString(),
-      //       },
-      //     ],
-      //   });
-      // }
-      const completedQuizzes =
-        JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
-      if (!completedQuizzes.includes(quizId)) {
-        localStorage.setItem(
-          `${username}_quizzes_completed`,
-          JSON.stringify([...completedQuizzes, quizId])
-        );
+        await updateDoc(userDoc, {
+          [quizId]: updatedSubmissions,
+        });
+      } else {
+        await setDoc(userDoc, {
+          [quizId]: [
+            {
+              answers,
+              timeSpent: formatTime(totalTimeSpent),
+              date: new Date().toLocaleDateString(),
+            },
+          ],
+        });
       }
-
-      localStorage.removeItem(`${quizId}_answers_${username}`);
+      markQuizCompleted(quizId);
     } catch (error) {
       console.log("ERROR in firebase connection (from quiz page) : ", error);
     }
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      playlevelpassed();
-      navigate("/menu");
-    }, 300);
+    setIsSubmitting(false);
+    playlevelpassed();
+    navigate("/menu");
   };
 
-  // save answers in localStorage and navigates to menu
   const handleQuit = () => {
-    setIsSubmitting(true);
-
-    localStorage.setItem(
-      `${quizId}_answers_${username}`,
-      JSON.stringify(answers)
-    );
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      playlevelpassed();
-      navigate("/menu");
-    }, 300);
+    playlevelpassed();
+    saveQuizAnswers(quizId, username, answers);
+    navigate("/menu");
   };
 
   const handleSubmitOneQuestion = useCallback(

@@ -18,4 +18,9 @@ Components: (question types)
 ### Added
 
 - responsive design
--
+
+## [1.1.0] - 2025-01-09
+
+- added authentication with Email and Password
+- added verified email check
+- a huge CSS changes

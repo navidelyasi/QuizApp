@@ -1,6 +1,7 @@
 # Quiz App
 
 This App enables users to practice persian language.
+Users can create free account with email and password.
 Users can practice a unit of topics and take the quiz on each topic.
 Users can submit their answers to our database and see their progress.
 

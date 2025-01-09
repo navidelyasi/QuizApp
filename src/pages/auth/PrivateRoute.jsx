@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext.jsx";
 import "../../styles/pages-styles/index.css";
@@ -15,5 +14,9 @@ export default function PrivateRoute({ children }) {
       </div>
     );
 
-  return currentUser ? children : <Navigate to="/login" />;
+  if (!currentUser) return <Navigate to="/login" />;
+
+  if (!currentUser.emailVerified) return <Navigate to="/verify-email" />;
+
+  return children;
 }

@@ -1,14 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "./initFirebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   sendPasswordResetEmail,
+  sendEmailVerification,
+  reload,
   signOut,
 } from "firebase/auth";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -16,8 +18,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [firebaseUser, setFirebaseUser] = useState(null);
 
   // ____________________ initial steps ____________________
   useEffect(() => {
@@ -26,11 +28,15 @@ export function AuthProvider({ children }) {
   }, []);
   async function initializeUser(user) {
     if (user) {
-      setCurrentUser({ ...user });
-      setUserLoggedIn(true);
+      setFirebaseUser(user);
+      setCurrentUser({
+        email: user.email,
+        emailVerified: user.emailVerified,
+        uid: user.uid,
+      });
     } else {
+      setFirebaseUser(null);
       setCurrentUser(null);
-      setUserLoggedIn(false);
     }
     setLoading(false);
   }
@@ -48,16 +54,38 @@ export function AuthProvider({ children }) {
   function logout() {
     return signOut(auth);
   }
+  async function sendVerificationEmail() {
+    try {
+      if (auth.currentUser) {
+        // Use auth.currentUser
+        await sendEmailVerification(auth.currentUser);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async function reloadUser() {
+    if (firebaseUser) {
+      await reload(firebaseUser);
+      setCurrentUser({
+        email: firebaseUser.email,
+        emailVerified: firebaseUser.emailVerified,
+        uid: firebaseUser.uid,
+      });
+    }
+  }
 
   // _______________ return steps_______________
   const value = {
     currentUser,
     setCurrentUser,
-    userLoggedIn,
+    loading,
     signup,
     login,
     logout,
     resetPassword,
+    sendVerificationEmail,
+    reloadUser,
   };
 
   return (

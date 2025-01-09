@@ -3,26 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
 import { useAuth } from "../hooks/AuthContext.jsx";
+import { useQuiz } from "../hooks/QuizContext.jsx";
 import { FaCheck, FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
 import "../styles/pages-styles/menu-page.css";
 
 export default function Menu() {
-  const { currentUser, logout, loading } = useAuth();
-  if (loading) return null;
+  const { currentUser, logout } = useAuth();
+  const { completedQuizzes } = useQuiz();
+
   const username = currentUser.email;
   const [status, setStatus] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const completedQuizzes =
-      JSON.parse(localStorage.getItem(`${username}_quizzes_completed`)) || [];
     if (completedQuizzes.length === 0) {
       getQuizzesStatus();
-      setStatus(completedQuizzes);
     } else {
       setStatus(completedQuizzes);
     }
-  }, []);
+  }, [completedQuizzes]);
 
   const getQuizzesStatus = async () => {
     try {
@@ -32,15 +31,11 @@ export default function Menu() {
         const data = userDocSnap.data();
         const __status = Object.keys(data);
         setStatus(__status);
-        localStorage.setItem(
-          `${username}_quizzes_completed`,
-          JSON.stringify(__status)
-        );
       } else {
         setStatus([]);
       }
     } catch (error) {
-      console.log("ERROR in firebase connection (from menu page) : ", error);
+      setStatus([]);
     }
   };
 
@@ -91,7 +86,7 @@ export default function Menu() {
               </button>
               <button
                 className={`menu-button bottom-button ${
-                  status && status.includes(`kids_${id}`) && "done"
+                  status && status.includes(`quiz_kids_${id}`) && "done"
                 }`}
                 key={"quiz_" + id}
                 onClick={() => handleQuizClick(id, "quiz_kids")}
@@ -121,14 +116,16 @@ export default function Menu() {
               </button>
               <button
                 className={`menu-button bottom-button ${
-                  status && status.includes(`adults_${id}`) && "done"
+                  status && status.includes(`quiz_adults_${id}`) && "done"
                 }`}
                 key={"quiz_" + id}
                 onClick={() => handleQuizClick(id, "quiz_adults")}
               >
                 <div className="menu-button-content">
                   Quiz
-                  {status && status.includes(`adults_${id}`) && <FaCheck />}
+                  {status && status.includes(`quiz_adults_${id}`) && (
+                    <FaCheck style={{ color: "var(--color-dark)" }} />
+                  )}
                 </div>
               </button>
             </div>

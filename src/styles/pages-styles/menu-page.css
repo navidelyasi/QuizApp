@@ -79,7 +79,7 @@
 }
 
 .menu-button.done {
-  background-color: var(--color-primary);
+  background-color: var(--color-success);
   color: var(--color-xdark);
 }
 
@@ -121,12 +121,12 @@
   color: var(--color-dark);
   font-size: var(--font-size-medium);
   border-radius: 8px;
-  padding: 5px;
-  margin: 5px;
+  padding: 1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: default;
   z-index: 3000;
 }
 
