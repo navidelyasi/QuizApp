@@ -30,10 +30,14 @@ function Flashcards({ quizId, questionData }) {
           <div className={`flashcard ${isFlipped[cardIndex] ? "flipped" : ""}`}>
             <div className="flashcard-inner">
               <div className="flashcard-front">
-                <img
-                  src={`/pictures/${quizIdArray[1]}_${quizIdArray[2]}/${card.tag}.png`}
-                  alt={card.tag}
-                />
+                {questionData.picture ? (
+                  <img
+                    src={`/pictures/${quizIdArray[1]}_${quizIdArray[2]}/${card.tag}.png`}
+                    alt={card.tag}
+                  />
+                ) : (
+                  <h3>{card.tag}</h3>
+                )}
               </div>
               <div className="flashcard-back">
                 <h2>{card.back}</h2>

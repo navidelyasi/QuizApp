@@ -23,18 +23,21 @@ export function AuthProvider({ children }) {
 
   // ____________________ initial steps ____________________
   useEffect(() => {
+    console.log("AuthProvider:  _ _ _ initializing user");
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
     return unsubscribe;
   }, []);
   async function initializeUser(user) {
     if (user) {
       setFirebaseUser(user);
+      console.log("AuthProvider:  _ _ _ user is available ,", user);
       setCurrentUser({
         email: user.email,
         emailVerified: user.emailVerified,
         uid: user.uid,
       });
     } else {
+      console.log("AuthProvider:  _ _ _ user is not available ");
       setFirebaseUser(null);
       setCurrentUser(null);
     }

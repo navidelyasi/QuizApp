@@ -12,7 +12,7 @@
   margin-bottom: 40px;
   color: white;
   font-size: var(--font-size-xlarge);
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .index-content {
@@ -40,7 +40,7 @@
   height: 300px;
   color: #2600ff;
   font-size: var(--font-size-large);
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .index-button:hover {
