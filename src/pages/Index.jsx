@@ -12,12 +12,7 @@ export default function Index() {
         <button
           className="index-button"
           onClick={() => {
-            const link = document.createElement("a");
-            link.href = "/pictures/general/cv.png";
-            link.download = "Navid_Elyasi_CV.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            navigate("/cv");
           }}
         >
           My CV
@@ -29,11 +24,19 @@ export default function Index() {
         </button>
         <button className="index-button" onClick={() => navigate("/login")}>
           See the Quiz App
-          <img
-            src="/pictures/general/quiz.png"
-            alt="quiz icon"
-            className="index-picture"
-          />
+          <li style={{ fontSize: "0.9rem" }}>
+            This App enables users to practice persian language.
+          </li>
+          <li style={{ fontSize: "0.9rem" }}>
+            Users can create free account with email and password.
+          </li>
+          <li style={{ fontSize: "0.9rem" }}>
+            Users can practice a unit of topics and take the quiz on each topic.
+          </li>
+          <li style={{ fontSize: "0.9rem" }}>
+            Users can submit their answers to our database and see their
+            progress.
+          </li>
         </button>
       </div>
     </div>

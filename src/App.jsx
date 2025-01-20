@@ -7,6 +7,7 @@ import PrivateRoute from "./pages/auth/PrivateRoute.jsx";
 import Menu from "./pages/Menu.jsx";
 import QuizPage from "./pages/QuizPage.jsx";
 import Index from "./pages/Index.jsx";
+import Profile from "./pages/Profile.jsx";
 import { AuthProvider } from "./hooks/AuthContext.jsx";
 import { QuizProvider } from "./hooks/QuizContext.jsx";
 
@@ -17,6 +18,7 @@ export default function App() {
         <QuizProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/cv" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

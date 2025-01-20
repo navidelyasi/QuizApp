@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthContext.jsx";
 import { playlevelpassed } from "../../hooks/handleSoundEffects.jsx";
@@ -30,6 +30,9 @@ export default function Login() {
   return (
     <div className="login-container">
       <h1 className="login-title">Login Page</h1>
+      <h2 className="login-info">If you are visiting website to test, use:</h2>
+      <h2 className="login-info">email: navide@me.com</h2>
+      <h2 className="login-info">pass: navid123</h2>
       {error && <p className="error-message">{error}</p>}
       <form className="login-form" onSubmit={handleSubmit}>
         <input
