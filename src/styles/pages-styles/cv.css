@@ -29,7 +29,7 @@ ul {
   margin: 5px 0;
 }
 
-.exit-button {
+.profile-exit-button {
   position: fixed;
   top: 10px;
   right: 10px;
@@ -40,7 +40,7 @@ ul {
   color: var(--color-red);
 }
 
-.exit-button:hover {
+.profile-exit-button:hover {
   background-color: var(--color-red);
   color: var(--color-xdark);
 }

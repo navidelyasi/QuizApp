@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
+import Sound from "./subComponents/Sound";
 import "../styles/sub-styles/drag.css";
 import "../styles/questions-styles/topic.css";
 
@@ -95,6 +96,7 @@ function TopicDrag({
           <div className="titles">
             <div className="question-title">{questionData.title1}</div>
             <div className="question-title">{questionData.title2}</div>
+            {questionData.sound && <Sound soundSrc={questionData.sound} />}
             {questionData.picture !== "no" && (
               <div className="question-title">
                 click on the picture to see the picture bigger :)

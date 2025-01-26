@@ -2,6 +2,7 @@ import React from "react";
 import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
+import Sound from "./subComponents/Sound";
 import "../styles/questions-styles/fill-input.css";
 import "../styles/sub-styles/drag.css";
 
@@ -66,6 +67,7 @@ function FillInput({
     <div className="fill-input-container">
       <DndContext onDragEnd={handleDragEnd}>
         <h2>{questionData.title}</h2>
+        {questionData.sound && <Sound soundSrc={questionData.sound} />}
         {/* ______   stack  ___________ */}
         <div className="draggable-stack">
           {stack.map((text, sindex) =>

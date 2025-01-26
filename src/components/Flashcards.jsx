@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../styles/questions-styles/flashcards.css";
-import { playinterface12 } from "../hooks/handleSoundEffects";
+import Sound from "./subComponents/Sound";
+import { playSound } from "../hooks/handleSoundEffects";
+
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
 function Flashcards({ quizId, questionData }) {
@@ -10,7 +12,9 @@ function Flashcards({ quizId, questionData }) {
   );
 
   const handleFlip = (index) => {
-    playinterface12();
+    if (questionData.data[index].sound) {
+      playSound(questionData.data[index].sound);
+    }
     setIsFlipped((prev) => {
       const newFlipped = [...prev];
       newFlipped[index] = !newFlipped[index];
@@ -21,6 +25,7 @@ function Flashcards({ quizId, questionData }) {
   return (
     <div className="card-question-container">
       <div className="card-question-title">{questionData.title}</div>
+      {questionData.sound && <Sound soundSrc={questionData.sound} />}
       {questionData.data.map((card, cardIndex) => (
         <div
           className="card-content"

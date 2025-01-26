@@ -235,7 +235,7 @@ function Profile() {
       </ul>
 
       <button
-        className="exit-button"
+        className="profile-exit-button"
         onClick={() => {
           navigate("/");
         }}

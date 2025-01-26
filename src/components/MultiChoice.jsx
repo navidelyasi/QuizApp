@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/questions-styles/multi-choice.css";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
+import Sound from "./subComponents/Sound";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
@@ -71,6 +72,7 @@ function MultiChoice({
   return (
     <div className="multi-question">
       <h2>{questionData?.title}</h2>
+      {questionData.sound && <Sound soundSrc={questionData.sound} />}
       <div className="sub-questions-container">
         {questionData.data.map((subQuestion, index) => (
           <div key={subQuestion.chid} className="sub-question-item">

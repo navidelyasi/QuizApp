@@ -24,3 +24,11 @@ Components: (question types)
 - added authentication with Email and Password
 - added verified email check
 - a huge CSS changes
+
+## [1.2.0] - 2025-01-26
+
+- Added CV page
+- Added login test info
+- Added sound to questions
+- Added icon for app
+- App icon

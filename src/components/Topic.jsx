@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import VirtualKeyboard from "./subComponents/VirtualKeyboard";
+import Sound from "./subComponents/Sound";
 import "../styles/questions-styles/topic.css";
 
 // _____ quizId _____ is like "adults_3"
@@ -80,6 +81,7 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
         <div className="titles">
           <div className="question-title">{questionData.title1}</div>
           <div className="question-title">{questionData.title2}</div>
+          {questionData.sound && <Sound soundSrc={questionData.sound} />}
           {questionData.picture !== "no" && (
             <div className="question-title">
               click on the picture to see the picture bigger :)

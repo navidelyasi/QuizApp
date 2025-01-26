@@ -8,6 +8,11 @@ import notification2 from "../data/sounds/notification-2-125763.mp3";
 import notification4 from "../data/sounds/notification-4-126507.mp3";
 import wronganswer from "../data/sounds/wrong-answer-126515.mp3";
 
+export function playSound(soundSrc) {
+  const myAudio = new Audio(soundSrc);
+  myAudio.play();
+}
+
 export function playbrightnotification() {
   const myAudio = new Audio(brightnotification);
   playMyAudio(myAudio);

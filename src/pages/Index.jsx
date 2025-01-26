@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/pages-styles/index-page.css";
+import quizAppIcon from "/app-icon.svg";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function Index() {
         </button>
         <button className="index-button" onClick={() => navigate("/login")}>
           See the Quiz App
+          <img src={quizAppIcon} className="logo" alt="Vite logo" />
           <li style={{ fontSize: "0.9rem" }}>
             This App enables users to practice persian language.
           </li>
