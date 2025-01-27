@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DndContext } from "@dnd-kit/core";
 import { Draggable, Droppable } from "../hooks/useDragAndDrop";
 import QuestionActionButtons from "./subComponents/QuestionActionButtons";
 import Sound from "./subComponents/Sound";
+import { shuffleArray } from "../hooks/helpers";
 import "../styles/sub-styles/drag.css";
 import "../styles/questions-styles/topic.css";
 
@@ -20,12 +21,15 @@ function TopicDrag({
   handleAnswerChange,
   handleSubmitOneQuestion,
 }) {
+  const [stack, setStack] = useState([]);
   const quizIdArray = quizId.split("_");
   const submitted = answers[questionData.data.length];
-  const stack = questionData?.data
-    .filter((item) => !Object.values(answers).includes(item.correct))
-    .map((item) => item.correct)
-    .sort(() => Math.random() - 0.5);
+
+  // Initialize the stack by shuffling the initial items
+  useEffect(() => {
+    const initialStack = questionData?.data.map((item) => item.correct);
+    setStack(shuffleArray(initialStack));
+  }, [questionData]);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
@@ -49,11 +53,31 @@ function TopicDrag({
     // Get the index from the droppable ID (removing 'drop_' prefix)
     const dropIndex = parseInt(over.id.replace("drop_", ""));
 
+    if (String(dropIndex) === activeIdArray[1]) return;
+
     const newAnswers = { ...answers };
 
     if (activeIdArray[0] === "answer") {
       // if dragging from an answer spot, clear that spot first
       newAnswers[parseInt(activeIdArray[1])] = "";
+    }
+
+    // if word is picked from stack, remove it from the stack
+    if (activeIdArray[0] === "stack") {
+      setStack((prevStack) => {
+        const newStack = [...prevStack];
+        newStack.splice(parseInt(parseInt(activeIdArray[1])), 1);
+        return newStack;
+      });
+    }
+
+    // if droped over an available answer, we should put available answer back in the stack
+    if (answers[dropIndex] !== "") {
+      setStack((prevStack) => {
+        const newStack = [...prevStack];
+        newStack.push(answers[dropIndex]);
+        return newStack;
+      });
     }
 
     newAnswers[dropIndex] = activeIdArray[activeIdArray.length - 1];

@@ -1236,7 +1236,7 @@ export const quizData = {
       id: "pa1_2",
       type: "sentence-making",
       retry: true,
-      title1: "سوال اول. جمله بسازید",
+      title1: "سوال دوم. جمله بسازید",
       title2: "Question 1 - Make sentences",
       data: [
         {
@@ -1257,7 +1257,7 @@ export const quizData = {
         },
         {
           id: "a113",
-          text: ["،من هم خوبم", ".ممنونم", ":آروید", "ممنونی"],
+          text: ["،من هم خوبم", ".ممنونم", ":آروید", ".ممنونی"],
           correct: [":آروید", "،من هم خوبم", ".ممنونم"],
         },
       ],
@@ -1267,7 +1267,7 @@ export const quizData = {
       type: "fill_input",
       retry: true,
       title:
-        "سوال دوم. جای خالیِ گفت و گوهای زیر را به کمک کلمه های داده شده پر کنید",
+        "سوال سوم. جای خالیِ گفت و گوهای زیر را به کمک کلمه های داده شده پر کنید",
       data: [
         {
           text: " @@ شما چطور است؟",
@@ -1291,7 +1291,7 @@ export const quizData = {
       id: "pa1_4",
       type: "sentence-making",
       retry: true,
-      title1: "سوال سوم. جمله بسازید",
+      title1: "سوال چهارم. جمله بسازید",
       title2: "Question 3 - Make sentences",
       data: [
         {
@@ -1322,7 +1322,7 @@ export const quizData = {
       picture: "no",
       shortAnswers: true,
       title1:
-        "سوال چهارم. هر یک از ملیت های زیر را بخوانید و نام کشور موبوط به آن را بنویسید.",
+        "سوال پنجم. هر یک از ملیت های زیر را بخوانید و نام کشور موبوط به آن را بنویسید.",
       title2:
         "Question 4. Read each of the following nationalities and write the name of the country related to it.",
       data: [
@@ -1347,7 +1347,7 @@ export const quizData = {
       type: "multi_choice",
       retry: true,
       sound: "/sounds/pa1_6.mp3",
-      title: "سوال پنجم. جای خالی جمله های زیر را با ضمیر مناسب پر کنید",
+      title: "سوال ششم. جای خالی جمله های زیر را با ضمیر مناسب پر کنید",
       data: [
         {
           chid: 151,
@@ -1401,7 +1401,7 @@ export const quizData = {
           chid: 159,
           question: "انگلیسی هستند",
           answers: ["ما", "آنها", "شما"],
-          correct: 2,
+          correct: 1,
         },
         {
           chid: 160,
@@ -1415,7 +1415,7 @@ export const quizData = {
       id: "pa1_7",
       type: "fill_input",
       retry: true,
-      title: "سوال ششم. جای خالی جمله های زیر را با کلمه مناسب پر کنید",
+      title: "سوال هفتم. جای خالی جمله های زیر را با کلمه مناسب پر کنید",
       data: [
         { text: "،کیوان: سلام @@.  کیوان افشار هستم", correct: "من" },
         { text: "آندره: سلام ، من آندره گدار @@ .", correct: "هستم" },
@@ -1424,7 +1424,7 @@ export const quizData = {
         { text: "شما @@ هستید؟", correct: "کجایی" },
         { text: "آندره: من فرانسوی @@ .", correct: "هستم" },
         {
-          text: "کیوان: خب، از @@ با شما خوش وقتم. خدا حافظ.",
+          text: "کیوان: خب، از @@ با شما خوش وقتم. خدا حافظ",
           correct: "آشنایی",
         },
         { text: ":آندره @@", correct: "خدا حافظ" },
@@ -1436,7 +1436,7 @@ export const quizData = {
       retry: true,
       picture: "people6",
       shortAnswers: false,
-      title1: "سوال هفتم. هر یک از افراد در عکس را معرفی کنید.",
+      title1: "سوال هشتم. هر یک از افراد در عکس را معرفی کنید.",
       title2: "Question 7 - Introduce each person in the picture.",
       data: [
         {
@@ -1470,7 +1470,7 @@ export const quizData = {
       id: "pa1_9",
       type: "fill_input",
       retry: true,
-      title: "سوال هشتم. جملات را با هم مچ کنید.",
+      title: "سوال نهم. جملات را با هم مچ کنید.",
       data: [
         { text: "اهل کجایی؟ @@", correct: ".من اهل نروژم" },
         { text: "اسم تو چیه؟ @@", correct: "اسمت چیه؟" },
@@ -1484,7 +1484,7 @@ export const quizData = {
       id: "pa1_10",
       type: "fill_input",
       retry: true,
-      title: "سوال نهم. عبارت های زیر را با شکل نوشتاری آنها مچ کنید.",
+      title: "سوال دهم. عبارت های زیر را با شکل نوشتاری آنها مچ کنید.",
       data: [
         { text: "@@ .من هستم", correct: "منم" },
         { text: "@@ .تو هستی", correct: "تویی" },

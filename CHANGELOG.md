@@ -32,3 +32,4 @@ Components: (question types)
 - Added sound to questions
 - Added icon for app
 - App icon
+- sound to flashcards is added
