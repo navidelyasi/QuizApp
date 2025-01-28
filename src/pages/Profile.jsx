@@ -34,6 +34,21 @@ function Profile() {
         decision-making and fostering cross-functional collaboration to meet
         project objectives.
       </p>
+      <br />
+      <p>
+        Skilled in identifying and solving technical challenges to ensure that
+        solutions meet requirements. I contribute to maintaining documentation
+        and establishing best practices in development and integration, while
+        closely collaborating with customers and teams through workshops to
+        define requirements and achieve project goals.
+      </p>
+      <br />
+      <p>
+        I am also working on a web application (full stack) aimed at teaching
+        the Persian language. You can visit{" "}
+        <a href="https://navidelyasi.com/login">my application</a> for more
+        information.
+      </p>
       <h2 className="cv-title">Skills</h2>
       <h3>Soft Skills:</h3>
       <ul className="skills">
@@ -54,11 +69,13 @@ function Profile() {
         <li>MS Project</li>
         <li>Power BI</li>
         <li>Microsoft 365</li>
+        <li>SAP / ERP / CRM</li>
         <li>Microsoft Dynamics</li>
         <li>Microsoft Office</li>
         <li>Python</li>
         <li>JavaScript</li>
         <li>React JS</li>
+        <li>Express JS</li>
         <li>API / REST API</li>
         <li>Git</li>
         <li>SQL / MSSQL / PostgreSQL</li>
@@ -151,6 +168,22 @@ function Profile() {
           Organized customer databases, generated tailored reports, and provided
           actionable insights for clients.
         </li>
+        <li>
+          Customized applications within the Parseh Business Technology Platform
+          to meet specific customer and business needs.
+        </li>
+        <li>
+          Identified and resolved technical challenges to ensure that solutions
+          met requirements.
+        </li>
+        <li>
+          Participated in workshops and collaborated closely with customers and
+          teams to define requirements and project goals.
+        </li>
+        <li>
+          Maintained documentation and contributed to establishing best
+          practices in development and integration.
+        </li>
       </ul>
       <h3>
         Coordinator at Sepehr Service
@@ -185,41 +218,52 @@ function Profile() {
           alt="work-exp"
         />
       </h2>
+      <h3>
+        Master’s of Project Management at NTNU Trondheim / Norway
+        <span className="dates">
+          Aug 2020 – Dec 2022
+          <img
+            className="content-png"
+            src="/pictures/general/cal.png"
+            alt="work-exp"
+          />
+        </span>
+      </h3>
+
       <ul>
         <li>
-          Master’s of Project Management at NTNU Trondheim / Norway
-          <span className="dates">
-            Aug 2020 – Dec 2022
-            <img
-              className="content-png"
-              src="/pictures/general/cal.png"
-              alt="work-exp"
-            />
-          </span>
-        </li>
-        <li>
-          Master’s of Industrial Engineering at Tafresh University
-          <span className="dates">
-            Aug 2011 – June 2013
-            <img
-              className="content-png"
-              src="/pictures/general/cal.png"
-              alt="work-exp"
-            />
-          </span>
-        </li>
-        <li>
-          Bachelor of Industrial Engineering at Azad University
-          <span className="dates">
-            Aug 2007 – June 2011
-            <img
-              className="content-png"
-              src="/pictures/general/cal.png"
-              alt="work-exp"
-            />
-          </span>
+          worked on digital twins and their application in facility management
+          as part of my master’s thesis. This work resulted in a publication
+          presented at the{" "}
+          <a href="https://doi.org/10.1088/1755-1315/1176/1/012001">
+            NTNU Conference in May 2023.
+          </a>
         </li>
       </ul>
+
+      <h3>
+        Master’s of Industrial Engineering at Tafresh University
+        <span className="dates">
+          Aug 2011 – June 2013
+          <img
+            className="content-png"
+            src="/pictures/general/cal.png"
+            alt="work-exp"
+          />
+        </span>
+      </h3>
+      <h3>
+        Bachelor of Industrial Engineering at Azad University
+        <span className="dates">
+          Aug 2007 – June 2011
+          <img
+            className="content-png"
+            src="/pictures/general/cal.png"
+            alt="work-exp"
+          />
+        </span>
+      </h3>
+
       <h2 className="cv-title">Certificates</h2>
       <ul>
         <li>Agile Project Management</li>
@@ -233,7 +277,6 @@ function Profile() {
         <li>Norwegian (B2)</li>
         <li>Persian (Native)</li>
       </ul>
-
       <button
         className="profile-exit-button"
         onClick={() => {
