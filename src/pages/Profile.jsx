@@ -46,8 +46,7 @@ function Profile() {
       <p>
         I am also working on a web application (full stack) aimed at teaching
         the Persian language. You can visit{" "}
-        <a href="https://navidelyasi.com/login">my application</a> for more
-        information.
+        <a href="navidelyasi.com">my application</a> for more information.
       </p>
       <h2 className="cv-title">Skills</h2>
       <h3>Soft Skills:</h3>

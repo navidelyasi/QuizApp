@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import VirtualKeyboard from "./subComponents/VirtualKeyboard";
-import Sound from "./subComponents/Sound";
-import "../styles/questions-styles/topic.css";
+import VirtualKeyboard from "../subComponents/VirtualKeyboard";
+import Sound from "../subComponents/Sound";
+import "../../styles/questions-styles/topic.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object

@@ -4,10 +4,16 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";
 import { useAuth } from "../hooks/AuthContext.jsx";
 import { useQuiz } from "../hooks/QuizContext.jsx";
-import { FaCheck, FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
+import AdultsMenu from "../components/menu-components/AdultsMenu.jsx";
+import KidsMenu from "../components/menu-components/KidsMenu.jsx";
+import GamesMenu from "../components/menu-components/GamesMenu.jsx";
 import "../styles/pages-styles/menu-page.css";
+import { FaUser, FaSignOutAlt, FaStar } from "react-icons/fa";
 
 export default function Menu() {
+  const [activeTab, setActiveTab] = useState(
+    localStorage.getItem("activeTab") || "adults"
+  );
   const { currentUser, logout } = useAuth();
   const { completedQuizzes } = useQuiz();
 
@@ -39,18 +45,6 @@ export default function Menu() {
     }
   };
 
-  function handleQuizClick(id, type) {
-    if (type === "quiz_kids") {
-      navigate(`/quiz/quiz_kids_${id}`);
-    } else if (type === "quiz_adults") {
-      navigate(`/quiz/quiz_adults_${id}`);
-    } else if (type === "practice_kids") {
-      navigate(`/quiz/practice_kids_${id}`);
-    } else if (type === "practice_adults") {
-      navigate(`/quiz/practice_adults_${id}`);
-    }
-  }
-
   async function handleLogout() {
     try {
       await logout();
@@ -60,9 +54,44 @@ export default function Menu() {
     }
   }
 
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+    localStorage.setItem("activeTab", tab); // Save tab state
+  };
+
   return (
     <div className="main-menu-container">
-      <div className="general-text">
+      {/* Navbar */}
+      <nav className="menu-nav">
+        <button
+          className={`menu-nav-button ${
+            activeTab === "adults" ? "active" : ""
+          }`}
+          onClick={() => changeTab("adults")}
+        >
+          Adults
+        </button>
+        <button
+          className={`menu-nav-button ${activeTab === "kids" ? "active" : ""}`}
+          onClick={() => changeTab("kids")}
+        >
+          Kids
+        </button>
+        <button
+          className={`menu-nav-button ${activeTab === "games" ? "active" : ""}`}
+          onClick={() => changeTab("games")}
+        >
+          Games
+        </button>
+        {/* _______________________ logout _______________________ */}
+        <button className="logout-button" onClick={handleLogout}>
+          <div className="menu-button-content">
+            <FaSignOutAlt style={{ marginRight: "5px" }} />
+            Logout
+          </div>
+        </button>
+      </nav>
+      <div className="welcome-text">
         Welcome, {username}!
         <FaUser style={{ marginRight: "5px" }} />
         {status &&
@@ -70,76 +99,13 @@ export default function Menu() {
             <FaStar key={index} style={{ marginRight: "5px", color: "gold" }} />
           ))}
       </div>
-      {/* _______________________ Kids  _______________________ */}
-      <div className="quiz-buttons">
-        <div className="title-text">Kids:</div>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div key={"kids_" + id} className="unit-card">
-            unit {id}
-            <div className="menu-button-group">
-              <button
-                className="menu-button practice-button top-button"
-                key={"practice_" + id}
-                onClick={() => handleQuizClick(id, "practice_kids")}
-              >
-                Practice
-              </button>
-              <button
-                className={`menu-button bottom-button ${
-                  status && status.includes(`quiz_kids_${id}`) && "done"
-                }`}
-                key={"quiz_" + id}
-                onClick={() => handleQuizClick(id, "quiz_kids")}
-              >
-                <div className="menu-button-content">
-                  Quiz
-                  {status && status.includes(`kids_${id}`) && <FaCheck />}
-                </div>
-              </button>
-            </div>
-          </div>
-        ))}
+      {/* ___________________ Render the selected tab ___________________ */}
+      <div className="tab-content">
+        {activeTab === "adults" && <AdultsMenu status={status} />}
+        {activeTab === "kids" && <KidsMenu />}
+        {activeTab === "games" && <GamesMenu />}
       </div>
-      {/* _______________________ Adults  _______________________ */}
-      <div className="quiz-buttons">
-        <div className="title-text">Adults:</div>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => (
-          <div key={"adults_" + id} className="unit-card">
-            unit {id}
-            <div className="menu-button-group">
-              <button
-                className="menu-button practice-button top-button"
-                key={"practice_" + id}
-                onClick={() => handleQuizClick(id, "practice_adults")}
-              >
-                Practice
-              </button>
-              <button
-                className={`menu-button bottom-button ${
-                  status && status.includes(`quiz_adults_${id}`) && "done"
-                }`}
-                key={"quiz_" + id}
-                onClick={() => handleQuizClick(id, "quiz_adults")}
-              >
-                <div className="menu-button-content">
-                  Quiz
-                  {status && status.includes(`quiz_adults_${id}`) && (
-                    <FaCheck style={{ color: "var(--color-dark)" }} />
-                  )}
-                </div>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* _______________________ logout _______________________ */}
-      <div className="general-text">Thanks for visiting us</div>
-      <button className="logout-button" onClick={handleLogout}>
-        <div className="menu-button-content">
-          <FaSignOutAlt style={{ marginRight: "5px" }} />
-          Logout
-        </div>
-      </button>
+
       {/* _______________________ Loading  _______________________ */}
       {status === null && (
         <div className="overlay-content">

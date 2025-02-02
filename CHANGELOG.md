@@ -33,3 +33,8 @@ Components: (question types)
 - Added icon for app
 - App icon
 - sound to flashcards is added
+
+## [1.3.0] - 2025-02-02
+
+- Menu page uses tabs for kids, adults and game
+- some card game is added

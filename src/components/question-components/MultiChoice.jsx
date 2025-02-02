@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles/questions-styles/multi-choice.css";
-import QuestionActionButtons from "./subComponents/QuestionActionButtons";
-import Sound from "./subComponents/Sound";
+import QuestionActionButtons from "../subComponents/QuestionActionButtons";
+import Sound from "../subComponents/Sound";
+import "../../styles/questions-styles/multi-choice.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object

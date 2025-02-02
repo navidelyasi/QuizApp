@@ -6,6 +6,7 @@ import EmailVerification from "./pages/auth/EmailVerification.jsx";
 import PrivateRoute from "./pages/auth/PrivateRoute.jsx";
 import Menu from "./pages/Menu.jsx";
 import QuizPage from "./pages/QuizPage.jsx";
+import CardGame from "./components/game-components/CardGame.jsx";
 import Index from "./pages/Index.jsx";
 import Profile from "./pages/Profile.jsx";
 import { AuthProvider } from "./hooks/AuthContext.jsx";
@@ -36,6 +37,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <QuizPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/card-game/:id"
+              element={
+                <PrivateRoute>
+                  <CardGame />
                 </PrivateRoute>
               }
             />

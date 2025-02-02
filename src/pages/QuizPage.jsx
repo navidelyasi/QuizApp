@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { quizData } from "../data/quizData.js";
-import Flashcards from "../components/Flashcards.jsx";
-import FillInputDrag from "../components/FillInputDrag.jsx";
-import MultiChoice from "../components/MultiChoice.jsx";
-import Topic from "../components/Topic.jsx";
-import TopicDrag from "../components/TopicDrag.jsx";
-import SentenceMaking from "../components/SentenceMaking.jsx";
+import Flashcards from "../components/question-components/Flashcards.jsx";
+import FillInputDrag from "../components/question-components/FillInputDrag.jsx";
+import MultiChoice from "../components/question-components/MultiChoice.jsx";
+import Topic from "../components/question-components/Topic.jsx";
+import TopicDrag from "../components/question-components/TopicDrag.jsx";
+import SentenceMaking from "../components/question-components/SentenceMaking.jsx";
 import Timer from "../components/subComponents/Timer.jsx";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../hooks/initFirebase.jsx";

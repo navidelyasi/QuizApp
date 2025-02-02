@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DndContext } from "@dnd-kit/core";
-import { Draggable, Droppable } from "../hooks/useDragAndDrop";
-import QuestionActionButtons from "./subComponents/QuestionActionButtons";
-import Sound from "./subComponents/Sound";
-import { shuffleArray } from "../hooks/helpers";
-import "../styles/questions-styles/fill-input.css";
-import "../styles/sub-styles/drag.css";
+import { Draggable, Droppable } from "../../hooks/useDragAndDrop";
+import QuestionActionButtons from "../subComponents/QuestionActionButtons";
+import Sound from "../subComponents/Sound";
+import { shuffleArray } from "../../hooks/helpers";
+import "../../styles/questions-styles/fill-input.css";
+import "../../styles/sub-styles/drag.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object

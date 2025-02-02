@@ -1,10 +1,10 @@
 import React from "react";
 import { DndContext } from "@dnd-kit/core";
-import { Draggable, Droppable } from "../hooks/useDragAndDrop";
-import QuestionActionButtons from "./subComponents/QuestionActionButtons";
-import Sound from "./subComponents/Sound";
-import "../styles/questions-styles/sentence-making.css";
-import "../styles/sub-styles/drag.css";
+import { Draggable, Droppable } from "../../hooks/useDragAndDrop";
+import QuestionActionButtons from "../subComponents/QuestionActionButtons";
+import Sound from "../subComponents/Sound";
+import "../../styles/questions-styles/sentence-making.css";
+import "../../styles/sub-styles/drag.css";
 
 // _____ questionData _____ is the question object
 // _____ answers _____ is the answers object answers.[index]

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import "../styles/questions-styles/flashcards.css";
-import Sound from "./subComponents/Sound";
-import { playSound } from "../hooks/handleSoundEffects";
+import Sound from "../subComponents/Sound";
+import { playSound } from "../../hooks/handleSoundEffects";
+import "../../styles/questions-styles/flashcards.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
 function Flashcards({ quizId, questionData }) {
-  const quizIdArray = quizId.split("_");
   const [isFlipped, setIsFlipped] = useState(
     new Array(questionData.data.length).fill(false)
   );
@@ -35,11 +34,8 @@ function Flashcards({ quizId, questionData }) {
           <div className={`flashcard ${isFlipped[cardIndex] ? "flipped" : ""}`}>
             <div className="flashcard-inner">
               <div className="flashcard-front">
-                {questionData.picture ? (
-                  <img
-                    src={`/pictures/${quizIdArray[1]}_${quizIdArray[2]}/${card.tag}.png`}
-                    alt={card.tag}
-                  />
+                {card.picture ? (
+                  <img src={card.picture} alt={card.tag} />
                 ) : (
                   <h3>{card.tag}</h3>
                 )}
