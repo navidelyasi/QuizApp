@@ -38,3 +38,7 @@ Components: (question types)
 
 - Menu page uses tabs for kids, adults and game
 - some card game is added
+
+## [1.4.0] - 2025-02-05
+
+- Halloween game is added
