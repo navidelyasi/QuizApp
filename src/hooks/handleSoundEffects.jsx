@@ -7,10 +7,40 @@ import levelpassed from "../data/sounds/level-passed-143039.mp3";
 import notification2 from "../data/sounds/notification-2-125763.mp3";
 import notification4 from "../data/sounds/notification-4-126507.mp3";
 import wronganswer from "../data/sounds/wrong-answer-126515.mp3";
+import diceroll from "../data/sounds/dice-roll.mp3";
+import halloweenimpact from "../data/sounds/halloween-impact.mp3";
+import spookywiththunder from "../data/sounds/spooky-with-thunder.mp3";
+import success1 from "../data/sounds/success-1.mp3";
+import success2 from "../data/sounds/success-2.mp3";
 
 export function playSound(soundSrc) {
   const myAudio = new Audio(soundSrc);
   myAudio.play();
+}
+
+export function playsuccess2() {
+  const myAudio = new Audio(success2);
+  playMyAudio(myAudio);
+}
+
+export function playsuccess1() {
+  const myAudio = new Audio(success1);
+  playMyAudio(myAudio);
+}
+
+export function playspookywiththunder() {
+  const myAudio = new Audio(spookywiththunder);
+  playMyAudio(myAudio);
+}
+
+export function playhalloweenimpact() {
+  const myAudio = new Audio(halloweenimpact);
+  playMyAudio(myAudio);
+}
+
+export function playdiceroll() {
+  const myAudio = new Audio(diceroll);
+  playMyAudio(myAudio);
 }
 
 export function playbrightnotification() {

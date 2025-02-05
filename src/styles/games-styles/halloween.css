@@ -1,0 +1,197 @@
+.halloween-container-main {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-primary);
+  overflow: auto !important;
+}
+/*   _______   navbar   _______  */
+.halloween-game-nav {
+  display: block;
+  width: 100%;
+  height: 50px;
+  background-color: var(--color-xdark);
+  z-index: 1000;
+  position: relative;
+  text-align: center;
+}
+
+.halloween-game-exit-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid var(--color-red);
+  background-color: transparent;
+  color: var(--color-red);
+}
+.halloween-game-exit-button:hover {
+  background-color: var(--color-red);
+  color: var(--color-xdark);
+}
+
+.halloween-game-title {
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  color: var(--color-primary);
+  line-height: 50px;
+}
+.halloween-game-title.score {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-size-medium);
+}
+
+/*   ____________________________  */
+/*   _______     main     _______  */
+/*   ____________________________  */
+.halloween-game-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: auto !important;
+}
+
+.halloween-board-container {
+  position: relative;
+  width: 430px;
+  height: 575px;
+}
+
+.players-info-container {
+  display: flex;
+}
+
+.player-token {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background-color: var(--color-red);
+  border-radius: 50%;
+  transition: all 0.5s ease-in-out;
+  z-index: 900;
+}
+
+.move-button {
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  display: flex;
+  border: none;
+  font-size: var(--font-size-medium);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 5px;
+  transition: all 0.3s ease;
+}
+.move-button:hover {
+  scale: 1.1;
+  font-weight: bold;
+}
+.move-button.one {
+  color: var(--color-primary);
+}
+.move-button.two {
+  color: var(--color-success);
+}
+.move-button.three {
+  color: var(--color-red);
+}
+.move-button.four {
+  color: var(--color-light);
+}
+
+.move-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dice-container {
+  margin-top: 20px;
+  text-align: center;
+}
+.dice {
+  font-size: 80px;
+  color: var(--color-xdark);
+  transition: transform 1s ease-in-out;
+}
+.rolling {
+  transform: rotate(720deg);
+}
+
+/*   ____________________________  */
+/*   _______     Overlay     ____  */
+/*   ____________________________  */
+.overlay-halloween-game {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.overlay-halloween-game-content {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  border-radius: 18px;
+  background-color: var(--color-dark);
+  opacity: 1;
+  z-index: 1002;
+}
+
+.overlay-halloween-game-content h1 {
+  font-size: var(--font-size-large);
+  color: var(--color-success);
+  animation: floatIn 1s ease-in-out;
+}
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Overlay Buttons */
+.overlay-halloween-button-replay {
+  font-size: var(--font-size-large);
+  padding: 10px 30px;
+  margin: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid var(--color-primary);
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.overlay-halloween-button-replay:hover {
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+}
+
+@media screen and (max-width: 768px) {
+  .halloween-game-title {
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+  }
+
+  .halloween-game-container {
+    grid-template-columns: 1fr;
+  }
+}

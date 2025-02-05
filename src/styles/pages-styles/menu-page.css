@@ -1,5 +1,4 @@
 .main-menu-container {
-  min-height: 100vh;
   padding: 20px 50px 30px;
   display: flex;
   align-items: center;
@@ -172,6 +171,7 @@
 .menu-nav-button.active {
   border-bottom: 2px solid var(--color-primary);
   background-color: var(--color-dark);
+  border-radius: 8px 8px 0 0;
 }
 
 @media screen and (max-width: 768px) {

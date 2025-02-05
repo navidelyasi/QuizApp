@@ -61,20 +61,12 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
     >
       <div className="title-container">
         {/* _________________ show picture ? ______________ */}
-        {questionData.picture !== "no" && (
+        {questionData.picture && (
           <img
-            src={`/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
-              questionData.picture
-            }.png`}
+            src={questionData.picture}
             alt={questionData.picture}
             className="question-picture"
-            onClick={() =>
-              openPicture(
-                `/pictures/${quizIdArray[1] + "_" + quizIdArray[2]}/${
-                  questionData.picture
-                }.png`
-              )
-            }
+            onClick={() => openPicture(questionData.picture)}
           />
         )}
         {/* _____________ Titles  _______________________ */}
@@ -82,9 +74,9 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
           <div className="question-title">{questionData.title1}</div>
           <div className="question-title">{questionData.title2}</div>
           {questionData.sound && <Sound soundSrc={questionData.sound} />}
-          {questionData.picture !== "no" && (
+          {questionData.picture && (
             <div className="question-title">
-              click on the picture to see the picture bigger :)
+              click on the picture to see bigger
             </div>
           )}
         </div>
@@ -113,7 +105,7 @@ function Topic({ quizId, questionData, answers, handleAnswerChange }) {
         ))}
       </div>
 
-      {/* ______   show the picture full screen ___________  */}
+      {/* ____________       show the picture full screen       ___________  */}
       {isModalOpen && (
         <div id="modal" className="modal-overlay" onClick={closePicture}>
           <img src={modalImageSrc} alt="Enlarged" className="modal-image" />

@@ -7,6 +7,7 @@ import PrivateRoute from "./pages/auth/PrivateRoute.jsx";
 import Menu from "./pages/Menu.jsx";
 import QuizPage from "./pages/QuizPage.jsx";
 import CardGame from "./components/game-components/CardGame.jsx";
+import Halloween from "./components/game-components/Halloween.jsx";
 import Index from "./pages/Index.jsx";
 import Profile from "./pages/Profile.jsx";
 import { AuthProvider } from "./hooks/AuthContext.jsx";
@@ -45,6 +46,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <CardGame />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/halloween-game/:id"
+              element={
+                <PrivateRoute>
+                  <Halloween />
                 </PrivateRoute>
               }
             />

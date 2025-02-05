@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { quizData } from "../../data/quizData.js";
+import { adultsQuizData } from "../../data/adultsQuizData.js";
 import { shuffleArray } from "../../hooks/helpers.jsx";
 import {
   playSound,
@@ -9,7 +9,7 @@ import {
   playnotification2,
 } from "../../hooks/handleSoundEffects.jsx";
 import "../../styles/games-styles/card-game.css";
-import { FaSmileBeam } from "react-icons/fa";
+import { FaSmileBeam, FaRocket, FaStar } from "react-icons/fa";
 
 function CardGame() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function CardGame() {
   }, []);
 
   const startGame = () => {
-    let rawData = quizData["practice_adults_" + id][0].data;
+    let rawData = adultsQuizData["practice_adults_" + id][0].data;
     if (rawData.length > 5) {
       rawData = shuffleArray(rawData).slice(0, 5);
     }
@@ -162,7 +162,11 @@ function CardGame() {
       {levelPassed && (
         <div className="overlay-card-game">
           <div className="overlay-card-game-content">
-            <h1>HOOORAW :)</h1>
+            <h1>
+              HOOORAW
+              <FaRocket style={{ color: "orange", marginLeft: "10px" }} />
+              <FaStar style={{ color: "yellow", marginLeft: "5px" }} />
+            </h1>
             <button className="overlay-button-replay" onClick={startGame}>
               Replay
             </button>

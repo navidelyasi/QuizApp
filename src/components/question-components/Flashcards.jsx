@@ -5,7 +5,7 @@ import "../../styles/questions-styles/flashcards.css";
 
 // _____ quizId _____ is like "adults_3"
 // _____ questionData _____ is the question object
-function Flashcards({ quizId, questionData }) {
+function Flashcards({ questionData }) {
   const [isFlipped, setIsFlipped] = useState(
     new Array(questionData.data.length).fill(false)
   );

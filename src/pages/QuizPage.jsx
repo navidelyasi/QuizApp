@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { quizData } from "../data/quizData.js";
+import { adultsQuizData } from "../data/adultsQuizData.js";
 import Flashcards from "../components/question-components/Flashcards.jsx";
 import FillInputDrag from "../components/question-components/FillInputDrag.jsx";
 import MultiChoice from "../components/question-components/MultiChoice.jsx";
@@ -31,7 +31,7 @@ export default function QuizPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [questionId, setQuestionId] = useState(0);
-  const quiz = quizData[quizId];
+  const quiz = adultsQuizData[quizId];
   const quizOrPractice = quizId.split("_")[0];
   // if quiz is not available, show a message
   if (!quiz)
@@ -211,7 +211,7 @@ export default function QuizPage() {
   const renderQuestionComponent = useCallback(() => {
     switch (quiz[questionId].type) {
       case "flashcards":
-        return <Flashcards quizId={quizId} questionData={quiz[questionId]} />;
+        return <Flashcards questionData={quiz[questionId]} />;
       case "fill_input":
         return (
           <FillInputDrag
