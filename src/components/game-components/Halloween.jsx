@@ -1,33 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { halloweenData } from "../../data/gamesData.js";
+import Dice from "../subComponents/Dice.jsx";
+import HalloweenBoard from "../subComponents/HalloweenBoard.jsx";
 import {
-  playspookywiththunder,
   playdiceroll,
   playsuccess2,
   playhalloweenimpact,
   playlevelpassed,
   playnotification2,
 } from "../../hooks/handleSoundEffects.jsx";
+import spookywiththunder from "../../data/sounds/spooky-with-thunder.mp3";
 import "../../styles/games-styles/halloween.css";
 import {
   FaRegSmileBeam,
+  FaRegSmile,
+  FaHandPaper,
   FaRocket,
   FaStar,
-  FaDiceOne,
-  FaDiceTwo,
-  FaDiceThree,
-  FaDiceFour,
-  FaDiceFive,
-  FaDiceSix,
 } from "react-icons/fa";
 
 const upPositions = [7, 14, 21, 28, 35, 42, 49, 56, 63, 70];
 const pumpkinsPositions = [5, 13, 26, 37, 40, 51, 58, 59, 73];
 
-function Halloween() {
+export default function Halloween() {
   const navigate = useNavigate();
+  const spookySoundRef = useRef(null);
   const { id } = useParams();
+  const questionsData = halloweenData[id - 1];
   const levelPassedRef = useRef(0);
   const [numPlayers, setNumPlayers] = useState(null);
   const [activePlayer, setActivePlayer] = useState(1);
@@ -41,14 +41,42 @@ function Halloween() {
   const [questionOverlay, setQuestionOverlay] = useState(false);
   const selectedQuestionRef = useRef(0);
 
+  const [playersBlinking, setPlayersBlinking] = useState([]);
+  const [playersWaving, setPlayersWaving] = useState(false);
+
+  // Set background sound
   useEffect(() => {
-    playspookywiththunder();
+    spookySoundRef.current = new Audio(spookywiththunder);
+    spookySoundRef.current.loop = true;
+    spookySoundRef.current
+      .play()
+      .catch((err) => console.error("Audio error:", err));
+
+    return () => {
+      if (spookySoundRef.current) {
+        spookySoundRef.current.pause();
+        spookySoundRef.current.currentTime = 0;
+      }
+    };
   }, []);
 
+  // Set player waving
+  useEffect(() => {
+    setTimeout(() => {
+      setPlayersWaving(true);
+    }, 1000);
+
+    setTimeout(() => {
+      setPlayersWaving(false);
+    }, 2000);
+  }, [activePlayer]);
+
+  // set number of players and give them initial position
   const startGame = (num) => {
     setNumPlayers(num);
     playnotification2();
 
+    // initialize positions
     if (num === 2) {
       playersPositionsRef.current = [
         { left: 1, top: 523, position: 1 },
@@ -68,8 +96,88 @@ function Halloween() {
         { left: 1, top: 547, position: 1 },
       ];
     }
+
+    // Initialize blinking states for each player
+    // blink: true or false
+    // every: shows howmany seconds each time the player should blink
+    let blinkingStates = [];
+    for (let i = 0; i < num; i++) {
+      blinkingStates.push({
+        blinks: false,
+        blinksEvery: Math.floor(Math.random() * 6) + 4,
+      });
+    }
+    setPlayersBlinking(blinkingStates);
+
+    // set intervals for blinking and waving
+    for (let i = 0; i < num; i++) {
+      // set interval for blinking each player
+      setInterval(() => {
+        setPlayersBlinking((prev) => {
+          let newBlinkingStates = [...prev];
+          newBlinkingStates[i].blinks = true;
+          return newBlinkingStates;
+        });
+
+        // set timeout for end blinking
+        setTimeout(() => {
+          setPlayersBlinking((prev) => {
+            let newBlinkingStates = [...prev];
+            newBlinkingStates[i].blinks = false;
+            return newBlinkingStates;
+          });
+        }, 500);
+      }, blinkingStates[i].blinksEvery * 1000);
+    }
   };
 
+  const rollDice = () => {
+    if (levelPassedRef.current > 0) return;
+    playdiceroll();
+    setIsRolling(true);
+    setMoving(true);
+
+    // dice roll
+    setTimeout(() => {
+      const newNumber = Math.floor(Math.random() * 6) + 1;
+      setDiceNumber(newNumber);
+      setIsRolling(false);
+
+      //   if screen is small, then scroll to bottom
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+
+      let newPositions = [...playersPositionsRef.current];
+      let { position } = newPositions[activePlayer - 1];
+
+      if (position + newNumber > 77) {
+        // player passes finish line
+        playhalloweenimpact();
+        setMoving(false);
+        setActivePlayer((prev) => (prev === numPlayers ? 1 : prev + 1));
+      } else {
+        // Move player based on dice number
+        movePlayerForwardDiceNumber(newNumber);
+      }
+    }, 1000);
+  };
+
+  // move player based on Dice number
+  function movePlayerForwardDiceNumber(diceNumber) {
+    let stepCount = 0;
+    movingIntervalRef.current = setInterval(() => {
+      movePlayerForward();
+      stepCount++;
+      if (stepCount >= diceNumber) {
+        clearInterval(movingIntervalRef.current);
+        movingIntervalRef.current = null;
+        if (levelPassedRef.current > 0) return;
+        checkLadder();
+        checkPumpkin();
+      }
+    }, 500);
+  }
+
+  // just move forward, and check if player reached finish
   function movePlayerForward() {
     let newPositions = [...playersPositionsRef.current];
     let { left, top, position } = newPositions[activePlayer - 1];
@@ -98,46 +206,6 @@ function Halloween() {
     // Force UI update after movement
     forceUpdate((prev) => prev + 1);
   }
-
-  const rollDice = () => {
-    if (levelPassedRef.current > 0) return;
-    playdiceroll();
-    setIsRolling(true);
-    setMoving(true);
-
-    // Simulate dice roll animation
-    setTimeout(() => {
-      const newNumber = Math.floor(Math.random() * 6) + 1;
-      setDiceNumber(newNumber);
-      setIsRolling(false);
-
-      //   if screen is small, then scroll to bottom
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-
-      let newPositions = [...playersPositionsRef.current];
-      let { left, top, position } = newPositions[activePlayer - 1];
-
-      if (position + newNumber > 77) {
-        playhalloweenimpact();
-        setMoving(false);
-        setActivePlayer((prev) => (prev === numPlayers ? 1 : prev + 1));
-      } else {
-        // Move player based on dice number
-        let stepCount = 0;
-        movingIntervalRef.current = setInterval(() => {
-          movePlayerForward();
-          stepCount++;
-          if (stepCount >= newNumber) {
-            clearInterval(movingIntervalRef.current);
-            movingIntervalRef.current = null;
-            if (levelPassedRef.current > 0) return;
-            checkLadder();
-            checkPumpkin();
-          }
-        }, 500);
-      }
-    }, 1000);
-  };
 
   function checkLadder() {
     let newPositions = [...playersPositionsRef.current];
@@ -188,11 +256,12 @@ function Halloween() {
 
   function checkPumpkin() {
     let newPositions = [...playersPositionsRef.current];
-    let { left, top, position } = newPositions[activePlayer - 1];
+    let { position } = newPositions[activePlayer - 1];
 
     if (pumpkinsPositions.includes(position)) {
-      selectedQuestionRef.current =
-        Math.floor(Math.random() * halloweenData.length) + 1;
+      selectedQuestionRef.current = Math.floor(
+        Math.random() * questionsData.length
+      );
 
       setQuestionOverlay(true);
       playhalloweenimpact();
@@ -204,7 +273,7 @@ function Halloween() {
 
   function submitAnswer(answer) {
     setQuestionOverlay(false);
-    if (answer === halloweenData[selectedQuestionRef.current].correct) {
+    if (answer === questionsData[selectedQuestionRef.current].correct) {
       setMoving(false);
       playlevelpassed();
     } else {
@@ -286,7 +355,7 @@ function Halloween() {
                             : "var(--color-light)",
                       }}
                     >
-                      <FaRegSmileBeam
+                      <FaRegSmile
                         style={{
                           color: "var(--color-xdark)",
                           width: "26px",
@@ -299,35 +368,17 @@ function Halloween() {
             </div>
           )}
           {/*     _________         Dice           ______ */}
-          <div className="dice-container">
-            {diceNumber === 1 && (
-              <FaDiceOne className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-            {diceNumber === 2 && (
-              <FaDiceTwo className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-            {diceNumber === 3 && (
-              <FaDiceThree className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-            {diceNumber === 4 && (
-              <FaDiceFour className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-            {diceNumber === 5 && (
-              <FaDiceFive className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-            {diceNumber === 6 && (
-              <FaDiceSix className={`dice ${isRolling ? "rolling" : ""}`} />
-            )}
-          </div>
+          <Dice
+            diceNumber={diceNumber}
+            isRolling={isRolling}
+            rollDice={rollDice}
+            moving={moving}
+          />
         </div>
         {/*       _________       GAME Board             ______    */}
         <div className="halloween-board-container">
-          <img
-            src="/pictures/general/halloween/halloween-board-game.png"
-            alt="halloween-board-game"
-            style={{ position: "absolute", width: "100%", height: "100%" }}
-          />
-
+          <HalloweenBoard />
+          {/*       _________       Players             ______    */}
           {numPlayers &&
             [...Array(numPlayers)].map((_, index) => (
               <div
@@ -346,13 +397,15 @@ function Halloween() {
                       : "var(--color-light)",
                 }}
               >
-                <FaRegSmileBeam
-                  style={{
-                    color: "var(--color-xdark)",
-                    width: "26px",
-                    height: "26px",
-                  }}
-                />
+                {playersBlinking[index].blinks ? (
+                  <FaRegSmileBeam className="smily-face" />
+                ) : (
+                  <FaRegSmile className="smily-face" />
+                )}
+
+                {playersWaving && index + 1 === activePlayer && (
+                  <FaHandPaper className="waving-hand" />
+                )}
               </div>
             ))}
         </div>
@@ -362,8 +415,8 @@ function Halloween() {
       {questionOverlay && (
         <div className="overlay-halloween-game">
           <div className="overlay-halloween-game-content">
-            <h1>{halloweenData[selectedQuestionRef.current].question}</h1>
-            {halloweenData[selectedQuestionRef.current].answers.map((q, i) => (
+            <h1>{questionsData[selectedQuestionRef.current].question}</h1>
+            {questionsData[selectedQuestionRef.current].answers.map((q, i) => (
               <button
                 key={i}
                 className="overlay-halloween-button-replay"
@@ -422,5 +475,3 @@ function Halloween() {
     </div>
   );
 }
-
-export default Halloween;

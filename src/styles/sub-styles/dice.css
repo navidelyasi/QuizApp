@@ -1,0 +1,24 @@
+.dice-container {
+  margin-top: 20px;
+  text-align: center;
+}
+.dice {
+  font-size: 80px;
+  color: var(--color-xdark);
+  cursor: pointer;
+  transition: transform 1s ease-in-out;
+}
+.dice:hover {
+  scale: 1.1;
+}
+.rolling {
+  transform: rotate(720deg);
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.dice:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.5;
+}

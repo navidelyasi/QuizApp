@@ -11,7 +11,7 @@ import {
 import "../../styles/games-styles/card-game.css";
 import { FaSmileBeam, FaRocket, FaStar } from "react-icons/fa";
 
-function CardGame() {
+export default function CardGame() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [cards, setCards] = useState([]);
@@ -176,5 +176,3 @@ function CardGame() {
     </>
   );
 }
-
-export default CardGame;

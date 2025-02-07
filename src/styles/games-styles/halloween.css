@@ -61,6 +61,7 @@
   position: relative;
   width: 430px;
   height: 575px;
+  opacity: 0.8;
 }
 
 .players-info-container {
@@ -112,17 +113,39 @@
   pointer-events: none;
 }
 
-.dice-container {
-  margin-top: 20px;
-  text-align: center;
-}
-.dice {
-  font-size: 80px;
+.smily-face {
   color: var(--color-xdark);
-  transition: transform 1s ease-in-out;
+  width: 26px;
+  height: 26px;
 }
-.rolling {
-  transform: rotate(720deg);
+
+@keyframes handwave {
+  0% {
+    transform: rotate(20deg);
+  }
+  25% {
+    transform: rotate(35deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(20deg);
+  }
+}
+
+.waving-hand {
+  color: var(--color-xdark);
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: -7px;
+  left: +15px;
+  margin-bottom: 10px;
+  animation: handwave 0.5s ease-in-out infinite;
 }
 
 /*   ____________________________  */
