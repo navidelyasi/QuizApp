@@ -11,6 +11,7 @@ import {
   playnotification2,
 } from "../../hooks/handleSoundEffects.jsx";
 import spookywiththunder from "../../data/sounds/spooky-with-thunder.mp3";
+import knockingOnBoard from "../../data/sounds/knocking-on-board.mp3";
 import "../../styles/games-styles/halloween.css";
 import {
   FaRegSmileBeam,
@@ -22,6 +23,7 @@ import {
 
 const upPositions = [7, 14, 21, 28, 35, 42, 49, 56, 63, 70];
 const pumpkinsPositions = [5, 13, 26, 37, 40, 51, 58, 59, 73];
+const pumpkinsNumbersBasedOnPositions = [9, 6, 5, 7, 4, 8, 2, 3, 1];
 
 export default function Halloween() {
   const navigate = useNavigate();
@@ -43,6 +45,8 @@ export default function Halloween() {
 
   const [playersBlinking, setPlayersBlinking] = useState([]);
   const [playersWaving, setPlayersWaving] = useState(false);
+  const screenWidthSmall = window.innerWidth <= 430;
+  const pumpkinOrBroomNumber = useRef(0);
 
   // Set background sound
   useEffect(() => {
@@ -77,25 +81,23 @@ export default function Halloween() {
     playnotification2();
 
     // initialize positions
-    if (num === 2) {
-      playersPositionsRef.current = [
-        { left: 1, top: 523, position: 1 },
-        { left: 31, top: 547, position: 1 },
-      ];
-    } else if (num === 3) {
-      playersPositionsRef.current = [
-        { left: 1, top: 523, position: 1 },
-        { left: 31, top: 547, position: 1 },
-        { left: 31, top: 523, position: 1 },
+    let init = [];
+    if (screenWidthSmall) {
+      init = [
+        { left: 2, top: 424, position: 1 },
+        { left: 25, top: 440, position: 1 },
+        { left: 25, top: 424, position: 1 },
+        { left: 2, top: 440, position: 1 },
       ];
     } else {
-      playersPositionsRef.current = [
-        { left: 1, top: 523, position: 1 },
-        { left: 31, top: 547, position: 1 },
-        { left: 31, top: 523, position: 1 },
-        { left: 1, top: 547, position: 1 },
+      init = [
+        { left: 4, top: 525, position: 1 },
+        { left: 30, top: 547, position: 1 },
+        { left: 30, top: 525, position: 1 },
+        { left: 4, top: 547, position: 1 },
       ];
     }
+    playersPositionsRef.current = init.slice(0, num);
 
     // Initialize blinking states for each player
     // blink: true or false
@@ -184,14 +186,17 @@ export default function Halloween() {
 
     // should go up ?
     if (upPositions.includes(position)) {
-      top -= 53;
+      top -= screenWidthSmall ? 42 : 52;
     } else if (Math.floor(position / 7) % 2 === 1) {
       // need go to left
-      left -= 61;
+      left -= screenWidthSmall ? 50 : 62;
     } else {
-      left += 61;
+      left += screenWidthSmall ? 50 : 62;
     }
     position += 1;
+
+    const stepSound = new Audio(knockingOnBoard);
+    stepSound.play();
 
     // Update ref value instantly
     newPositions[activePlayer - 1] = { left, top, position };
@@ -212,9 +217,11 @@ export default function Halloween() {
     let { left, top, position } = newPositions[activePlayer - 1];
 
     if (position === 3) {
-      left = left + 61;
-      top = top - 106;
+      left += screenWidthSmall ? 50 : 62;
+      top -= screenWidthSmall ? 84 : 104;
       position = 18;
+
+      setBroomAnimation(13);
 
       newPositions[activePlayer - 1] = { left, top, position };
       playersPositionsRef.current = newPositions;
@@ -222,9 +229,11 @@ export default function Halloween() {
       forceUpdate((prev) => prev + 1);
       playsuccess2();
     } else if (position === 23) {
-      left = left - 61;
-      top = top - 106;
+      left -= screenWidthSmall ? 50 : 62;
+      top -= screenWidthSmall ? 84 : 104;
       position = 38;
+
+      setBroomAnimation(14);
 
       newPositions[activePlayer - 1] = { left, top, position };
       playersPositionsRef.current = newPositions;
@@ -232,9 +241,11 @@ export default function Halloween() {
       forceUpdate((prev) => prev + 1);
       playsuccess2();
     } else if (position === 42) {
-      left = left + 61;
-      top = top - 106;
+      left += screenWidthSmall ? 50 : 62;
+      top -= screenWidthSmall ? 84 : 104;
       position = 55;
+
+      setBroomAnimation(11);
 
       newPositions[activePlayer - 1] = { left, top, position };
       playersPositionsRef.current = newPositions;
@@ -242,9 +253,11 @@ export default function Halloween() {
       forceUpdate((prev) => prev + 1);
       playsuccess2();
     } else if (position === 53) {
-      left = left + 61;
-      top = top - 106;
+      left += screenWidthSmall ? 50 : 62;
+      top -= screenWidthSmall ? 84 : 104;
       position = 66;
+
+      setBroomAnimation(12);
 
       newPositions[activePlayer - 1] = { left, top, position };
       playersPositionsRef.current = newPositions;
@@ -263,6 +276,9 @@ export default function Halloween() {
         Math.random() * questionsData.length
       );
 
+      pumpkinOrBroomNumber.current =
+        pumpkinsNumbersBasedOnPositions[pumpkinsPositions.indexOf(position)];
+
       setQuestionOverlay(true);
       playhalloweenimpact();
     } else {
@@ -273,13 +289,25 @@ export default function Halloween() {
 
   function submitAnswer(answer) {
     setQuestionOverlay(false);
-    if (answer === questionsData[selectedQuestionRef.current].correct) {
+    pumpkinOrBroomNumber.current = 0;
+    if (
+      answer === questionsData[selectedQuestionRef.current].correct ||
+      answer === 100
+    ) {
       setMoving(false);
       playlevelpassed();
     } else {
       setMoving(false);
       setActivePlayer((prev) => (prev === numPlayers ? 1 : prev + 1));
     }
+  }
+
+  function setBroomAnimation(broomNum) {
+    pumpkinOrBroomNumber.current = broomNum;
+
+    setTimeout(() => {
+      pumpkinOrBroomNumber.current = 0;
+    }, 1000);
   }
 
   return (
@@ -309,12 +337,8 @@ export default function Halloween() {
       </nav>
 
       <div className="halloween-game-container">
-        <div>
-          <h1
-            style={{
-              textAlign: "center",
-            }}
-          >
+        <div className="halloween-game-column">
+          <h1 className="active-player-text">
             active player is {activePlayer}
           </h1>
           {/*    _______    MOVE buttons    _________     */}
@@ -376,38 +400,42 @@ export default function Halloween() {
           />
         </div>
         {/*       _________       GAME Board             ______    */}
-        <div className="halloween-board-container">
-          <HalloweenBoard />
-          {/*       _________       Players             ______    */}
-          {numPlayers &&
-            [...Array(numPlayers)].map((_, index) => (
-              <div
-                key={index}
-                className="player-token"
-                style={{
-                  left: `${playersPositionsRef.current[index].left}px`,
-                  top: `${playersPositionsRef.current[index].top}px`,
-                  backgroundColor:
-                    index === 0
-                      ? "var(--color-primary)"
-                      : index === 1
-                      ? "var(--color-success)"
-                      : index === 2
-                      ? "var(--color-red)"
-                      : "var(--color-light)",
-                }}
-              >
-                {playersBlinking[index].blinks ? (
-                  <FaRegSmileBeam className="smily-face" />
-                ) : (
-                  <FaRegSmile className="smily-face" />
-                )}
+        <div className="halloween-game-column">
+          <div className="halloween-board-container">
+            <HalloweenBoard
+              pumpkinOrBroomNumber={pumpkinOrBroomNumber.current}
+            />
+            {/*       _________       Players             ______    */}
+            {numPlayers &&
+              [...Array(numPlayers)].map((_, index) => (
+                <div
+                  key={index}
+                  className="player-token"
+                  style={{
+                    left: `${playersPositionsRef.current[index].left}px`,
+                    top: `${playersPositionsRef.current[index].top}px`,
+                    backgroundColor:
+                      index === 0
+                        ? "var(--color-primary)"
+                        : index === 1
+                        ? "var(--color-success)"
+                        : index === 2
+                        ? "var(--color-red)"
+                        : "var(--color-light)",
+                  }}
+                >
+                  {playersBlinking[index].blinks ? (
+                    <FaRegSmileBeam className="smily-face" />
+                  ) : (
+                    <FaRegSmile className="smily-face" />
+                  )}
 
-                {playersWaving && index + 1 === activePlayer && (
-                  <FaHandPaper className="waving-hand" />
-                )}
-              </div>
-            ))}
+                  {playersWaving && index + 1 === activePlayer && (
+                    <FaHandPaper className="waving-hand" />
+                  )}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
 
@@ -415,16 +443,38 @@ export default function Halloween() {
       {questionOverlay && (
         <div className="overlay-halloween-game">
           <div className="overlay-halloween-game-content">
-            <h1>{questionsData[selectedQuestionRef.current].question}</h1>
-            {questionsData[selectedQuestionRef.current].answers.map((q, i) => (
-              <button
-                key={i}
-                className="overlay-halloween-button-replay"
-                onClick={() => submitAnswer(i)}
-              >
-                {q}
-              </button>
-            ))}
+            {true ? (
+              <>
+                <h1>آیا درست جواب دادم؟</h1>
+                <button
+                  className="overlay-halloween-button-replay"
+                  onClick={() => submitAnswer(100)}
+                >
+                  بله
+                </button>
+                <button
+                  className="overlay-halloween-button-replay"
+                  onClick={() => submitAnswer(99)}
+                >
+                  خیر
+                </button>
+              </>
+            ) : (
+              <>
+                <h1>{questionsData[selectedQuestionRef.current].question}</h1>
+                {questionsData[selectedQuestionRef.current].answers.map(
+                  (q, i) => (
+                    <button
+                      key={i}
+                      className="overlay-halloween-button-replay"
+                      onClick={() => submitAnswer(i)}
+                    >
+                      {q}
+                    </button>
+                  )
+                )}
+              </>
+            )}
           </div>
         </div>
       )}

@@ -54,18 +54,34 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  overflow: auto !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.halloween-game-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .halloween-board-container {
   position: relative;
   width: 430px;
   height: 575px;
-  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+}
+
+.active-player-text {
+  text-align: center;
 }
 
 .players-info-container {
   display: flex;
+  align-content: center;
 }
 
 .player-token {
@@ -136,7 +152,6 @@
     transform: rotate(20deg);
   }
 }
-
 .waving-hand {
   color: var(--color-xdark);
   width: 15px;
@@ -161,29 +176,29 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1001;
+  z-index: 2010;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
 .overlay-halloween-game-content {
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 20px;
   border-radius: 18px;
   background-color: var(--color-dark);
-  opacity: 1;
+  /* opacity: 0.9; */
   z-index: 1002;
+  animation: floatIn 1s ease-in-out;
 }
 
 .overlay-halloween-game-content h1 {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-medium);
   color: var(--color-success);
-  animation: floatIn 1s ease-in-out;
 }
 @keyframes floatIn {
   0% {
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(200px);
   }
   100% {
     opacity: 1;
@@ -193,9 +208,9 @@
 
 /* Overlay Buttons */
 .overlay-halloween-button-replay {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-medium);
   padding: 10px 30px;
-  margin: 20px;
+  margin: 10px;
   border-radius: 8px;
   cursor: pointer;
   border: 2px solid var(--color-primary);
@@ -216,5 +231,24 @@
 
   .halloween-game-container {
     grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .active-player-text {
+    font-size: var(--font-size-medium);
+  }
+
+  .move-button {
+    font-size: var(--font-size-xsmall);
+    padding: 3px 5px;
+    margin: 2px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .halloween-board-container {
+    width: 350px;
+    height: 468px;
   }
 }

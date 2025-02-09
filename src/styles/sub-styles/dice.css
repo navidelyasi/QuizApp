@@ -3,7 +3,7 @@
   text-align: center;
 }
 .dice {
-  font-size: 80px;
+  font-size: 50px;
   color: var(--color-xdark);
   cursor: pointer;
   transition: transform 1s ease-in-out;
@@ -21,4 +21,14 @@
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.5;
+}
+
+@media screen and (max-width: 1000px) {
+  .dice-container {
+    margin-top: 2px;
+  }
+
+  .dice {
+    font-size: var(--font-size-xlarge);
+  }
 }

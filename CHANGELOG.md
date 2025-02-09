@@ -2,8 +2,6 @@ All notable changes to this project will be documented in this file.
 
 ## [0.0.0] - 2025-01-01
 
-### FIRST VERSION DEPLOYED
-
 Components: (question types)
 
 - Flashcards
@@ -14,8 +12,6 @@ Components: (question types)
 - SentenceMaking
 
 ## [1.0.1] - 2025-01-02
-
-### Added
 
 - responsive design
 
@@ -42,3 +38,7 @@ Components: (question types)
 ## [1.4.0] - 2025-02-05
 
 - Halloween game is added
+
+## [1.4.2] - 2025-02-05
+
+- Halloween animations added
