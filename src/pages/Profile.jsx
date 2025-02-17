@@ -1,10 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import "../styles/pages-styles/cv.css";
 
 function Profile() {
-  const navigate = useNavigate();
-
   return (
     <div className="cv-container">
       <h1 className="cv-title" style={{ animationDelay: "1s" }}>
@@ -311,14 +308,6 @@ function Profile() {
           </ul>
         </div>
       </div>
-      <button
-        className="profile-exit-button"
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Back
-      </button>
     </div>
   );
 }

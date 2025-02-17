@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { halloweenData } from "../../data/gamesData.js";
+import { useAuth } from "../../hooks/AuthContext.jsx";
 import Dice from "../subComponents/Dice.jsx";
 import HalloweenBoard from "../subComponents/HalloweenBoard.jsx";
 import {
@@ -28,6 +29,8 @@ const pumpkinsNumbersBasedOnPositions = [9, 6, 5, 7, 4, 8, 2, 3, 1];
 export default function Halloween() {
   const navigate = useNavigate();
   const spookySoundRef = useRef(null);
+  const { currentUser } = useAuth();
+  const username = currentUser?.email || "";
   const { id } = useParams();
   const questionsData = halloweenData[id - 1];
   const levelPassedRef = useRef(0);
@@ -144,9 +147,6 @@ export default function Halloween() {
       const newNumber = Math.floor(Math.random() * 6) + 1;
       setDiceNumber(newNumber);
       setIsRolling(false);
-
-      //   if screen is small, then scroll to bottom
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 
       let newPositions = [...playersPositionsRef.current];
       let { position } = newPositions[activePlayer - 1];
@@ -311,32 +311,59 @@ export default function Halloween() {
   }
 
   return (
-    <div
-      className="halloween-container-main"
-      style={{
-        backgroundColor:
-          activePlayer === 1
-            ? "var(--color-primary)"
-            : activePlayer === 2
-            ? "var(--color-success)"
-            : activePlayer === 3
-            ? "var(--color-red)"
-            : "var(--color-light)",
-      }}
-    >
+    <div className="halloween-container-main">
       {/* Navigation Bar */}
       <nav className="halloween-game-nav">
         <div className="halloween-game-title score">count</div>
         <div className="halloween-game-title">Halloween {id}</div>
         <button
           className="halloween-game-exit-button"
-          onClick={() => navigate("/menu")}
+          onClick={() => navigate("/")}
         >
           Exit
         </button>
       </nav>
 
       <div className="halloween-game-container">
+        {/*       _________       GAME Board             ______    */}
+        <div className="halloween-game-column">
+          <div className="halloween-board-container">
+            <HalloweenBoard
+              pumpkinOrBroomNumber={pumpkinOrBroomNumber.current}
+            />
+            {/*       _________       Players             ______    */}
+            {numPlayers &&
+              [...Array(numPlayers)].map((_, index) => (
+                <div
+                  key={index}
+                  className="player-token"
+                  style={{
+                    left: `${playersPositionsRef.current[index].left}px`,
+                    top: `${playersPositionsRef.current[index].top}px`,
+                    backgroundColor:
+                      index === 0
+                        ? "var(--color-primary)"
+                        : index === 1
+                        ? "var(--color-success)"
+                        : index === 2
+                        ? "var(--color-red)"
+                        : "var(--color-light)",
+                  }}
+                >
+                  {playersBlinking[index].blinks ? (
+                    <FaRegSmileBeam className="smily-face" />
+                  ) : (
+                    <FaRegSmile className="smily-face" />
+                  )}
+
+                  {playersWaving && index + 1 === activePlayer && (
+                    <FaHandPaper className="waving-hand" />
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
+
         <div className="halloween-game-column">
           <h1 className="active-player-text">
             active player is {activePlayer}
@@ -399,51 +426,13 @@ export default function Halloween() {
             moving={moving}
           />
         </div>
-        {/*       _________       GAME Board             ______    */}
-        <div className="halloween-game-column">
-          <div className="halloween-board-container">
-            <HalloweenBoard
-              pumpkinOrBroomNumber={pumpkinOrBroomNumber.current}
-            />
-            {/*       _________       Players             ______    */}
-            {numPlayers &&
-              [...Array(numPlayers)].map((_, index) => (
-                <div
-                  key={index}
-                  className="player-token"
-                  style={{
-                    left: `${playersPositionsRef.current[index].left}px`,
-                    top: `${playersPositionsRef.current[index].top}px`,
-                    backgroundColor:
-                      index === 0
-                        ? "var(--color-primary)"
-                        : index === 1
-                        ? "var(--color-success)"
-                        : index === 2
-                        ? "var(--color-red)"
-                        : "var(--color-light)",
-                  }}
-                >
-                  {playersBlinking[index].blinks ? (
-                    <FaRegSmileBeam className="smily-face" />
-                  ) : (
-                    <FaRegSmile className="smily-face" />
-                  )}
-
-                  {playersWaving && index + 1 === activePlayer && (
-                    <FaHandPaper className="waving-hand" />
-                  )}
-                </div>
-              ))}
-          </div>
-        </div>
       </div>
 
       {/*  ___    Overlay        ___     Question                     ______ */}
       {questionOverlay && (
         <div className="overlay-halloween-game">
           <div className="overlay-halloween-game-content">
-            {true ? (
+            {username === "azadehabedini93@gmail.com" ? (
               <>
                 <h1>آیا درست جواب دادم؟</h1>
                 <button

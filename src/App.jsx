@@ -49,14 +49,7 @@ export default function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/halloween-game/:id"
-              element={
-                <PrivateRoute>
-                  <Halloween />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/halloween-game/:id" element={<Halloween />} />
           </Routes>
         </QuizProvider>
       </AuthProvider>
