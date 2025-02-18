@@ -39,6 +39,7 @@ Components: (question types)
 
 - Halloween game is added
 
-## [1.4.2] - 2025-02-05
+## [1.4.3] - 2025-02-18
 
 - Halloween animations added
+- some adjustments in CV page

@@ -8,7 +8,7 @@
   width: 500px;
   height: 500px;
   background-color: var(--color-xdark);
-  color: var(--color-light);
+  color: var(--color-primary);
   font-size: var(--font-size-large);
   border: none;
   border-radius: 12px;

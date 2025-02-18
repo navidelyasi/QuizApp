@@ -20,25 +20,12 @@
   gap: 20px;
 }
 
-.index-content button {
-  width: 500px;
-  height: 500px;
-  background-color: var(--color-xdark);
-  color: var(--color-light);
-  font-size: var(--font-size-large);
-  border: none;
-  border-radius: 12px;
-  padding: 20px;
+.index-button-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.index-content button:hover {
-  background-color: transparent;
-  border: 3px solid var(--color-xdark);
-  transform: translateY(-2px);
+  color: var(--color-light);
+  margin: 20px 0px;
+  font-size: var(--font-size-medium);
 }
 
 .index-picture {

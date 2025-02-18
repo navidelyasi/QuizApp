@@ -73,22 +73,16 @@ export default function Index() {
             </button>
 
             <button className="index-button" onClick={() => navigate("/login")}>
-              See the Quiz App
+              Lingo Persian App
               <img src={quizAppIcon} className="logo" alt="Vite logo" />
-              <li style={{ fontSize: "0.9rem" }}>
-                This App enables users to practice persian language.
-              </li>
-              <li style={{ fontSize: "0.9rem" }}>
-                Users can create free account with email and password.
-              </li>
-              <li style={{ fontSize: "0.9rem" }}>
-                Users can practice a unit of topics and take the quiz on each
-                topic.
-              </li>
-              <li style={{ fontSize: "0.9rem" }}>
-                Users can submit their answers to our database and see their
-                progress.
-              </li>
+              <div className="index-button-content">
+                <div style={{ textAlign: "left" }}>
+                  - practice persian language
+                </div>
+                <div style={{ textAlign: "left" }}>- create free account</div>
+                <div style={{ textAlign: "left" }}>- take quiz</div>
+                <div style={{ textAlign: "left" }}>- submit your answers</div>
+              </div>
             </button>
           </>
         )}
